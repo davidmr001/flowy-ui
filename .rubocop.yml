@@ -1,0 +1,56 @@
+AllCops:
+  Exclude:
+  - "spec/spec_helper.rb"
+  - "spec/rails_helper.rb"
+  - "db/**/*"
+  - "test/dummy/**/*"
+
+Style/FormatStringToken:
+  Enabled: false
+
+Metrics/LineLength:
+  Max: 125
+
+Style/StringLiterals:
+  Enabled: false
+
+Style/StringLiteralsInInterpolation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Metrics/AbcSize:
+  Max: 30
+
+Metrics/CyclomaticComplexity:
+  Max: 5
+
+Metrics/ClassLength:
+  Max: 100
+  Exclude:
+    - "spec/**/*"
+
+Metrics/ModuleLength:
+  Max: 100
+  Exclude:
+    - "spec/**/*"
+    - "lib/flowy/constants.rb"
+
+Metrics/MethodLength:
+  Max: 25
+  Exclude:
+    - "spec/**/*"
+
+Metrics/BlockLength:
+  Max: 25
+  Exclude:
+    - "spec/**/*"
+
+Style/RaiseArgs:
+  EnforcedStyle: compact
+
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
+
+

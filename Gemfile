@@ -13,3 +13,13 @@ gemspec
 
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
+
+# rails does not support different sources for the same gems yet
+ENV["RAILS_ENV"] ||= "development"
+if %w[development test].include?(ENV["RAILS_ENV"])
+  gem "flowy", path: "../flowy"
+else
+  # rubocop:disable Bundler/DuplicatedGem
+  gem "flowy", github: "DroverLtd/flowy"
+  # rubocop:enable Bundler/DuplicatedGem
+end
