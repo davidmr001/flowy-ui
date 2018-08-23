@@ -5,6 +5,8 @@ class Flowy::Ui::BlueprintsController < ApplicationController
   protect_from_forgery with: :exception
 
   def index
+    @blueprints = Flowy::Blueprint.all
+
     render :index
   end
 end

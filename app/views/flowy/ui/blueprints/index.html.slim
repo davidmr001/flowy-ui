@@ -1,1 +1,18 @@
-| Test
+h1.title Blueprints
+
+table.table
+  thead
+    tr
+      th Key
+      th Name
+      th Description
+      th Tasks
+      th Instances
+  tbody
+    - @blueprints.each do |bp|
+      tr
+        td = bp.key
+        td = bp.name
+        td = bp.description
+        td = bp.tasks.count
+        td = bp.instances.count

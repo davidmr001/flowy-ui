@@ -12,6 +12,9 @@ module Flowy
         def flowy_ui
           namespace "flowy" do
             namespace "ui", path: "/ui" do
+              resources :blueprints, only: %w[index show]
+              resources :instances, only: %w[index show]
+
               root to: "blueprints#index"
             end
           end
