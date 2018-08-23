@@ -1,3 +1,5 @@
+require 'slim'
+
 #
 # Workflow UI rails engine
 #
