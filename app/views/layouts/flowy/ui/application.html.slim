@@ -1,0 +1,12 @@
+doctype
+html
+  head
+    title Flowy ui
+    = csrf_meta_tags
+    = csp_meta_tag
+
+   = stylesheet_link_tag    "flowy/ui/application", media: "all"
+   = javascript_include_tag "flowy/ui/application"
+
+  body
+    = yield

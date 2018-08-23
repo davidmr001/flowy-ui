@@ -1,4 +1,5 @@
 require "flowy/ui/engine"
+require "flowy/ui/routing"
 
 module Flowy
   module Ui
