@@ -1,6 +1,5 @@
-module Flowy
-  module Ui
-    module ApplicationHelper
-    end
-  end
+#
+# Main application helper
+#
+module Flowy::Ui::ApplicationHelper
 end

@@ -1,6 +1,5 @@
-module Flowy
-  module Ui
-    class ApplicationJob < ActiveJob::Base
-    end
-  end
+#
+# Main application job
+#
+class Flowy::Ui::ApplicationJob < ActiveJob::Base
 end
