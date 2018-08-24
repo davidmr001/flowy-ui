@@ -1,7 +1,7 @@
 #
 # Main application mailer
 #
-class Flowy::Ui::ApplicationMailer < ActionMailer::Base
+class FlowyUi::ApplicationMailer < ActionMailer::Base
   default from: 'from@example.com'
   layout 'mailer'
 end

@@ -1,10 +1,11 @@
 require 'slim'
+require 'kaminari'
 
 #
 # Workflow UI rails engine
 #
-class Flowy::Ui::Engine < ::Rails::Engine
-  isolate_namespace Flowy::Ui
+class FlowyUi::Engine < ::Rails::Engine
+  isolate_namespace FlowyUi
 
   # Testing framework
   config.generators do |g|

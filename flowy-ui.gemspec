@@ -1,12 +1,12 @@
 $LOAD_PATH.push File.expand_path("lib", __dir__)
 
 # Maintain your gem's version:
-require "flowy/ui/version"
+require "flowy_ui/version"
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
   s.name        = "flowy-ui"
-  s.version     = Flowy::Ui::VERSION
+  s.version     = FlowyUi::VERSION
   s.authors     = ["António Leonardo", "Pedro Assuncao"]
   s.email       = ["antonio@joindrover.com", "pedro@joindrover.com"]
   s.homepage    = "https://joindrover.com"
@@ -16,6 +16,7 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
+  s.add_dependency "kaminari", "1.1.1"
   s.add_dependency "rails", "~> 5.2.1"
   s.add_dependency "slim", "3.0.9"
 

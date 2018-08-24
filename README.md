@@ -1,4 +1,4 @@
-# Flowy::Ui
+# FlowyUi
 [![Maintainability](https://api.codeclimate.com/v1/badges/7d4c07fa60ec16959ee1/maintainability)](https://codeclimate.com/repos/5b7d4a0547e95c023f006dec/maintainability)
 
 ## Usage

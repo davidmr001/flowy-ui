@@ -1,6 +1,6 @@
 h1.title Blueprints
 
-table.table
+table.table.is-fullwidth
   thead
     tr
       th Key
@@ -16,3 +16,5 @@ table.table
         td = bp.description
         td = bp.tasks.count
         td = bp.instances.count
+
+= paginate @blueprints, routes_proxy: main_app

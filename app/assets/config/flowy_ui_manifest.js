@@ -1,2 +1,2 @@
-//= link_directory ../javascripts/flowy/ui .js
-//= link_directory ../stylesheets/flowy/ui .css
+//= link_directory ../javascripts/flowy_ui .js
+//= link_directory ../stylesheets/flowy_ui .css

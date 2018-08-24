@@ -1,0 +1,20 @@
+nav.navbar role="navigation" aria-label="dropdown navigation"
+  a.navbar-item href=main_app.flowy_ui_root_url
+    /img src="https://bulma.io/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28"
+    strong Flowy UI
+
+  div.navbar-item.has-dropdown.is-hoverable
+    a.navbar-link Menu
+
+    div.navbar-dropdown
+      a.navbar-item {
+        class=(navbar_item_active?("blueprints") ? "is-active" : "")
+        href=main_app.flowy_ui_blueprints_url
+      } Blueprints
+      a.navbar-item {
+        class=(navbar_item_active?("instances") ? "is-active" : "")
+        href=main_app.flowy_ui_instances_url
+      } Instances
+      hr.navbar-divider
+      div.navbar-item Flowy Version #{Flowy::VERSION}
+      div.navbar-item UI Version #{FlowyUi::VERSION}

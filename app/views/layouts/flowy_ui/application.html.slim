@@ -5,13 +5,20 @@ html
     = csrf_meta_tags
     = csp_meta_tag
 
-    = stylesheet_link_tag "flowy/ui/application", media: "all"
+    = stylesheet_link_tag "flowy_ui/application", media: "all"
     link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css" integrity="sha256-zIG416V1ynj3Wgju/scU80KAEWOsO5rRLfVyRDuOv7Q=" crossorigin="anonymous"
 
-    = javascript_include_tag "flowy/ui/application"
+    = javascript_include_tag "flowy_ui/application"
     script src="https://use.fontawesome.com/releases/v5.1.0/js/all.js" defer=(true)
   body
     section.section
-      div.container
-        = yield
+      .container
+        .header
+          = render partial: "navbar"
+    section.section
+      .container = yield
+    section.section
+      .container
+        .footer
+          = render partial: "footer"
 

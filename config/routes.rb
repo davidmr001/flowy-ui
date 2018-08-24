@@ -1,2 +1,2 @@
-Flowy::Ui::Engine.routes.draw do
+FlowyUi::Engine.routes.draw do
 end
