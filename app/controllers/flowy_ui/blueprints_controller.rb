@@ -9,4 +9,8 @@ class FlowyUi::BlueprintsController < FlowyUi::ApplicationController
   def index
     @blueprints = Flowy::Blueprint.all.page(params[:page]).per(params[:per_page])
   end
+
+  def show
+    @blueprint = Flowy::Blueprint.find(params[:id])
+  end
 end

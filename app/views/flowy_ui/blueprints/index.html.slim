@@ -12,7 +12,7 @@ h1.title Blueprints
     tbody
       - @blueprints.each do |bp|
         tr
-          td = bp.key
+          td = link_to(bp.key, main_app.flowy_ui_blueprint_url(bp))
           td = bp.name
           td = bp.description
           td = bp.tasks.count

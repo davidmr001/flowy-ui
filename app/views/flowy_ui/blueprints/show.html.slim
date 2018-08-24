@@ -1,3 +1,11 @@
-h1.title Show
-= react_component("HelloWorld")
-h2.title Show
+nav.breadcrumb aria-label="breadcrumbs"
+  ul
+    li
+      a href=main_app.flowy_ui_blueprints_url All blueprints
+    li.is-active
+      a href="#" aria-current="page" = @blueprint.key
+
+h1.title = @blueprint.key
+
+= react_component("BlueprintGraph", canvasId: "blueprint_canvas", width: 200, height: 200)
+

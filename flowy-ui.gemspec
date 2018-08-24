@@ -16,10 +16,10 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
-  s.add_dependency "kaminari", "1.1.1"
-  s.add_dependency "rails", "~> 5.2.1"
-  s.add_dependency "slim", "3.0.9"
+  s.add_dependency "kaminari",    "1.1.1"
+  s.add_dependency "rails",       "5.2.1"
   s.add_dependency "react-rails", "2.4.7"
+  s.add_dependency "slim",        "3.0.9"
 
   s.add_development_dependency "sqlite3"
 end
