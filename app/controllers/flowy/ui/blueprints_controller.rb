@@ -1,7 +1,7 @@
 #
 # Blueprints controller
 #
-class Flowy::Ui::BlueprintsController < ApplicationController
+class Flowy::Ui::BlueprintsController < Flowy::Ui::ApplicationController
   protect_from_forgery with: :exception
 
   def index
