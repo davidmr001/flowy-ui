@@ -1,5 +1,6 @@
 require 'slim'
 require 'kaminari'
+require 'react-rails'
 
 #
 # Workflow UI rails engine
