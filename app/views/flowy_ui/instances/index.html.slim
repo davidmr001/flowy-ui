@@ -1,0 +1,23 @@
+h1.title Instances
+
+- if @instances.any?
+  table.table.is-fullwidth
+    thead
+      tr
+        th Key
+        th Name
+        th Tasks
+        th State
+        th Blueprint key
+    tbody
+      - @instances.each do |inst|
+        tr
+          td = inst.key
+          td = inst.name
+          td = inst.tasks.count
+          td = inst.state&.key
+          td = inst.blueprint.key
+- else
+  p No instances exist.
+
+= paginate @instances, routes_proxy: main_app

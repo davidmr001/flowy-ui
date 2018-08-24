@@ -1,0 +1,16 @@
+javascript:
+  function removeFlash() {
+    document.getElementById("flash").style.display = "none";
+  }
+
+- unless flash.empty?
+  section#flash.section
+    .container
+      - if flash.alert
+        div.notification.is-danger
+          button.delete onclick="removeFlash()"
+          = flash.alert
+      - if flash.notice
+        div.notification.is-success
+          button.delete onclick="removeFlash()"
+          = flash.notice
