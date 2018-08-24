@@ -69,14 +69,39 @@ class CanvasRenderer extends React.Component {
     context.restore();
   }
 
+  drawCircle(x, y, radius, color) {
+    const { context } = this.state;
+
+    context.save();
+    context.beginPath();
+    context.arc(x, y, radius, 0, Math.PI * 2, true);
+    context.closePath();
+    context.fillStyle = color;
+    context.fill();
+    context.restore();
+  }
+
+  drawSquare(x, y, width, height, color, fill = undefined) {
+    const { context } = this.state;
+
+    context.save();
+    if (fill) {
+      context.fillStyle = fill;
+      context.fillRect(x, y, width, height);
+    }
+    context.strokeStyle = color;
+    context.strokeRect(x, y, width, height);
+    context.restore();
+  }
+
   // Extending classes need to implement draw()
 
   render() {
     return (
       <canvas
         id={this.props.canvasId}
-        width="200"
-        height="200"
+        width={this.props.width}
+        height={this.props.height}
       />
     );
   }

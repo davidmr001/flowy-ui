@@ -3,10 +3,9 @@ class BlueprintGraph extends CanvasRenderer {
     const { canvasId, width, height, } = this.props;
     const { context } = this.state;
 
-    context.save();
-    context.translate(100, 100);
-    context.fillStyle = "#F00";
-    context.fillRect(-50, -50, 100, 100);
-    context.restore();
+    // TODO: Draw the blueprint
+
+    this.drawSquare(50, 50, 100, 100, "black", "green");
+    this.drawSquare(150, 150, 100, 100, "red");
   }
 }
