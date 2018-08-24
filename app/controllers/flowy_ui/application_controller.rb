@@ -6,6 +6,6 @@ class FlowyUi::ApplicationController < ActionController::Base
 
   def sanitize_pagination_params
     params[:page] ||= 1
-    params[:per_page] ||= 3
+    params[:per_page] ||= 10
   end
 end
