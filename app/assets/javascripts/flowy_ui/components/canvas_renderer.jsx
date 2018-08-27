@@ -49,6 +49,7 @@ class CanvasRenderer extends React.Component {
     this.draw();
 
     // Draw FPS
+    // TODO: Use class (see below)
     this.drawText(10, 24, "FPS: " + fpsCurrent);
 
     // Restore
@@ -60,6 +61,7 @@ class CanvasRenderer extends React.Component {
     requestAnimationFrame(this.tick);
   }
 
+  // TODO: Extract to class
   drawText(x, y, text, size = 14) {
     const { context } = this.state;
 
@@ -69,6 +71,7 @@ class CanvasRenderer extends React.Component {
     context.restore();
   }
 
+  // TODO: Extract to class
   drawCircle(x, y, radius, color) {
     const { context } = this.state;
 
@@ -78,19 +81,6 @@ class CanvasRenderer extends React.Component {
     context.closePath();
     context.fillStyle = color;
     context.fill();
-    context.restore();
-  }
-
-  drawSquare(x, y, width, height, color, fill = undefined) {
-    const { context } = this.state;
-
-    context.save();
-    if (fill) {
-      context.fillStyle = fill;
-      context.fillRect(x, y, width, height);
-    }
-    context.strokeStyle = color;
-    context.strokeRect(x, y, width, height);
     context.restore();
   }
 

@@ -1,11 +1,17 @@
 class BlueprintGraph extends CanvasRenderer {
+  constructor(props) {
+    super(props);
+    this.state = {
+      ...this.state,
+      squary: new Square(200, 200),
+    };
+  }
+
   draw() {
     const { canvasId, width, height, } = this.props;
-    const { context } = this.state;
+    const { context, squary } = this.state;
 
     // TODO: Draw the blueprint
-
-    this.drawSquare(50, 50, 100, 100, "black", "green");
-    this.drawSquare(150, 150, 100, 100, "red");
+    squary.paint(context, 40, 40, "black", "blue");
   }
 }
