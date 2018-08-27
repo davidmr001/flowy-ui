@@ -1,9 +1,13 @@
 module FlowyUi
   class InstanceSerializer < ActiveModel::Serializer
-    attributes :id, :key, :name, :description, :tiered_structure
+    attributes :id, :key, :name, :description, :tiered_tasks, :links
 
-    def tiered_structure
-      Aux::TieredStructure.new(object, FlowyUi::InstanceTaskSerializer).to_array
+    def tiered_tasks
+      Aux::TieredTasks.new(object, FlowyUi::InstanceTaskSerializer).to_array
+    end
+
+    def links
+      object.links.map { |l| InstanceLinkSerializer.new(l) }
     end
   end
 end
