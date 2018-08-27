@@ -4,8 +4,8 @@ class Ellipse {
     this.height = height;
   }
 
-  drawEllipseByCenter = (ctx, cx, cy, w, h) => {
-    drawEllipse(ctx, cx - w/2.0, cy - h/2.0, w, h);
+  drawEllipseByCenter = (ctx, cx, cy, w, h, fill) => {
+    this.drawEllipse(ctx, cx - w/2.0, cy - h/2.0, w, h, fill);
   }
 
   drawEllipse = (ctx, x, y, w, h, fill) => {
@@ -30,13 +30,17 @@ class Ellipse {
     ctx.stroke();
   }
 
-  draw = (context, x, y, color, fill) => {
+  draw = (context, x, y, color, fill, center) => {
     context.save();
     if (fill) {
       context.fillStyle = fill;
     }
     context.strokeStyle = color;
-    this.drawEllipse(context, x, y, this.width, this.height, fill);
+    if (center) {
+      this.drawEllipseByCenter(context, x, y, this.width, this.height, fill)
+    } else {
+      this.drawEllipse(context, x, y, this.width, this.height, fill);
+    }
     context.restore();
   }
 }

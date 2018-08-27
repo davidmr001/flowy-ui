@@ -9,7 +9,11 @@ class CanvasRenderer extends React.Component {
     frameTime: new Date(),
     fpsCounter: 0,
     fpsCurrent: 0,
-    fpsStartTime: new Date()
+    fpsStartTime: new Date(),
+    mousePosition: {
+      x: -1,
+      y: -1
+    }
   }
 
   constructor(props) {
@@ -19,9 +23,20 @@ class CanvasRenderer extends React.Component {
   }
 
   componentDidMount() {
-    const { canvasId } = this.props;
+    const self = this;
+    const { canvasId } = self.props;
 
-    this.setState({ context: document.getElementById(canvasId).getContext("2d") });
+    const canvas = document.getElementById(canvasId);
+    this.setState({ context: canvas.getContext("2d") });
+    canvas.addEventListener('mousemove', function(evt) {
+      const rect = canvas.getBoundingClientRect();
+      self.setState({
+        mousePosition: {
+          x: evt.clientX - rect.left,
+          y: evt.clientY - rect.top
+        }
+      });
+    }, false);
 
     requestAnimationFrame(this.tick);
   }
@@ -50,6 +65,7 @@ class CanvasRenderer extends React.Component {
 
     // Draw FPS
     new Text("FPS: " + fpsCurrent, 14).draw(context, 10, 24, "black", false);
+    new Text("Mouse: " + this.state.mousePosition.x + ", " + this.state.mousePosition.y, 14).draw(context, 10, 44, "black", false);
 
     // Restore
     context.restore();
