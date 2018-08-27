@@ -1,9 +1,26 @@
 class BlueprintGraph extends CanvasRenderer {
   constructor(props) {
     super(props);
+    console.log(this.props.blueprint)
   }
 
   draw() {
-    console.log(this.state.context)
+    blueprint = this.props.blueprint;
+    context = this.state.context;
+
+    tasks = []
+    for (var tier in blueprint.tiered_structure) {
+      height = (parseInt(tier) + 1) * 200;
+      width = 700 / blueprint.tiered_structure[tier].length;
+      for(var task_index in blueprint.tiered_structure[tier]) {
+        task = blueprint.tiered_structure[tier][task_index];
+        tasks.push(new BlueprintTask(width, height, 150, 70, { id: task.id, key: task.key }, 14));
+        width = width*2;
+      }
+    }
+
+    for (var task in tasks) {
+      tasks[task].draw(context);
+    }
   }
 }
