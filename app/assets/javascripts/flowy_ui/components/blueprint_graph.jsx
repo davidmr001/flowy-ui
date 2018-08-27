@@ -13,7 +13,7 @@ class BlueprintGraph extends CanvasRenderer {
       width = 1400 / (blueprint.tiered_tasks[tier].length + 1);
       for(var task_index in blueprint.tiered_tasks[tier]) {
         task = blueprint.tiered_tasks[tier][task_index];
-        tasks[task.id] = new BlueprintTask(width, height, 150, 70, { id: task.id, key: task.key }, 14);
+        tasks[task.id] = new BlueprintTask(width, height, 150, 70, task, 14);
         width = width*2;
       }
     }
