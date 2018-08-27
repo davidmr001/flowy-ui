@@ -68,8 +68,8 @@ class CanvasRenderer extends React.Component {
     this.draw();
 
     // Draw FPS
-    new Text("FPS: " + fpsCurrent, 14).draw(context, 10, 24, "black", false);
-    new Text("Mouse: " + this.state.mousePosition.x + ", " + this.state.mousePosition.y, 14).draw(context, 10, 44, "black", false);
+    new Text("FPS: " + fpsCurrent, 14).draw(context, 10, 24, "black");
+    new Text("Mouse: " + this.state.mousePosition.x + ", " + this.state.mousePosition.y, 14).draw(context, 10, 44, "black");
 
     // Restore
     context.restore();

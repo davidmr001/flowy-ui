@@ -4,9 +4,22 @@ class Text {
     this.size = size;
   }
 
+  getTextWidth = (ctx) => {
+    ctx.save();
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.font = this.size + "pt serif";
+    const width = ctx.measureText(this.text).width;
+    ctx.restore();
+    return width;
+  }
+
   drawTextCentered = (ctx, x, y, color) => {
-    // TODO: Calc text size
+    ctx.save();
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
     this.drawText(ctx, x, y, color);
+    ctx.restore();
   }
 
   drawText = (ctx, x, y, color) => {
@@ -17,7 +30,7 @@ class Text {
     ctx.restore();
   }
 
-  draw = (ctx, x, y, color, center = true) => {
+  draw = (ctx, x, y, color, center = false) => {
     if (center) {
       this.drawTextCentered(ctx, x, y, color);
     } else {
