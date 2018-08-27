@@ -1,6 +1,7 @@
 require 'slim'
 require 'kaminari'
 require 'react-rails'
+require 'active_model_serializers'
 
 #
 # Workflow UI rails engine
