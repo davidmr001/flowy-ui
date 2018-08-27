@@ -12,6 +12,8 @@ class BlueprintTask extends TextBox {
 
     this.setColorsFromState();
 
+    this.sourceCodeCard = new SourceCodeCard(300, 300, this.task.sourceCode);
+
     // this.animating = this.task.state == "ERROR";
     // this.animationPulse = 500; // ms
   }
@@ -73,12 +75,23 @@ class BlueprintTask extends TextBox {
     //   this.swapColorsIfAnimating();
     // }
 
+    // Adjust box with if text is bigger
+    const textWidth = this.text.getTextWidth(ctx)
+    if (textWidth > this.width) {
+      this.width  = textWidth + 20;
+    }
+
     // Detect mouse over
     var fillColor = this.fillColor;
-    if (this.isMouseOver(mouseX, mouseY)) {
+    const isMouseOver = this.isMouseOver(mouseX, mouseY);
+    if (isMouseOver) {
       fillColor = this.shadeBlend(-0.1, fillColor);
     }
 
     super.draw(ctx, this.x, this.y, this.textColor, "black", fillColor, true);
+
+    if (isMouseOver) {
+      this.sourceCodeCard.draw(ctx, mouseX + 50, mouseY);
+    }
   }
 }

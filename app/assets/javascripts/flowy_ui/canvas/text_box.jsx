@@ -9,7 +9,6 @@ class TextBox {
     const textWidth = this.text.getTextWidth(ctx)
     if (textWidth > this.square.width) {
       this.square.width  = textWidth + 20;
-      this.width = this.square.width; // For children
     }
 
     this.square.draw(ctx, x, y, squareStrokeColor, squareFillColor, centered);
