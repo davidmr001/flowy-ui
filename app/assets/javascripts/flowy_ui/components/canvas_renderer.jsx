@@ -1,8 +1,8 @@
 class CanvasRenderer extends React.Component {
   static propTypes = {
     canvasId: PropTypes.string.isRequired,
-    width: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired
+    width: PropTypes.number,
+    height: PropTypes.number
   };
 
   state = {
@@ -24,7 +24,7 @@ class CanvasRenderer extends React.Component {
 
   componentDidMount() {
     const self = this;
-    const { canvasId } = self.props;
+    const { canvasId, width, height } = self.props;
 
     const canvas = document.getElementById(canvasId);
     this.setState({ context: canvas.getContext("2d") });
@@ -38,12 +38,16 @@ class CanvasRenderer extends React.Component {
       });
     }, false);
 
+    canvas.width = width ? width : canvas.parentNode.clientWidth;
+    canvas.height = height ? height : canvas.parentNode.clientWidth * .75;
+    this.setState({ width: canvas.width, height: canvas.height });
+
     requestAnimationFrame(this.tick);
   }
 
   tick() {
-    const { context, frameTime, fpsCounter, fpsCurrent, fpsStartTime } = this.state;
-    const { canvasId, width, height } = this.props;
+    const { context, width, height, frameTime, fpsCounter, fpsCurrent, fpsStartTime } = this.state;
+    const { canvasId } = this.props;
     const now = new Date();
 
     if (now - fpsStartTime > 1000) {
@@ -82,8 +86,8 @@ class CanvasRenderer extends React.Component {
     return (
       <canvas
         id={this.props.canvasId}
-        width={this.props.width}
-        height={this.props.height}
+        width={this.state.width}
+        height={this.state.height}
       />
     );
   }
