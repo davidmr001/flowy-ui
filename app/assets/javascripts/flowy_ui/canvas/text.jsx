@@ -24,7 +24,7 @@ class Text {
 
   drawText(ctx, x, y, color) {
     ctx.save();
-    ctx.strokeStyle = color;
+    ctx.fillStyle = color;
     ctx.font = this.size + "pt serif";
     ctx.fillText(this.text, x, y);
     ctx.restore();
