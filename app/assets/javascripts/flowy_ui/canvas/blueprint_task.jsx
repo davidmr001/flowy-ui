@@ -1,6 +1,6 @@
 class BlueprintTask extends TextBox {
   constructor(x, y, width, height, task) {
-    super(width, height, task.key + " (" + task.id + ")", 14);
+    super(width, height, task.name + " (" + task.id + ")", 14);
 
     this.task = task;
     this.x = x;
@@ -12,7 +12,9 @@ class BlueprintTask extends TextBox {
 
     this.setColorsFromState();
 
-    this.sourceCodeCard = new SourceCodeCard(300, 300, this.task.sourceCode);
+    if (this.task.class_source) {
+      this.sourceCodeCard = new SourceCodeCard(300, 300, this.task.class_source);
+    }
 
     // this.animating = this.task.state == "ERROR";
     // this.animationPulse = 500; // ms
@@ -90,7 +92,7 @@ class BlueprintTask extends TextBox {
 
     super.draw(ctx, this.x, this.y, this.textColor, "black", fillColor, true);
 
-    if (isMouseOver) {
+    if (isMouseOver && this.sourceCodeCard) {
       this.sourceCodeCard.draw(ctx, mouseX + 50, mouseY);
     }
   }
