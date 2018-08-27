@@ -6,7 +6,7 @@ class BlueprintGraph extends CanvasRenderer {
 
   draw() {
     blueprint = this.props.blueprint;
-    context = this.state.context;
+    const { context, mousePosition } = this.state;
 
     tasks = []
     for (var tier in blueprint.tiered_structure) {
@@ -20,7 +20,7 @@ class BlueprintGraph extends CanvasRenderer {
     }
 
     for (var task in tasks) {
-      tasks[task].draw(context);
+      tasks[task].draw(context, mousePosition.x, mousePosition.y);
     }
   }
 }
