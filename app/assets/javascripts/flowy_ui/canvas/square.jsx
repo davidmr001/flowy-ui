@@ -4,11 +4,11 @@ class Square {
     this.height = height;
   }
 
-  drawSquareCentered = (ctx, x, y, color, fill = null) => {
+  drawSquareCentered(ctx, x, y, color, fill = null) {
     this.drawSquare(ctx, x-this.width/2, y-this.height/2, color, fill);
   }
 
-  drawSquare = (ctx, x, y, color, fill = null) => {
+  drawSquare(ctx, x, y, color, fill = null) {
     ctx.save();
     if (fill) {
       ctx.fillStyle = fill;
@@ -19,7 +19,7 @@ class Square {
     ctx.restore();
   }
 
-  draw = (ctx, x, y, color, fill = null, center = true) => {
+  draw(ctx, x, y, color, fill = null, center = true) {
     if (center) {
       this.drawSquareCentered(ctx, x, y, color, fill);
     } else {

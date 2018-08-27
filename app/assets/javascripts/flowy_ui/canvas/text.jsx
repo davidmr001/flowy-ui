@@ -4,7 +4,7 @@ class Text {
     this.size = size;
   }
 
-  getTextWidth = (ctx) => {
+  getTextWidth(ctx) {
     ctx.save();
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
@@ -14,7 +14,7 @@ class Text {
     return width;
   }
 
-  drawTextCentered = (ctx, x, y, color) => {
+  drawTextCentered(ctx, x, y, color) {
     ctx.save();
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
@@ -22,7 +22,7 @@ class Text {
     ctx.restore();
   }
 
-  drawText = (ctx, x, y, color) => {
+  drawText(ctx, x, y, color) {
     ctx.save();
     ctx.strokeStyle = color;
     ctx.font = this.size + "pt serif";
@@ -30,7 +30,7 @@ class Text {
     ctx.restore();
   }
 
-  draw = (ctx, x, y, color, center = false) => {
+  draw(ctx, x, y, color, center = false) {
     if (center) {
       this.drawTextCentered(ctx, x, y, color);
     } else {

@@ -4,7 +4,7 @@ class TextBox {
     this.square = new Square(width, height);
   }
 
-  draw = (ctx, x, y, textColor, squareStrokeColor, squareFillColor, centered = true) => {
+  draw(ctx, x, y, textColor, squareStrokeColor, squareFillColor, centered = true) {
     // Adjust box with if text is bigger
     const textWidth = this.text.getTextWidth(ctx)
     if (textWidth > this.square.width) {

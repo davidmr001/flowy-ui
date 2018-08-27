@@ -5,11 +5,11 @@ class RoundedSquare {
     this.curvature = curvature;
   }
 
-  drawRoundRectCentered = (ctx, x, y, width, height, radius, color, fill) => {
+  drawRoundRectCentered(ctx, x, y, width, height, radius, color, fill) {
     this.drawRoundRect(ctx, x-width/2, y-height/2, width, height, radius, color, fill);
   }
 
-  drawRoundRect = (ctx, x, y, width, height, radius, color, fill) => {
+  drawRoundRect(ctx, x, y, width, height, radius, color, fill) {
     ctx.save();
     if (fill) {
       ctx.fillStyle = fill;
@@ -44,7 +44,7 @@ class RoundedSquare {
     ctx.restore();
   }
 
-  draw = (ctx, x, y, color, fill = null, center = true) => {
+  draw(ctx, x, y, color, fill = null, center = true) {
     if (center) {
       this.drawRoundRectCentered(ctx, x, y, this.width, this.height, this.curvature, color, fill);
     } else {
