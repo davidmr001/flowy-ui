@@ -4,7 +4,7 @@ class Square {
     this.height = height;
   }
 
-  paint = (context, x, y, color, fill) => {
+  draw = (context, x, y, color, fill) => {
     context.save();
     if (fill) {
       context.fillStyle = fill;

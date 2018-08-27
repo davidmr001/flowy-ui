@@ -49,8 +49,7 @@ class CanvasRenderer extends React.Component {
     this.draw();
 
     // Draw FPS
-    // TODO: Use class (see below)
-    this.drawText(10, 24, "FPS: " + fpsCurrent);
+    new Text("FPS: " + fpsCurrent, 14).draw(context, 10, 24, "black", false);
 
     // Restore
     context.restore();
@@ -59,29 +58,6 @@ class CanvasRenderer extends React.Component {
     this.setState({ frameTime: new Date() - now });
 
     requestAnimationFrame(this.tick);
-  }
-
-  // TODO: Extract to class
-  drawText(x, y, text, size = 14) {
-    const { context } = this.state;
-
-    context.save();
-    context.font = size + "pt serif";
-    context.fillText(text, x, y);
-    context.restore();
-  }
-
-  // TODO: Extract to class
-  drawCircle(x, y, radius, color) {
-    const { context } = this.state;
-
-    context.save();
-    context.beginPath();
-    context.arc(x, y, radius, 0, Math.PI * 2, true);
-    context.closePath();
-    context.fillStyle = color;
-    context.fill();
-    context.restore();
   }
 
   // Extending classes need to implement draw()
