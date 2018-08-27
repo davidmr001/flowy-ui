@@ -5,17 +5,23 @@ class RoundedSquare {
     this.curvature = curvature;
   }
 
-  roundRect = (ctx, x, y, width, height, radius, fill, stroke) => {
-    if (typeof stroke == 'undefined') {
-      stroke = true;
+  drawRoundRectCentered = (ctx, x, y, width, height, radius, color, fill) => {
+    this.drawRoundRect(ctx, x-width/2, y-height/2, width, height, radius, color, fill);
+  }
+
+  drawRoundRect = (ctx, x, y, width, height, radius, color, fill) => {
+    ctx.save();
+    if (fill) {
+      ctx.fillStyle = fill;
     }
+    ctx.strokeStyle = color;
     if (typeof radius === 'undefined') {
       radius = 5;
     }
     if (typeof radius === 'number') {
-      radius = {tl: radius, tr: radius, br: radius, bl: radius};
+      radius = { tl: radius, tr: radius, br: radius, bl: radius };
     } else {
-      var defaultRadius = {tl: 0, tr: 0, br: 0, bl: 0};
+      var defaultRadius = { tl: 0, tr: 0, br: 0, bl: 0 };
       for (var side in defaultRadius) {
         radius[side] = radius[side] || defaultRadius[side];
       }
@@ -34,19 +40,15 @@ class RoundedSquare {
     if (fill) {
       ctx.fill();
     }
-    if (stroke) {
-      ctx.stroke();
-    }
+    ctx.stroke();
+    ctx.restore();
   }
 
-  draw = (context, x, y, color, fill) => {
-    context.save();
-
-    if (fill) {
-      context.fillStyle = fill;
+  draw = (ctx, x, y, color, fill = null, center = true) => {
+    if (center) {
+      this.drawRoundRectCentered(ctx, x, y, this.width, this.height, this.curvature, color, fill);
+    } else {
+      this.drawRoundRect(ctx, x, y, this.width, this.height, this.curvature, color, fill);
     }
-    context.strokeStyle = color;
-    this.roundRect(context, x, y, this.width, this.height, this.curvature, fill, true)
-    context.restore();
   }
 }

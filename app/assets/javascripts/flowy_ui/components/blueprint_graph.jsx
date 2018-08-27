@@ -3,23 +3,25 @@ class BlueprintGraph extends CanvasRenderer {
     super(props);
     this.state = {
       ...this.state,
-      square: new Square(200, 200),
+      square: new Square(300, 300),
       roundedSquare: new RoundedSquare(200, 200, 50),
-      ellipse: new Ellipse(300, 200),
+      ellipse: new Ellipse(250, 100),
+      textBox: new TextBox(150, 70, "Vote Pedro", 14),
+
       fun: new Ellipse(100, 100),
     };
   }
 
   draw() {
     const { canvasId, width, height, } = this.props;
-    const { context, mousePosition, square, roundedSquare, ellipse, fun } = this.state;
+    const { context, mousePosition, square, roundedSquare, ellipse, textBox, fun } = this.state;
 
     // TODO: Draw the blueprint
-    square.draw(context, 40, 60, "black", "blue");
-    roundedSquare.draw(context, 80, 100, "black", "green");
-    ellipse.draw(context, 120, 140, "black", "red");
+    square.draw(context, 400, 400, "black", "blue");
+    roundedSquare.draw(context, 400, 400, "black", "green");
+    ellipse.draw(context, 400, 400, "black", "red");
+    textBox.draw(context, 400, 400, "red", "black", "orange");
 
-
-    fun.draw(context, mousePosition.x, mousePosition.y, "black", "pink", true);
+    fun.draw(context, mousePosition.x, mousePosition.y, "black", "pink");
   }
 }
