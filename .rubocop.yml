@@ -4,6 +4,7 @@ AllCops:
   - "spec/rails_helper.rb"
   - "db/**/*"
   - "test/dummy/**/*"
+  - "app/assets/**/*"
 
 Style/FormatStringToken:
   Enabled: false
