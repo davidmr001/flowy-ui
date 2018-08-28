@@ -1,36 +1,44 @@
 class BaseGraph extends CanvasRenderer {
-  constructor(props) {
-    super(props);
-  }
-
-  draw() {
-    object = this.props.object;
+  setupScene() {
+    const object = this.props.object;
     const { context, mousePosition } = this.state;
 
     tasks = {}
     for (var tier in object.tiered_tasks) {
-      height = (parseInt(tier) + 1) * 200;
+      y = (parseInt(tier) + 1) * 200;
       base_width = 1400 / (object.tiered_tasks[tier].length + 1);
-      width = base_width
+      x = base_width
       for(var task_index in object.tiered_tasks[tier]) {
         task = object.tiered_tasks[tier][task_index];
-        tasks[task.id] = new this.taskClass(width, height, 150, 70, task, 14);
-        width = width + base_width;
+        tasks[task.id] = new this.taskClass({
+          x: x,
+          y: y,
+          width: 150,
+          height: 70,
+          task: task,
+          textSize: 14
+        });
+        x = x + base_width;
       }
     }
 
     links = {}
-    for (var link in object.links) {
-      link = object.links[link]
-      links[link.id] = new this.linkClass(tasks[link.source_task_id], tasks[link.target_task_id])
+    for (const i in object.links) {
+      const link = object.links[i]
+      links[link.id] = new this.linkClass({
+        startTask: tasks[link.source_task_id],
+        endTask: tasks[link.target_task_id]
+      })
     }
 
-    for (var task in tasks) {
-      tasks[task].draw(context, mousePosition.x, mousePosition.y);
+    for (const i in tasks) {
+      const task = tasks[i]
+      this.addToRenderBuffer("tasks", task)
     }
 
-    for (var link in links) {
-      links[link].draw(context);
+    for (const i in links) {
+      const link = links[i]
+      this.addToRenderBuffer("links", link)
     }
   }
 }

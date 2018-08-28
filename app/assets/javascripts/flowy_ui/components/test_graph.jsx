@@ -9,16 +9,16 @@ class TestGraph extends CanvasRenderer {
       ellipse: new Ellipse({ width: 250, height: 100, strokeColor: "#000000", fillColor: "#ff0000" }),
       textBox: new TextBox({ width: 150, height: 70, text: "TextBox", textSize: 14, fillColor: "#ffffff" }),
       text: new Text({ width: 150, height: 70, text: "Simple Text", textSize: 14, strokeColor: "#00ff00" }),
-      blueprintTask1: new BlueprintTask({ width: 100, height: 70, textSize: 14, task: { id: 1, name: "NORMAL TASK" } }),
-      blueprintTask2: new BlueprintTask({ width: 200, height: 70, textSize: 14, task: { id: 2, name: "COMPLETED TASK", state: "COMPLETED" } }),
-      blueprintTask3: new BlueprintTask({ width: 150, height: 70, textSize: 14, task: { id: 2, name: "ERROR TASK", state: "ERROR" } }),
+      blueprintTask1: new Task({ width: 100, height: 70, textSize: 14, task: { id: 1, name: "NORMAL TASK" } }),
+      blueprintTask2: new Task({ width: 200, height: 70, textSize: 14, task: { id: 2, name: "COMPLETED TASK", state: "COMPLETED" } }),
+      blueprintTask3: new Task({ width: 150, height: 70, textSize: 14, task: { id: 2, name: "ERROR TASK", state: "ERROR" } }),
 
       fun: new Ellipse({ width: 13, height: 13, fillColor: "green" }),
     }
 
     this.state = {
       ...this.state,
-      blueprintTaskLink: new BlueprintTaskLink(this.state.blueprintTask1, this.state.blueprintTask2)
+      blueprintTaskLink: new TaskLink(this.state.blueprintTask1, this.state.blueprintTask2)
     }
   }
 

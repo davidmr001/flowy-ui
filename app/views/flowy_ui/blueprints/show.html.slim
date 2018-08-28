@@ -5,6 +5,6 @@ nav.breadcrumb aria-label="breadcrumbs"
     li.is-active
       a href="#" aria-current="page" = @blueprint.key
 
-h1.title = @blueprint.key
+h1.title = "#{@blueprint.name} - #{@blueprint.description}"
 
-= react_component("TestGraph", blueprint: FlowyUi::BlueprintSerializer.new(@blueprint), canvasId: "blueprint_canvas", height: 800)
+= react_component("BlueprintGraph", object: FlowyUi::BlueprintSerializer.new(@blueprint), canvasId: "blueprint_canvas", height: 800)

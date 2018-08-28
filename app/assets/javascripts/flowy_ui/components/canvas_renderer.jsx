@@ -108,8 +108,9 @@ class CanvasRenderer extends React.Component {
   addToRenderBuffer(bufferName, drawable, x, y) {
     const { baseRenderBuffer, uiRenderBuffer, otherRenderBuffers, mousePosition } = this.state
 
-    drawable.x = x;
-    drawable.y = y;
+    // Override the draw position, if the drawable has none predefined
+    drawable.x = x ? x : drawable.x;
+    drawable.y = y ? y : drawable.y;
     drawable.mousePosition = mousePosition
 
     if (bufferName === "base") {
@@ -122,8 +123,8 @@ class CanvasRenderer extends React.Component {
       return
     }
 
-    if (otherRenderBuffers[bufferName]) {
-      otherRenderBuffers[bufferName] = {}
+    if (!otherRenderBuffers[bufferName]) {
+      otherRenderBuffers[bufferName] = []
     }
     otherRenderBuffers[bufferName].push(drawable)
   }
@@ -136,6 +137,9 @@ class CanvasRenderer extends React.Component {
       this.renderBuffer(otherRenderBuffers[i]);
     }
     this.renderBuffer(uiRenderBuffer)
+
+    console.log(otherRenderBuffers)
+    sadfsdf
 
     this.setState({
       baseRenderBuffer: [], // Array of drawables
