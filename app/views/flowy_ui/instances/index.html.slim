@@ -17,7 +17,7 @@ h1.title Instances
           td = inst.key
           td = inst.name
           td = inst.tasks.count
-          td = inst.state&.dig(:key)
+          td = inst.state&.dig(:state)
           td = link_to(inst.blueprint.key, main_app.flowy_ui_blueprint_url(Flowy::Blueprint.find_by(key: inst.key).id))
 - else
   p No instances exist.
