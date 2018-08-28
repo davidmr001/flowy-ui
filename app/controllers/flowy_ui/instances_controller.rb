@@ -9,4 +9,8 @@ class FlowyUi::InstancesController < FlowyUi::ApplicationController
   def index
     @instances = Flowy::Instance.all.page(params[:page]).per(params[:per_page])
   end
+
+  def show
+    @instance = Flowy::Instance.find(params[:id])
+  end
 end
