@@ -10,6 +10,21 @@ class Drawable {
     this.drawCentered = attributes.center != undefined ? attributes.center : true
   }
 
+  isMouseOver(mousePosition, bufferIsPannable, panPosition) {
+    const position = {
+      x: this.x,
+      y: this.y
+    }
+    if (bufferIsPannable) {
+      position.x += panPosition.x
+      position.y += panPosition.y
+    }
+    return mousePosition.x >= position.x - this.width / 2 &&
+           mousePosition.x <= position.x + this.width / 2 &&
+           mousePosition.y >= position.y - this.height / 2 &&
+           mousePosition.y <= position.y + this.height / 2
+  }
+
   adjust(ctx) {
     // Used by child classes to readjust parameters
     // like dynamic text width, and stuff like that

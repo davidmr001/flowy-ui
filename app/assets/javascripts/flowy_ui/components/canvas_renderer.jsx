@@ -17,9 +17,9 @@ class CanvasRenderer extends React.Component {
     mouseDragging: false,
     mouseDragStartPosition: { x: 0, y: 0 },
     panPosition: { x: 0, y: 0 },
-    baseRenderBuffer: [], // Array of drawables
-    uiRenderBuffer: [], // Array of drawables
-    otherRenderBuffers: [] // Array of render buffers, each with drawables
+    baseRenderBuffer: new RenderBuffer("base"),
+    uiRenderBuffer: new RenderBuffer("ui", false),
+    otherRenderBuffers: {} // Hash of render buffers (name, and buffer)
   }
 
   constructor(props) {
@@ -88,6 +88,20 @@ class CanvasRenderer extends React.Component {
     }, false)
   }
 
+  getBuffer(bufferName) {
+    const { baseRenderBuffer, uiRenderBuffer, otherRenderBuffers } = this.state
+    if (bufferName == "ui") {
+      return uiRenderBuffer
+    }
+    if (bufferName == "base") {
+      return baseRenderBuffer
+    }
+    if (!otherRenderBuffers[bufferName]) {
+      otherRenderBuffers[bufferName] = new RenderBuffer(bufferName)
+    }
+    return otherRenderBuffers[bufferName]
+  }
+
   tick() {
     const {
       context,
@@ -144,60 +158,27 @@ class CanvasRenderer extends React.Component {
 
   // Adds a drawable to a render buffer
   addToRenderBuffer(bufferName, drawable, x, y) {
-    const { baseRenderBuffer, uiRenderBuffer, otherRenderBuffers, mousePosition } = this.state
+    const { mousePosition, panPosition } = this.state
+
+    const buffer = this.getBuffer(bufferName)
 
     // Override the draw position, if the drawable has none predefined
     drawable.x = x ? x : drawable.x;
     drawable.y = y ? y : drawable.y;
     drawable.mousePosition = mousePosition
+    drawable.mouseOver = drawable.isMouseOver(mousePosition, buffer.isPannable, panPosition)
 
-    if (bufferName === "base") {
-      baseRenderBuffer.push(drawable)
-      return
-    }
-
-    if (bufferName === "ui") {
-      uiRenderBuffer.push(drawable)
-      return
-    }
-
-    if (!otherRenderBuffers[bufferName]) {
-      otherRenderBuffers[bufferName] = []
-    }
-    otherRenderBuffers[bufferName].push(drawable)
+    buffer.push(drawable)
   }
 
   renderScene() {
-    const { baseRenderBuffer, uiRenderBuffer, otherRenderBuffers } = this.state
+    const { context, baseRenderBuffer, uiRenderBuffer, otherRenderBuffers, panPosition } = this.state
 
-    this.renderBuffer(baseRenderBuffer)
+    baseRenderBuffer.render(context, panPosition)
     for (const i in otherRenderBuffers) {
-      this.renderBuffer(otherRenderBuffers[i]);
+      otherRenderBuffers[i].render(context, panPosition);
     }
-    this.renderBuffer(uiRenderBuffer, false)
-
-    this.setState({
-      baseRenderBuffer: [], // Array of drawables
-      uiRenderBuffer: [], // Array of drawables
-      otherRenderBuffers: [] // Array of render buffers, each with drawables
-    })
-  }
-
-  renderBuffer(buffer, pannable = true) {
-    const { panPosition } = this.state
-
-    for (const i in buffer) {
-      const drawable = buffer[i]
-      const position = {
-        x: drawable.x,
-        y: drawable.y
-      }
-      if (pannable) {
-        position.x += panPosition.x
-        position.y += panPosition.y
-      }
-      drawable.render(this.state.context, position.x, position.y)
-    }
+    uiRenderBuffer.render(context, panPosition)
   }
 
   // Extending classes need to implement draw()

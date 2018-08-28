@@ -78,13 +78,6 @@ class Task extends TextBox {
     }
   }
 
-  isMouseOver(x, y) {
-    return x >= this.x - this.width / 2 &&
-           x <= this.x + this.width / 2 &&
-           y >= this.y - this.height / 2 &&
-           y <= this.y + this.height / 2
-  }
-
   draw(ctx, x, y) {
     // if (this.animating) {
     //   this.swapColorsIfAnimating()
@@ -98,8 +91,7 @@ class Task extends TextBox {
 
     // Detect mouse over
     const originalFillColor = this.square.fillColor
-    const isMouseOver = this.isMouseOver(this.mousePosition.x, this.mousePosition.y)
-    if (isMouseOver) {
+    if (this.mouseOver) {
       this.square.fillColor = this.shadeBlend(-0.1, this.square.fillColor)
     }
 
