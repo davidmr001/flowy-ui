@@ -6,9 +6,11 @@ class Task extends TextBox {
     })
 
     this.task = attributes.task
+
     // this.on = true
     // this.startTime = new Date()
 
+    this.mouseOverColor = this.fillColor
     this.setColorsFromState()
 
     if (this.task.class_source) {
@@ -22,29 +24,29 @@ class Task extends TextBox {
   setColorsFromState() {
     switch(this.task.state) {
       case "READY_TO_PROCESS":
-        this.textColor = "#000000"
-        this.fillColor = "#8ec0e4"
+        this.text.strokeColor = "#000000"
+        this.square.fillColor = "#8ec0e4"
         break
       case "QUEUED":
-        this.textColor = "#000000"
-        this.fillColor = "#fd8d08"
+        this.text.strokeColor = "#000000"
+        this.square.fillColor = "#fd8d08"
         break
       case "WAITING_FOR_INPUT":
-        this.textColor = "#000000"
-        this.fillColor = "#ffd300"
+        this.text.strokeColor = "#000000"
+        this.square.fillColor = "#ffd300"
         break
       case "COMPLETED":
-        this.textColor = "#ffffff"
-        this.fillColor = "#00aa00"
+        this.text.strokeColor = "#ffffff"
+        this.square.fillColor = "#00aa00"
         break
       case "ERROR":
       case "ABORTED":
-        this.textColor = "#000000"
-        this.fillColor = "#ee0000"
+        this.text.strokeColor = "#000000"
+        this.square.fillColor = "#ee0000"
         break
       default:
-        this.textColor = "#000000"
-        this.fillColor = "#ffffff"
+        this.text.strokeColor = "#000000"
+        this.square.fillColor = "#ffffff"
     }
   }
 
@@ -95,13 +97,15 @@ class Task extends TextBox {
     // }
 
     // Detect mouse over
-    // var fillColor = this.fillColor
-    // const isMouseOver = this.isMouseOver(mouseX, mouseY)
-    // if (isMouseOver) {
-    //   fillColor = this.shadeBlend(-0.1, fillColor)
-    // }
+    const originalFillColor = this.square.fillColor
+    const isMouseOver = this.isMouseOver(this.mousePosition.x, this.mousePosition.y)
+    if (isMouseOver) {
+      this.square.fillColor = this.shadeBlend(-0.1, this.square.fillColor)
+    }
 
     super.draw(ctx, x, y)
+
+    this.square.fillColor = originalFillColor
 
     // if (isMouseOver && this.sourceCodeCard) {
     //   this.sourceCodeCard.draw(ctx, mouseX + 50, mouseY)

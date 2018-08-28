@@ -28,41 +28,20 @@ class CanvasRenderer extends React.Component {
     this.tick = this.tick.bind(this)
   }
 
+  // Make sure React does not update (only the canvas is rendering, not react)
+  // Grande Matos!
+  shouldComponentUpdate() {
+    return false
+  }
+
   componentDidMount() {
-    const self = this
-    const { canvasId, width, height } = self.props
+    const { canvasId, width, height } = this.props
 
     const canvas = document.getElementById(canvasId)
     const context = canvas.getContext("2d")
     this.setState({ context: context })
-    canvas.addEventListener('mousemove', function(evt) {
-      const rect = canvas.getBoundingClientRect()
-      var state = {
-        mousePosition: {
-          x: evt.clientX - rect.left,
-          y: evt.clientY - rect.top
-        },
-        panPosition: self.state.panPosition
-      }
-      if (self.state.mouseDragging) {
-        state.panPosition.x += evt.clientX - self.state.mouseDragStartPosition.x
-        state.panPosition.y += evt.clientY - self.state.mouseDragStartPosition.y
 
-        state.mouseDragStartPosition = { x: evt.clientX, y: evt.clientY }
-      }
-      self.setState(state)
-    }, false)
-    canvas.addEventListener('mousedown', function(evt) {
-      self.setState({
-        mouseDragging: true,
-        mouseDragStartPosition: { x: evt.clientX, y: evt.clientY }
-      })
-    }, false)
-    canvas.addEventListener('mouseup', function(evt) {
-      self.setState({
-        mouseDragging: false
-      })
-    }, false)
+    this.setupEventListeners(canvas)
 
     canvas.width = width ? width : canvas.parentNode.clientWidth
     canvas.height = height ? height : canvas.parentNode.clientWidth * .75
@@ -74,6 +53,39 @@ class CanvasRenderer extends React.Component {
     })
 
     requestAnimationFrame(this.tick)
+  }
+
+  setupEventListeners(canvas) {
+    const comp = this
+
+    canvas.addEventListener('mousemove', function(evt) {
+      const rect = canvas.getBoundingClientRect()
+      var state = {
+        mousePosition: {
+          x: evt.clientX - rect.left,
+          y: evt.clientY - rect.top
+        },
+        panPosition: comp.state.panPosition
+      }
+      if (comp.state.mouseDragging) {
+        state.panPosition.x += evt.clientX - comp.state.mouseDragStartPosition.x
+        state.panPosition.y += evt.clientY - comp.state.mouseDragStartPosition.y
+
+        state.mouseDragStartPosition = { x: evt.clientX, y: evt.clientY }
+      }
+      comp.setState(state)
+    }, false)
+
+    canvas.addEventListener('mousedown', function(evt) {
+      comp.setState({
+        mouseDragging: true,
+        mouseDragStartPosition: { x: evt.clientX, y: evt.clientY }
+      })
+    }, false)
+
+    canvas.addEventListener('mouseup', function(evt) {
+      comp.setState({ mouseDragging: false })
+    }, false)
   }
 
   tick() {
