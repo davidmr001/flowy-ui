@@ -101,7 +101,7 @@ class Task extends TextBox {
     //   fillColor = this.shadeBlend(-0.1, fillColor)
     // }
 
-    super.draw(ctx, this.x, this.y)
+    super.draw(ctx, x, y)
 
     // if (isMouseOver && this.sourceCodeCard) {
     //   this.sourceCodeCard.draw(ctx, mouseX + 50, mouseY)

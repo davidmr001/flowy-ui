@@ -5,8 +5,8 @@ class Line extends Drawable {
       center: false
     })
 
-    this.endX = attributes.endX
-    this.endY = attributes.endY
+    this.offsetX = attributes.endX - attributes.x
+    this.offsetY = attributes.endY - attributes.y
 
     this.width = this.endX - this.x
     this.height = this.endY - this.y
@@ -17,7 +17,7 @@ class Line extends Drawable {
     ctx.strokeStyle = this.strokeColor;
     ctx.beginPath();
     ctx.moveTo(x, y);
-    ctx.lineTo(this.endX, this.endY);
+    ctx.lineTo(x + this.offsetX, y + this.offsetY);
     ctx.stroke();
     ctx.restore();
   }

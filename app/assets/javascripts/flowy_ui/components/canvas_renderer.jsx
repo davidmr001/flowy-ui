@@ -14,6 +14,9 @@ class CanvasRenderer extends React.Component {
       x: -1,
       y: -1
     },
+    mouseDragging: false,
+    mouseDragStartPosition: { x: 0, y: 0 },
+    panPosition: { x: 0, y: 0 },
     baseRenderBuffer: [], // Array of drawables
     uiRenderBuffer: [], // Array of drawables
     otherRenderBuffers: [] // Array of render buffers, each with drawables
@@ -34,11 +37,30 @@ class CanvasRenderer extends React.Component {
     this.setState({ context: context })
     canvas.addEventListener('mousemove', function(evt) {
       const rect = canvas.getBoundingClientRect()
-      self.setState({
+      var state = {
         mousePosition: {
           x: evt.clientX - rect.left,
           y: evt.clientY - rect.top
-        }
+        },
+        panPosition: self.state.panPosition
+      }
+      if (self.state.mouseDragging) {
+        state.panPosition.x += evt.clientX - self.state.mouseDragStartPosition.x
+        state.panPosition.y += evt.clientY - self.state.mouseDragStartPosition.y
+
+        state.mouseDragStartPosition = { x: evt.clientX, y: evt.clientY }
+      }
+      self.setState(state)
+    }, false)
+    canvas.addEventListener('mousedown', function(evt) {
+      self.setState({
+        mouseDragging: true,
+        mouseDragStartPosition: { x: evt.clientX, y: evt.clientY }
+      })
+    }, false)
+    canvas.addEventListener('mouseup', function(evt) {
+      self.setState({
+        mouseDragging: false
       })
     }, false)
 
@@ -64,7 +86,10 @@ class CanvasRenderer extends React.Component {
       fpsCurrent,
       fpsStartTime,
       fpsText,
-      mouseText
+      mouseText,
+      mousePosition,
+      mouseDragging,
+      panPosition
     } = this.state
     const { canvasId } = this.props
     const now = new Date()
@@ -73,7 +98,8 @@ class CanvasRenderer extends React.Component {
       this.setState({
         fpsCurrent: fpsCounter+1,
         fpsCounter: 0,
-        fpsStartTime: now
+        fpsStartTime: now,
+        //panPosition: { x: panPosition.x + 5, y: panPosition.y }
       })
     } else {
       this.setState({ fpsCounter: fpsCounter+1 })
@@ -89,7 +115,7 @@ class CanvasRenderer extends React.Component {
     // Draw engine stuff last in the ui buffer
     fpsText.text = "FPS: " + fpsCurrent
     this.addToRenderBuffer("ui", fpsText, 10, 24)
-    mouseText.text = "Mouse: " + this.state.mousePosition.x + ", " + this.state.mousePosition.y
+    mouseText.text = "Mouse: " + mousePosition.x + ", " + mousePosition.y + ", dragging: " + mouseDragging
     this.addToRenderBuffer("ui", mouseText, 10, 44)
 
     // Render the scene
@@ -136,10 +162,7 @@ class CanvasRenderer extends React.Component {
     for (const i in otherRenderBuffers) {
       this.renderBuffer(otherRenderBuffers[i]);
     }
-    this.renderBuffer(uiRenderBuffer)
-
-    console.log(otherRenderBuffers)
-    sadfsdf
+    this.renderBuffer(uiRenderBuffer, false)
 
     this.setState({
       baseRenderBuffer: [], // Array of drawables
@@ -148,10 +171,20 @@ class CanvasRenderer extends React.Component {
     })
   }
 
-  renderBuffer(buffer) {
+  renderBuffer(buffer, pannable = true) {
+    const { panPosition } = this.state
+
     for (const i in buffer) {
       const drawable = buffer[i]
-      drawable.render(this.state.context, drawable.x, drawable.y)
+      const position = {
+        x: drawable.x,
+        y: drawable.y
+      }
+      if (pannable) {
+        position.x += panPosition.x
+        position.y += panPosition.y
+      }
+      drawable.render(this.state.context, position.x, position.y)
     }
   }
 
