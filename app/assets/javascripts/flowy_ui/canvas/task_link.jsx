@@ -1,4 +1,4 @@
-class BlueprintTaskLink {
+class TaskLink {
   constructor(startTask, endTask) {
     this.startTask = startTask;
     this.endTask = endTask;

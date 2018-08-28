@@ -4,6 +4,7 @@ h1.title Instances
   table.table.is-fullwidth
     thead
       tr
+        th ID
         th Key
         th Name
         th Tasks
@@ -12,11 +13,12 @@ h1.title Instances
     tbody
       - @instances.each do |inst|
         tr
+          td = link_to(inst.id, main_app.flowy_ui_instance_url(inst))
           td = inst.key
           td = inst.name
           td = inst.tasks.count
-          td = inst.state&.key
-          td = inst.blueprint.key
+          td = inst.state&.dig(:key)
+          td = link_to(inst.blueprint.key, main_app.flowy_ui_blueprint_url(Flowy::Blueprint.find_by(key: inst.key).id))
 - else
   p No instances exist.
 

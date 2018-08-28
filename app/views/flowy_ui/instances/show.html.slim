@@ -3,8 +3,8 @@ nav.breadcrumb aria-label="breadcrumbs"
     li
       a href=main_app.flowy_ui_instances_url All instances
     li.is-active
-      a href="#" aria-current="page" = @instance.key
+      a href="#" aria-current="page" = "#{@instance.key} (#{@instance.id})"
 
-h1.title = @instance.key
+h1.title = "#{@instance.key} (#{@instance.id})"
 
 = react_component("InstanceGraph", object: FlowyUi::InstanceSerializer.new(@instance), canvasId: "instance_canvas", height: 800)

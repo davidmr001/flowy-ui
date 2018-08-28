@@ -4,4 +4,5 @@
 //= require ./canvas/text
 //= require ./canvas/text_box
 //
-//= require ./canvas/blueprint_task
+//= require ./canvas/task
+//= require ./canvas/task_link

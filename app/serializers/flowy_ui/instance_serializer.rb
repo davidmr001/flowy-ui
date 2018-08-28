@@ -1,6 +1,6 @@
 module FlowyUi
   class InstanceSerializer < ActiveModel::Serializer
-    attributes :id, :key, :name, :description, :tiered_tasks, :links
+    attributes :id, :key, :name, :state, :description, :tiered_tasks, :links
 
     def tiered_tasks
       Aux::TieredTasks.new(object, FlowyUi::InstanceTaskSerializer).to_array

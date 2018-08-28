@@ -1,7 +1,7 @@
 class BlueprintGraph extends BaseGraph {
   constructor(props) {
     super(props);
-    this.taskClass = BlueprintTask
-    this.linkClass = BlueprintTaskLink
+    this.taskClass = Task
+    this.linkClass = TaskLink
   }
 }

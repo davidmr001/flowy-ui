@@ -1,4 +1,4 @@
-class BlueprintTask extends TextBox {
+class Task extends TextBox {
   constructor(x, y, width, height, task) {
     super(width, height, task.name + " (" + task.id + ")", 14);
 
@@ -22,6 +22,18 @@ class BlueprintTask extends TextBox {
 
   setColorsFromState() {
     switch(this.task.state) {
+      case "READY_TO_PROCESS":
+        this.textColor = "#000000";
+        this.fillColor = "#8ec0e4";
+        break;
+      case "QUEUED":
+        this.textColor = "#000000";
+        this.fillColor = "#fd8d08";
+        break;
+      case "WAITING_FOR_INPUT":
+        this.textColor = "#000000";
+        this.fillColor = "#ffd300";
+        break;
       case "COMPLETED":
         this.textColor = "#ffffff";
         this.fillColor = "#00aa00";

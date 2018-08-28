@@ -8,7 +8,7 @@ module FlowyUi
     end
 
     def state
-      state&.key
+      object.state&.key
     end
   end
 end
