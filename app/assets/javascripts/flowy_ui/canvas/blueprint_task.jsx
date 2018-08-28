@@ -1,14 +1,13 @@
 class BlueprintTask extends TextBox {
-  constructor(x, y, width, height, task) {
-    super(width, height, task.name + " (" + task.id + ")", 14);
+  constructor(attributes) {
+    super({
+      ...attributes,
+      text: attributes.task.name + " (" + attributes.task.id + ")"
+    });
 
-    this.task = task;
-    this.x = x;
-    this.y = y;
-    this.width = width;
-    this.height = height;
-    this.on = true;
-    this.startTime = new Date();
+    this.task = attributes.task;
+    // this.on = true;
+    // this.startTime = new Date();
 
     this.setColorsFromState();
 
@@ -72,28 +71,28 @@ class BlueprintTask extends TextBox {
            y <= this.y + this.height / 2;
   }
 
-  draw(ctx, mouseX, mouseY) {
+  draw(ctx, x, y) {
     // if (this.animating) {
     //   this.swapColorsIfAnimating();
     // }
 
     // Adjust box with if text is bigger
-    const textWidth = this.text.getTextWidth(ctx)
-    if (textWidth > this.width) {
-      this.width  = textWidth + 20;
-    }
+    // const textWidth = this.text.getTextWidth(ctx)
+    // if (textWidth > this.width) {
+    //   this.width  = textWidth + 20;
+    // }
 
     // Detect mouse over
-    var fillColor = this.fillColor;
-    const isMouseOver = this.isMouseOver(mouseX, mouseY);
-    if (isMouseOver) {
-      fillColor = this.shadeBlend(-0.1, fillColor);
-    }
+    // var fillColor = this.fillColor;
+    // const isMouseOver = this.isMouseOver(mouseX, mouseY);
+    // if (isMouseOver) {
+    //   fillColor = this.shadeBlend(-0.1, fillColor);
+    // }
 
-    super.draw(ctx, this.x, this.y, this.textColor, "black", fillColor, true);
+    super.draw(ctx, x, y);
 
-    if (isMouseOver && this.sourceCodeCard) {
-      this.sourceCodeCard.draw(ctx, mouseX + 50, mouseY);
-    }
+    // if (isMouseOver && this.sourceCodeCard) {
+    //   this.sourceCodeCard.draw(ctx, mouseX + 50, mouseY);
+    // }
   }
 }

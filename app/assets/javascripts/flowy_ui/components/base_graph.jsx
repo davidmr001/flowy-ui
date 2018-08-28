@@ -1,8 +1,6 @@
 class BaseGraph extends CanvasRenderer {
   constructor(props) {
     super(props);
-    this.taskClass = BlueprintTask
-    this.linkClass = BlueprintTaskLink
   }
 
   draw() {

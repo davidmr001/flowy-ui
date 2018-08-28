@@ -3,7 +3,7 @@ class CanvasRenderer extends React.Component {
     canvasId: PropTypes.string.isRequired,
     width: PropTypes.number,
     height: PropTypes.number
-  };
+  }
 
   state = {
     frameTime: new Date(),
@@ -13,42 +13,61 @@ class CanvasRenderer extends React.Component {
     mousePosition: {
       x: -1,
       y: -1
-    }
+    },
+    baseRenderBuffer: [], // Array of drawables
+    uiRenderBuffer: [], // Array of drawables
+    otherRenderBuffers: [] // Array of render buffers, each with drawables
   }
 
   constructor(props) {
-    super(props);
-    this.draw = this.draw.bind(this);
-    this.tick = this.tick.bind(this);
+    super(props)
+    this.setupScene = this.setupScene.bind(this)
+    this.tick = this.tick.bind(this)
   }
 
   componentDidMount() {
-    const self = this;
-    const { canvasId, width, height } = self.props;
+    const self = this
+    const { canvasId, width, height } = self.props
 
-    const canvas = document.getElementById(canvasId);
-    this.setState({ context: canvas.getContext("2d") });
+    const canvas = document.getElementById(canvasId)
+    const context = canvas.getContext("2d")
+    this.setState({ context: context })
     canvas.addEventListener('mousemove', function(evt) {
-      const rect = canvas.getBoundingClientRect();
+      const rect = canvas.getBoundingClientRect()
       self.setState({
         mousePosition: {
           x: evt.clientX - rect.left,
           y: evt.clientY - rect.top
         }
-      });
-    }, false);
+      })
+    }, false)
 
-    canvas.width = width ? width : canvas.parentNode.clientWidth;
-    canvas.height = height ? height : canvas.parentNode.clientWidth * .75;
-    this.setState({ width: canvas.width, height: canvas.height });
+    canvas.width = width ? width : canvas.parentNode.clientWidth
+    canvas.height = height ? height : canvas.parentNode.clientWidth * .75
+    this.setState({
+      width: canvas.width,
+      height: canvas.height,
+      fpsText: new Text({ textSize: 14, strokeColor: "#000000", center: false }),
+      mouseText: new Text({ textSize: 14, strokeColor: "#000000", center: false })
+    })
 
-    requestAnimationFrame(this.tick);
+    requestAnimationFrame(this.tick)
   }
 
   tick() {
-    const { context, width, height, frameTime, fpsCounter, fpsCurrent, fpsStartTime } = this.state;
-    const { canvasId } = this.props;
-    const now = new Date();
+    const {
+      context,
+      width,
+      height,
+      frameTime,
+      fpsCounter,
+      fpsCurrent,
+      fpsStartTime,
+      fpsText,
+      mouseText
+    } = this.state
+    const { canvasId } = this.props
+    const now = new Date()
 
     if (now - fpsStartTime > 1000) {
       this.setState({
@@ -61,23 +80,75 @@ class CanvasRenderer extends React.Component {
     }
 
     // Clear
-    context.save();
-    context.clearRect(0, 0, width, height);
+    context.save()
+    context.clearRect(0, 0, width, height)
 
-    // Render children code
-    this.draw();
+    // Render the buffers
+    this.setupScene() // Implemented by the derived classes
 
-    // Draw FPS
-    new Text("FPS: " + fpsCurrent, 14).draw(context, 10, 24, "black");
-    new Text("Mouse: " + this.state.mousePosition.x + ", " + this.state.mousePosition.y, 14).draw(context, 10, 44, "black");
+    // Draw engine stuff last in the ui buffer
+    fpsText.text = "FPS: " + fpsCurrent
+    this.addToRenderBuffer("ui", fpsText, 10, 24)
+    mouseText.text = "Mouse: " + this.state.mousePosition.x + ", " + this.state.mousePosition.y
+    this.addToRenderBuffer("ui", mouseText, 10, 44)
+
+    // Render the scene
+    this.renderScene()
 
     // Restore
-    context.restore();
+    context.restore()
 
     // Frame time
-    this.setState({ frameTime: new Date() - now });
+    this.setState({ frameTime: new Date() - now })
 
-    requestAnimationFrame(this.tick);
+    requestAnimationFrame(this.tick)
+  }
+
+  // Adds a drawable to a render buffer
+  addToRenderBuffer(bufferName, drawable, x, y) {
+    const { baseRenderBuffer, uiRenderBuffer, otherRenderBuffers, mousePosition } = this.state
+
+    drawable.x = x;
+    drawable.y = y;
+    drawable.mousePosition = mousePosition
+
+    if (bufferName === "base") {
+      baseRenderBuffer.push(drawable)
+      return
+    }
+
+    if (bufferName === "ui") {
+      uiRenderBuffer.push(drawable)
+      return
+    }
+
+    if (otherRenderBuffers[bufferName]) {
+      otherRenderBuffers[bufferName] = {}
+    }
+    otherRenderBuffers[bufferName].push(drawable)
+  }
+
+  renderScene() {
+    const { baseRenderBuffer, uiRenderBuffer, otherRenderBuffers } = this.state
+
+    this.renderBuffer(baseRenderBuffer)
+    for (const i in otherRenderBuffers) {
+      this.renderBuffer(otherRenderBuffers[i]);
+    }
+    this.renderBuffer(uiRenderBuffer)
+
+    this.setState({
+      baseRenderBuffer: [], // Array of drawables
+      uiRenderBuffer: [], // Array of drawables
+      otherRenderBuffers: [] // Array of render buffers, each with drawables
+    })
+  }
+
+  renderBuffer(buffer) {
+    for (const i in buffer) {
+      const drawable = buffer[i]
+      drawable.render(this.state.context, drawable.x, drawable.y)
+    }
   }
 
   // Extending classes need to implement draw()
@@ -89,6 +160,6 @@ class CanvasRenderer extends React.Component {
         width={this.state.width}
         height={this.state.height}
       />
-    );
+    )
   }
 }

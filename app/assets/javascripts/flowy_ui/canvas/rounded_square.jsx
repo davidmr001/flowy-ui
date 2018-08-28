@@ -1,54 +1,41 @@
-class RoundedSquare {
-  constructor(width, height, curvature) {
-    this.width = width;
-    this.height = height;
-    this.curvature = curvature;
+class RoundedSquare extends Drawable {
+  constructor(attributes) {
+    super(attributes)
+    this.radius = attributes.radius
   }
 
-  drawRoundRectCentered(ctx, x, y, width, height, radius, color, fill) {
-    this.drawRoundRect(ctx, x-width/2, y-height/2, width, height, radius, color, fill);
-  }
-
-  drawRoundRect(ctx, x, y, width, height, radius, color, fill) {
-    ctx.save();
-    if (fill) {
-      ctx.fillStyle = fill;
+  draw(ctx, x, y) {
+    ctx.save()
+    if (this.fillColor) {
+      ctx.fillStyle = this.fillColor
     }
-    ctx.strokeStyle = color;
-    if (typeof radius === 'undefined') {
-      radius = 5;
+    ctx.strokeStyle = this.strokeColor
+    if (typeof this.radius === 'undefined') {
+      this.radius = 5
     }
-    if (typeof radius === 'number') {
-      radius = { tl: radius, tr: radius, br: radius, bl: radius };
+    if (typeof this.radius === 'number') {
+      this.radius = { tl: this.radius, tr: this.radius, br: this.radius, bl: this.radius }
     } else {
-      var defaultRadius = { tl: 0, tr: 0, br: 0, bl: 0 };
+      var defaultRadius = { tl: 0, tr: 0, br: 0, bl: 0 }
       for (var side in defaultRadius) {
-        radius[side] = radius[side] || defaultRadius[side];
+        this.radius[side] = this.radius[side] || defaultRadius[side]
       }
     }
-    ctx.beginPath();
-    ctx.moveTo(x + radius.tl, y);
-    ctx.lineTo(x + width - radius.tr, y);
-    ctx.quadraticCurveTo(x + width, y, x + width, y + radius.tr);
-    ctx.lineTo(x + width, y + height - radius.br);
-    ctx.quadraticCurveTo(x + width, y + height, x + width - radius.br, y + height);
-    ctx.lineTo(x + radius.bl, y + height);
-    ctx.quadraticCurveTo(x, y + height, x, y + height - radius.bl);
-    ctx.lineTo(x, y + radius.tl);
-    ctx.quadraticCurveTo(x, y, x + radius.tl, y);
-    ctx.closePath();
-    if (fill) {
-      ctx.fill();
+    ctx.beginPath()
+    ctx.moveTo(x + this.radius.tl, y)
+    ctx.lineTo(x + this.width - this.radius.tr, y)
+    ctx.quadraticCurveTo(x + this.width, y, x + this.width, y + this.radius.tr)
+    ctx.lineTo(x + this.width, y + this.height - this.radius.br)
+    ctx.quadraticCurveTo(x + this.width, y + this.height, x + this.width - this.radius.br, y + this.height)
+    ctx.lineTo(x + this.radius.bl, y + this.height)
+    ctx.quadraticCurveTo(x, y + this.height, x, y + this.height - this.radius.bl)
+    ctx.lineTo(x, y + this.radius.tl)
+    ctx.quadraticCurveTo(x, y, x + this.radius.tl, y)
+    ctx.closePath()
+    if (this.fillColor) {
+      ctx.fill()
     }
-    ctx.stroke();
-    ctx.restore();
-  }
-
-  draw(ctx, x, y, color, fill = null, center = true) {
-    if (center) {
-      this.drawRoundRectCentered(ctx, x, y, this.width, this.height, this.curvature, color, fill);
-    } else {
-      this.drawRoundRect(ctx, x, y, this.width, this.height, this.curvature, color, fill);
-    }
+    ctx.stroke()
+    ctx.restore()
   }
 }
