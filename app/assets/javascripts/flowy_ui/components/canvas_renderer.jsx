@@ -138,9 +138,6 @@ class CanvasRenderer extends React.Component {
     }
     this.renderBuffer(uiRenderBuffer)
 
-    console.log(otherRenderBuffers)
-    sadfsdf
-
     this.setState({
       baseRenderBuffer: [], // Array of drawables
       uiRenderBuffer: [], // Array of drawables
