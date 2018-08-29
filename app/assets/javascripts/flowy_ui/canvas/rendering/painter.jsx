@@ -28,7 +28,7 @@ class Painter {
     return buffers
   }
 
-  onClick(x, y, context, panPosition) {
+  onClick(x, y, context, panPosition, zoom) {
     // Go through all drawables in all buffers and notify them if they get the click
     // Only the top most drawable will get the click
     const mousePosition = { x: x, y: y }
@@ -37,7 +37,7 @@ class Painter {
 
     var buffers = this.getBuffers()
     for (const i in buffers) {
-      hit = this.checkClickInBuffer(buffers[i], mousePosition, panPosition)
+      hit = this.checkClickInBuffer(buffers[i], mousePosition, panPosition, zoom)
       if (hit) { drawableClicked = hit }
     }
 
@@ -49,11 +49,11 @@ class Painter {
     return null
   }
 
-  checkClickInBuffer(buffer, mousePosition, panPosition) {
+  checkClickInBuffer(buffer, mousePosition, panPosition, zoom) {
     var hit = null
     for (const i in buffer.drawables) {
       const drawable = buffer.drawables[i]
-      if (drawable.isMouseOver(mousePosition, buffer.isPannable, panPosition)) {
+      if (drawable.isMouseOver(mousePosition, buffer.isPannable, panPosition, zoom)) {
         hit = drawable
       }
     }
@@ -70,22 +70,28 @@ class Painter {
   }
 
   // Adds a drawable to a render buffer
-  addToBuffer(drawable, x, y, bufferName = "base", mousePosition = { x: -1, y: -1 }, panPosition = { x: 0, y: 0 }) {
+  addToBuffer(drawable, x, y, bufferName = "base") {
     const buffer = this.getBuffer(bufferName)
 
     // Override the draw position, if the drawable has none predefined
     drawable.x = x ? x : drawable.x;
     drawable.y = y ? y : drawable.y;
-    drawable.mousePosition = mousePosition
-    drawable.mouseOver = drawable.isMouseOver(mousePosition, buffer.isPannable, panPosition)
 
     buffer.push(drawable)
   }
 
-  paint(context, panPosition) {
+  paint(context, mousePosition, panPosition, zoom) {
+    context.save()
+    context.scale(zoom, zoom);
+
+    // TODO: Draw all buffers except UI
     const buffers = this.getBuffers()
     for (const i in buffers) {
-      buffers[i].paint(context, panPosition);
+      buffers[i].paint(context, mousePosition, panPosition, zoom);
     }
+
+    context.restore()
+
+    // TODO: Draw ui
   }
 }

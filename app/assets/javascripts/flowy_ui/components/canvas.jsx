@@ -18,6 +18,7 @@ class Canvas extends React.Component {
     mouseDragPosition: { x: 0, y: 0 },
     mouseDragStartPosition: { x: 0, y: 0 },
     panPosition: { x: 0, y: 0 },
+    zoom: 1,
     painter: new Painter()
   }
 
@@ -40,7 +41,7 @@ class Canvas extends React.Component {
     const context = canvas.getContext("2d")
     this.setState({ context: context })
 
-    this.setupEventListeners(canvas)
+    this.eventListener = new EventListener(this, canvas)
 
     canvas.width = width ? width : canvas.parentNode.clientWidth
     canvas.height = height ? height : canvas.parentNode.clientWidth * .75
@@ -54,63 +55,16 @@ class Canvas extends React.Component {
     requestAnimationFrame(this.tick)
   }
 
-  setupEventListeners(canvas) {
-    const comp = this
+  onClick(x, y) {
+    const { context, panPosition, zoom } = this.state
 
-    canvas.addEventListener('mousemove', function(evt) {
-      const rect = canvas.getBoundingClientRect()
-      var state = {
-        mousePosition: {
-          x: evt.clientX - rect.left,
-          y: evt.clientY - rect.top
-        },
-        panPosition: comp.state.panPosition
-      }
-      if (comp.state.mouseDragging) {
-        state.panPosition.x += evt.clientX - comp.state.mouseDragPosition.x
-        state.panPosition.y += evt.clientY - comp.state.mouseDragPosition.y
-
-        state.mouseDragPosition = { x: evt.clientX, y: evt.clientY }
-      }
-      comp.setState(state)
-    }, false)
-
-    canvas.addEventListener('mousedown', function(evt) {
-      comp.setState({
-        mouseDragging: true,
-        mouseDragPosition: { x: evt.clientX, y: evt.clientY },
-        mouseDragStartPosition: { x: evt.clientX, y: evt.clientY }
-      })
-    }, false)
-
-    canvas.addEventListener('mouseup', function(evt) {
-      comp.setState({ mouseDragging: false })
-    }, false)
-
-    canvas.addEventListener('mouseenter', function(evt) {
-      comp.setState({ mouseDragging: false })
-    }, false)
-
-    canvas.addEventListener('mouseleave', function(evt) {
-      comp.setState({ mouseDragging: false })
-    }, false)
-
-    canvas.addEventListener('click', function(evt) {
-      if (comp.state.mouseDragStartPosition.x != evt.clientX ||
-          comp.state.mouseDragStartPosition.y != evt.clientY) {
-        evt.preventDefault()
-        return // Means we dragged, so no clicky
-      }
-      const rect = canvas.getBoundingClientRect()
-      comp.onClick(evt.clientX - rect.left, evt.clientY - rect.top)
-    }, false)
+    // By default return the drawable caught by the painter
+    return this.state.painter.onClick(x, y, context, panPosition, zoom)
   }
 
-  onClick(x, y) {
-    const { context, panPosition } = this.state
-
-    //console.log("Click at " + x + ", " + y)
-    return this.state.painter.onClick(x, y, context, panPosition)
+  onZoom(value) {
+    this.setState({ zoom: this.state.zoom + value })
+    console.log("zoom: " + this.state.zoom)
   }
 
   addToBuffer(drawable, x, y, bufferName) {
@@ -132,6 +86,7 @@ class Canvas extends React.Component {
       mousePosition,
       mouseDragging,
       panPosition,
+      zoom,
       painter
     } = this.state
     const { canvasId } = this.props
@@ -158,12 +113,12 @@ class Canvas extends React.Component {
 
     // Draw engine stuff last in the ui buffer
     fpsText.text = "FPS: " + fpsCurrent
-    painter.addToBuffer(fpsText, 10, 24, "ui", mousePosition, panPosition)
+    painter.addToBuffer(fpsText, 10, 24, "ui")
     mouseText.text = "Mouse: " + mousePosition.x + ", " + mousePosition.y + ", dragging: " + mouseDragging
-    painter.addToBuffer(mouseText, 10, 44, "ui", mousePosition, panPosition)
+    painter.addToBuffer(mouseText, 10, 44, "ui")
 
     // Render the scene
-    painter.paint(context, panPosition)
+    painter.paint(context, mousePosition, panPosition, zoom)
 
     // Restore
     context.restore()

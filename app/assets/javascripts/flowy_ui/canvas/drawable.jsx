@@ -10,7 +10,7 @@ class Drawable {
     this.drawCentered = attributes.center != undefined ? attributes.center : true
   }
 
-  isMouseOver(mousePosition, bufferIsPannable, panPosition) {
+  isMouseOver(mousePosition, bufferIsPannable, panPosition, zoom) {
     const position = {
       x: this.x,
       y: this.y
@@ -19,10 +19,10 @@ class Drawable {
       position.x += panPosition.x
       position.y += panPosition.y
     }
-    return mousePosition.x >= position.x - this.width / 2 &&
-           mousePosition.x <= position.x + this.width / 2 &&
-           mousePosition.y >= position.y - this.height / 2 &&
-           mousePosition.y <= position.y + this.height / 2
+    return mousePosition.x / zoom >= position.x - this.width / 2 &&
+           mousePosition.x / zoom <= position.x + this.width / 2 &&
+           mousePosition.y / zoom >= position.y - this.height / 2 &&
+           mousePosition.y / zoom <= position.y + this.height / 2
   }
 
   adjust(ctx) {
