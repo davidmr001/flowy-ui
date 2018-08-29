@@ -1,4 +1,4 @@
-class CanvasRenderer extends React.Component {
+class Canvas extends React.Component {
   static propTypes = {
     canvasId: PropTypes.string.isRequired,
     width: PropTypes.number,

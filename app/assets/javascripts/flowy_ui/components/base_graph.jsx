@@ -1,4 +1,4 @@
-class BaseGraph extends CanvasRenderer {
+class BaseGraph extends Canvas {
   constructor(props) {
     super(props)
 
