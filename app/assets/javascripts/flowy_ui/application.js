@@ -14,7 +14,11 @@
 //= require activestorage
 //= require react
 //= require react_ujs
-//= require_tree .
+
+//= require ./constants
+//= require ./canvas
+//= require ./components
+//= require ./server_rendering
 
 // Override the wrapText method to take into consideration line breaks and tabs
 CanvasRenderingContext2D.prototype.wrapText = function (text, x, y, maxWidth, lineHeight) {

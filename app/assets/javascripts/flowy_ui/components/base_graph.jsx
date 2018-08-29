@@ -11,7 +11,10 @@ class BaseGraph extends Canvas {
   onClick(x, y) {
     const drawableClicked = super.onClick(x, y)
 
-    if (drawableClicked && drawableClicked.constructor.name === "Task") {
+    if (drawableClicked &&
+        (drawableClicked.constructor.name === "Task" ||
+         drawableClicked.constructor.name === "InstanceTask" ||
+         drawableClicked.constructor.name === "BlueprintTask")) {
       this.selectedTaskId = drawableClicked.task.id
     } else {
       this.selectedTaskId = null
@@ -35,7 +38,8 @@ class BaseGraph extends Canvas {
           height: 70,
           task: task,
           textSize: 14,
-          selected: this.selectedTaskId === task.id
+          selected: this.selectedTaskId === task.id,
+          fillColor: "#ffffff"
         });
         x = x + base_width;
       }

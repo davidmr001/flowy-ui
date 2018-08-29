@@ -12,7 +12,6 @@ class Task extends TextBox {
     // this.startTime = new Date()
 
     this.mouseOverColor = this.fillColor
-    this.setColorsFromState()
 
     if (this.task.class_source) {
       this.sourceCodeCard = new SourceCodeCard(300, 300, this.task.class_source)
@@ -20,9 +19,6 @@ class Task extends TextBox {
 
     // this.animating = this.task.state == "ERROR"
     // this.animationPulse = 500 // ms
-  }
-
-  setColorsFromState() {
   }
 
   // swapColorsIfAnimating() {

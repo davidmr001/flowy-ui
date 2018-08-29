@@ -49,7 +49,8 @@ class Canvas extends React.Component {
       width: canvas.width,
       height: canvas.height,
       fpsText: new Text({ textSize: 14, strokeColor: "#000000", center: false }),
-      mouseText: new Text({ textSize: 14, strokeColor: "#000000", center: false })
+      mouseText: new Text({ textSize: 14, strokeColor: "#000000", center: false }),
+      zoomText: new Text({ textSize: 14, strokeColor: "#000000", center: false })
     })
 
     requestAnimationFrame(this.tick)
@@ -63,8 +64,10 @@ class Canvas extends React.Component {
   }
 
   onZoom(value) {
-    this.setState({ zoom: this.state.zoom + value })
-    console.log("zoom: " + this.state.zoom)
+    var newZoom = this.state.zoom + value
+    if (newZoom > 1.5) { newZoom = 1.5 }
+    if (newZoom < 0.5) { newZoom = 0.5 }
+    this.setState({ zoom: newZoom })
   }
 
   addToBuffer(drawable, options = {}) {
@@ -88,6 +91,7 @@ class Canvas extends React.Component {
       mouseDragging,
       panPosition,
       zoom,
+      zoomText,
       painter
     } = this.state
     const { canvasId } = this.props
@@ -117,6 +121,8 @@ class Canvas extends React.Component {
     painter.addToBuffer(fpsText, 10, 24, "ui")
     mouseText.text = "Mouse: " + mousePosition.x + ", " + mousePosition.y + ", dragging: " + mouseDragging
     painter.addToBuffer(mouseText, 10, 44, "ui")
+    zoomText.text = "Zoom: " + Math.round(zoom * 100) + "%"
+    painter.addToBuffer(zoomText, 10, 64, "ui")
 
     // Render the scene
     painter.paint(context, mousePosition, panPosition, zoom)

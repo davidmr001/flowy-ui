@@ -84,14 +84,17 @@ class Painter {
     context.save()
     context.scale(zoom, zoom);
 
-    // TODO: Draw all buffers except UI
+    // Draw all buffers except UI
     const buffers = this.getBuffers()
     for (const i in buffers) {
+      if (buffers[i] === this.uiBuffer) {
+        continue
+      }
       buffers[i].paint(context, mousePosition, panPosition, zoom);
     }
-
     context.restore()
 
-    // TODO: Draw ui
+    // Draw ui outside of scaling
+    this.uiBuffer.paint(context, mousePosition);
   }
 }

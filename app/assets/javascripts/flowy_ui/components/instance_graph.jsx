@@ -10,9 +10,9 @@ class InstanceGraph extends BaseGraph {
     this.buildLegend()
   }
 
-  buildLegend(){
+  buildLegend() {
     states = Object.keys(INSTANCE_TASK_STATES)
-    x = 1130
+    x = 1180
     startY = 800 - (states.length * 40)
     spacingY = 40
 
@@ -33,8 +33,9 @@ class InstanceGraph extends BaseGraph {
       this.addToBuffer(
         new Text({
           text: states[i],
-          x: x + 80,
-          y: y
+          x: x + 20,
+          y: y + 5,
+          center: false
         }),
         { bufferName: "ui" }
       )
