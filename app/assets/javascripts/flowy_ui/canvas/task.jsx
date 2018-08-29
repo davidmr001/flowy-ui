@@ -6,6 +6,7 @@ class Task extends TextBox {
     })
 
     this.task = attributes.task
+    this.selected = attributes.selected
 
     // this.on = true
     // this.startTime = new Date()
@@ -78,6 +79,14 @@ class Task extends TextBox {
     }
   }
 
+  drawSelectionStroke(ctx, x, y) {
+    ctx.save()
+    ctx.strokeStyle = "#00ff00"
+    ctx.lineWidth = 15
+    ctx.strokeRect(x, y, this.width, this.height)
+    ctx.restore()
+  }
+
   draw(ctx, x, y) {
     // if (this.animating) {
     //   this.swapColorsIfAnimating()
@@ -93,6 +102,11 @@ class Task extends TextBox {
     const originalFillColor = this.square.fillColor
     if (this.mouseOver) {
       this.square.fillColor = this.shadeBlend(-0.1, this.square.fillColor)
+    }
+
+    // Draw a broader stroke if selected
+    if (this.selected) {
+      this.drawSelectionStroke(ctx, x, y)
     }
 
     super.draw(ctx, x, y)

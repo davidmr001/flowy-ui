@@ -31,7 +31,7 @@ class Drawable {
   }
 
   // Used internally by the buffers
-  render(ctx, x, y) {
+  paint(ctx, x, y) {
     this.adjust(ctx)
 
     if (this.drawCentered) {
@@ -41,6 +41,13 @@ class Drawable {
     }
   }
 
-  // Implemented by the shapes themselves (actually drawing the shape)
-  // draw(ctx, x, y) {}
+  // Implemented by the shapes themselves
+
+  // actually drawing the shape
+  draw(ctx, x, y) {}
+
+  // knowing when drawable has been clicked upon
+  onClick(ctx) {
+    // console.log(this.constructor.name)
+  }
 }

@@ -17,9 +17,7 @@ class CanvasRenderer extends React.Component {
     mouseDragging: false,
     mouseDragStartPosition: { x: 0, y: 0 },
     panPosition: { x: 0, y: 0 },
-    baseRenderBuffer: new RenderBuffer("base"),
-    uiRenderBuffer: new RenderBuffer("ui", false),
-    otherRenderBuffers: {} // Hash of render buffers (name, and buffer)
+    painter: new Painter()
   }
 
   constructor(props) {
@@ -86,20 +84,31 @@ class CanvasRenderer extends React.Component {
     canvas.addEventListener('mouseup', function(evt) {
       comp.setState({ mouseDragging: false })
     }, false)
+
+    canvas.addEventListener('mouseenter', function(evt) {
+      comp.setState({ mouseDragging: false })
+    }, false)
+
+    canvas.addEventListener('mouseleave', function(evt) {
+      comp.setState({ mouseDragging: false })
+    }, false)
+
+    canvas.addEventListener('click', function(evt) {
+      const rect = canvas.getBoundingClientRect()
+      comp.onClick(evt.clientX - rect.left, evt.clientY - rect.top)
+    }, false)
   }
 
-  getBuffer(bufferName) {
-    const { baseRenderBuffer, uiRenderBuffer, otherRenderBuffers } = this.state
-    if (bufferName == "ui") {
-      return uiRenderBuffer
-    }
-    if (bufferName == "base") {
-      return baseRenderBuffer
-    }
-    if (!otherRenderBuffers[bufferName]) {
-      otherRenderBuffers[bufferName] = new RenderBuffer(bufferName)
-    }
-    return otherRenderBuffers[bufferName]
+  onClick(x, y) {
+    const { context, panPosition } = this.state
+
+    //console.log("Click at " + x + ", " + y)
+    return this.state.painter.onClick(x, y, context, panPosition)
+  }
+
+  addToBuffer(drawable, x, y, bufferName) {
+    const { painter, mousePosition, panPosition } = this.state;
+    painter.addToBuffer(drawable, x, y, bufferName, mousePosition, panPosition)
   }
 
   tick() {
@@ -115,7 +124,8 @@ class CanvasRenderer extends React.Component {
       mouseText,
       mousePosition,
       mouseDragging,
-      panPosition
+      panPosition,
+      painter
     } = this.state
     const { canvasId } = this.props
     const now = new Date()
@@ -134,18 +144,19 @@ class CanvasRenderer extends React.Component {
     // Clear
     context.save()
     context.clearRect(0, 0, width, height)
+    painter.clear()
 
     // Render the buffers
     this.setupScene() // Implemented by the derived classes
 
     // Draw engine stuff last in the ui buffer
     fpsText.text = "FPS: " + fpsCurrent
-    this.addToRenderBuffer("ui", fpsText, 10, 24)
+    painter.addToBuffer(fpsText, 10, 24, "ui", mousePosition, panPosition)
     mouseText.text = "Mouse: " + mousePosition.x + ", " + mousePosition.y + ", dragging: " + mouseDragging
-    this.addToRenderBuffer("ui", mouseText, 10, 44)
+    painter.addToBuffer(mouseText, 10, 44, "ui", mousePosition, panPosition)
 
     // Render the scene
-    this.renderScene()
+    painter.paint(context, panPosition)
 
     // Restore
     context.restore()
@@ -154,31 +165,6 @@ class CanvasRenderer extends React.Component {
     this.setState({ frameTime: new Date() - now })
 
     requestAnimationFrame(this.tick)
-  }
-
-  // Adds a drawable to a render buffer
-  addToRenderBuffer(bufferName, drawable, x, y) {
-    const { mousePosition, panPosition } = this.state
-
-    const buffer = this.getBuffer(bufferName)
-
-    // Override the draw position, if the drawable has none predefined
-    drawable.x = x ? x : drawable.x;
-    drawable.y = y ? y : drawable.y;
-    drawable.mousePosition = mousePosition
-    drawable.mouseOver = drawable.isMouseOver(mousePosition, buffer.isPannable, panPosition)
-
-    buffer.push(drawable)
-  }
-
-  renderScene() {
-    const { context, baseRenderBuffer, uiRenderBuffer, otherRenderBuffers, panPosition } = this.state
-
-    baseRenderBuffer.render(context, panPosition)
-    for (const i in otherRenderBuffers) {
-      otherRenderBuffers[i].render(context, panPosition);
-    }
-    uiRenderBuffer.render(context, panPosition)
   }
 
   // Extending classes need to implement draw()

@@ -1,4 +1,4 @@
-class RenderBuffer {
+class PaintBuffer {
   constructor(name, isPannable = true) {
     this.name = name
     this.isPannable = isPannable
@@ -9,7 +9,12 @@ class RenderBuffer {
     this.drawables.push(drawable)
   }
 
-  render(ctx, panPosition) {
+  clear() {
+    // Clear the buffer
+    this.drawables = []
+  }
+
+  paint(ctx, panPosition) {
     for (const i in this.drawables) {
       const drawable = this.drawables[i]
       const position = {
@@ -20,10 +25,7 @@ class RenderBuffer {
         position.x += panPosition.x
         position.y += panPosition.y
       }
-      drawable.render(ctx, position.x, position.y)
+      drawable.paint(ctx, position.x, position.y)
     }
-
-    // Clear the buffer
-    this.drawables = []
   }
 }

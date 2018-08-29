@@ -39,7 +39,7 @@ class Text extends Drawable {
   // This particular item overrides the render and not draw because we
   // want to do the centering part in a different way
   //
-  render(ctx, x, y) {
+  paint(ctx, x, y) {
     this.draw(ctx, x, y)
   }
 
