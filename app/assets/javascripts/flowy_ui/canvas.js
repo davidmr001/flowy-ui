@@ -8,4 +8,5 @@
 //= require ./canvas/base_shapes/text_box
 
 //= require ./canvas/workflow/task
+//= require ./canvas/workflow/instance_task
 //= require ./canvas/workflow/task_link
