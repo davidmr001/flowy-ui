@@ -1,4 +1,4 @@
-class CanvasRenderer extends React.Component {
+class Canvas extends React.Component {
   static propTypes = {
     canvasId: PropTypes.string.isRequired,
     width: PropTypes.number,
@@ -15,6 +15,7 @@ class CanvasRenderer extends React.Component {
       y: -1
     },
     mouseDragging: false,
+    mouseDragPosition: { x: 0, y: 0 },
     mouseDragStartPosition: { x: 0, y: 0 },
     panPosition: { x: 0, y: 0 },
     painter: new Painter()
@@ -66,10 +67,10 @@ class CanvasRenderer extends React.Component {
         panPosition: comp.state.panPosition
       }
       if (comp.state.mouseDragging) {
-        state.panPosition.x += evt.clientX - comp.state.mouseDragStartPosition.x
-        state.panPosition.y += evt.clientY - comp.state.mouseDragStartPosition.y
+        state.panPosition.x += evt.clientX - comp.state.mouseDragPosition.x
+        state.panPosition.y += evt.clientY - comp.state.mouseDragPosition.y
 
-        state.mouseDragStartPosition = { x: evt.clientX, y: evt.clientY }
+        state.mouseDragPosition = { x: evt.clientX, y: evt.clientY }
       }
       comp.setState(state)
     }, false)
@@ -77,6 +78,7 @@ class CanvasRenderer extends React.Component {
     canvas.addEventListener('mousedown', function(evt) {
       comp.setState({
         mouseDragging: true,
+        mouseDragPosition: { x: evt.clientX, y: evt.clientY },
         mouseDragStartPosition: { x: evt.clientX, y: evt.clientY }
       })
     }, false)
@@ -94,6 +96,11 @@ class CanvasRenderer extends React.Component {
     }, false)
 
     canvas.addEventListener('click', function(evt) {
+      if (comp.state.mouseDragStartPosition.x != evt.clientX ||
+          comp.state.mouseDragStartPosition.y != evt.clientY) {
+        evt.preventDefault()
+        return // Means we dragged, so no clicky
+      }
       const rect = canvas.getBoundingClientRect()
       comp.onClick(evt.clientX - rect.left, evt.clientY - rect.top)
     }, false)

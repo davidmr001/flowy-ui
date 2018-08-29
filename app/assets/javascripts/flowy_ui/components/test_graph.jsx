@@ -1,4 +1,4 @@
-class TestGraph extends CanvasRenderer {
+class TestGraph extends Canvas {
   constructor(props) {
     super(props)
     this.state = {
