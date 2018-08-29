@@ -106,8 +106,9 @@ class CanvasRenderer extends React.Component {
     return this.state.painter.onClick(x, y, context, panPosition)
   }
 
-  addToBuffer(drawable, x, y, bufferName) {
-    const { painter, mousePosition, panPosition } = this.state;
+  addToBuffer(drawable, options = {}) {
+    const { x, y, bufferName } = options
+    const { painter, mousePosition, panPosition } = this.state
     painter.addToBuffer(drawable, x, y, bufferName, mousePosition, panPosition)
   }
 

@@ -23,32 +23,6 @@ class Task extends TextBox {
   }
 
   setColorsFromState() {
-    switch(this.task.state) {
-      case "READY_TO_PROCESS":
-        this.text.strokeColor = "#000000"
-        this.square.fillColor = "#8ec0e4"
-        break
-      case "QUEUED":
-        this.text.strokeColor = "#000000"
-        this.square.fillColor = "#fd8d08"
-        break
-      case "WAITING_FOR_INPUT":
-        this.text.strokeColor = "#000000"
-        this.square.fillColor = "#ffd300"
-        break
-      case "COMPLETED":
-        this.text.strokeColor = "#ffffff"
-        this.square.fillColor = "#00aa00"
-        break
-      case "ERROR":
-      case "ABORTED":
-        this.text.strokeColor = "#000000"
-        this.square.fillColor = "#ee0000"
-        break
-      default:
-        this.text.strokeColor = "#000000"
-        this.square.fillColor = "#ffffff"
-    }
   }
 
   // swapColorsIfAnimating() {

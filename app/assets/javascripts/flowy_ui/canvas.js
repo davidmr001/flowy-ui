@@ -7,4 +7,5 @@
 //= require ./canvas/text_box
 //
 //= require ./canvas/task
+//= require ./canvas/instance_task
 //= require ./canvas/task_link
