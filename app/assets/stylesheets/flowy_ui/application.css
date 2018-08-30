@@ -21,7 +21,7 @@ canvas { border: 1px solid #eeeeee; }
 }
 
 #payload .subtitle .button {
-  padding-top: 10px;
+  margin-top: 10px;
 }
 
 #payload span {
