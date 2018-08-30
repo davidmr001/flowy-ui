@@ -7,8 +7,7 @@ class Drawable {
     this.originalY    = attributes.y
     this.width        = attributes.width
     this.height       = attributes.height
-    this.strokeColor  = attributes.strokeColor || "#000000"
-    this.fillColor    = attributes.fillColor
+    this.strokeColor  = attributes.strokeColor || "#434343"
     this.drawCentered = attributes.center != undefined ? attributes.center : true
     this.kids         = []
   }

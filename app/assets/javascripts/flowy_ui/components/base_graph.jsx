@@ -41,7 +41,7 @@ class BaseGraph extends Canvas {
           task: task,
           textSize: 14,
           selected: this.selectedTaskId === task.id,
-          fillColor: "#ffffff"
+          backgroundColor: "#ffffff"
         });
         x = x + base_width;
       }

@@ -28,16 +28,12 @@ class TaskStateLegendPanel extends CollapsiblePanel {
         new TaskStateLegendItem({
           x: this.x,
           y: this.y,
-          square: {
-            width: 20,
-            height: 20,
-            fillColor: INSTANCE_TASK_STATES[states[i]]["fillColor"]
-          },
-          text: {
-            text: states[i],
-            textSize: attributes.contentTextSize,
-            center: false
-          }
+          squareWidth: 20,
+          squareHeight: 20,
+          squareBackgroundColor: INSTANCE_TASK_STATES[states[i]]["fillColor"],
+          text: states[i],
+          textSize: attributes.contentTextSize,
+          center: false
         })
       )
     }

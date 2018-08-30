@@ -13,13 +13,14 @@ class Line extends Drawable {
   }
 
   draw(ctx) {
-    ctx.save();
-    ctx.strokeStyle = this.strokeColor;
-    ctx.beginPath();
-    ctx.moveTo(this.x, this.y);
-    ctx.lineTo(this.x + this.offsetX, this.y + this.offsetY);
-    ctx.stroke();
-    ctx.restore();
+    ctx.save()
+    ctx.strokeStyle = this.strokeColor
+    ctx.lineWidth = this.lineWidth
+    ctx.beginPath()
+    ctx.moveTo(this.x, this.y)
+    ctx.lineTo(this.x + this.offsetX, this.y + this.offsetY)
+    ctx.stroke()
+    ctx.restore()
 
     super.draw(ctx)
   }

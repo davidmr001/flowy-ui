@@ -3,10 +3,11 @@ class Text extends Drawable {
     super({
       ...attributes,
       width: 100,
-      height: attributes.textSize || 14
+      height: attributes.size || 14
     })
     this.text = attributes.text
-    this.textSize = attributes.textSize || 14
+    this.color = attributes.color || "#434343"
+    this.size = attributes.size || 14
   }
 
   getTextWidth(ctx) {
@@ -15,7 +16,7 @@ class Text extends Drawable {
       ctx.textAlign = "center"
       ctx.textBaseline = "middle"
     }
-    ctx.font = this.textSize + "pt mono"
+    ctx.font = this.size + "pt mono"
     const width = ctx.measureText(this.text).width
     ctx.restore()
     return width
@@ -31,8 +32,8 @@ class Text extends Drawable {
 
   drawText(ctx) {
     ctx.save()
-    ctx.fillStyle = this.strokeColor
-    ctx.font = this.textSize + "pt mono"
+    ctx.fillStyle = this.color
+    ctx.font = this.size + "pt mono"
     ctx.fillText(this.text, this.x, this.y)
     ctx.restore()
   }

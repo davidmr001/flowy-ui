@@ -12,15 +12,15 @@ class Button extends TextBox {
 
   draw(ctx) {
     // Detect mouse over
-    const originalFillColor = this.square.fillColor
+    const originalBackgroundColor = this.square.backgroundColor
     if (this.isMouseOver()) {
-      this.square.fillColor = shadeBlend(-0.1, this.square.fillColor)
+      this.square.backgroundColor = shadeBlend(-0.1, this.square.backgroundColor)
     }
 
     // Draw
     super.draw(ctx)
 
     // Reset fill color
-    this.square.fillColor = originalFillColor
+    this.square.backgroundColor = originalBackgroundColor
   }
 }

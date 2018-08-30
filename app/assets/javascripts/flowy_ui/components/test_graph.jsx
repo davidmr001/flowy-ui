@@ -3,19 +3,58 @@ class TestGraph extends Canvas {
     super(props)
     this.state = {
       ...this.state,
-      square:         new Square({ x: 300, y: 300, width: 300, height: 300, strokeColor: "#ff0000" }),
-      square2:        new Square({ x: 400, y: 400, width: 300, height: 300, strokeColor: "#ff0000", fillColor: "#00ff00" }),
+      square:  new Square({ x: 300, y: 300, width: 300, height: 300, strokeColor: "#ff0000" }),
+      square2: new Square({ x: 400, y: 400, width: 300, height: 300, strokeColor: "#ff0000", fillColor: "#00ff00" }),
 
-      roundedSquare:  new RoundedSquare({ x: 400, y: 400, width: 200, height: 200, radius: 50, fillColor: "#0000ff" }),
+      roundedSquare: new RoundedSquare({
+        x: 400,
+        y: 400,
+        width: 200,
+        height: 200,
+        radius: 50,
+        backgroundColor: "#0000ff"
+      }),
 
-      ellipse:        new Ellipse({ x: 400, y: 400, width: 250, height: 100, strokeColor: "#000000", fillColor: "#ff0000" }),
-      textBox:        new TextBox({ x: 400, y: 400, width: 150, height: 70, text: "TextBox", textSize: 14, fillColor: "#ff00ff" }),
+      ellipse: new Ellipse({ x: 400, y: 400, width: 250, height: 100, strokeColor: "#000000", backgroundColor: "#ff0000" }),
+      textBox: new TextBox({
+        x: 400,
+        y: 400,
+        width: 150,
+        height: 70,
+        backgroundColor: "#ff00ff",
+        text: "TextBox",
+        textSize: 14
+      }),
 
-      text:           new Text({ x: 600, y: 400, width: 150, height: 70, text: "Simple Text", textSize: 14, strokeColor: "#00ff00" }),
+      text: new Text({ x: 600, y: 400, width: 150, height: 70, text: "Simple Text", size: 14, color: "#00ff00" }),
 
-      blueprintTask1: new Task({ x: 700, y: 500, width: 100, height: 70, textSize: 14, task: { id: 1, name: "NORMAL TASK" } }),
-      blueprintTask2: new Task({ x: 700, y: 600, width: 200, height: 70, textSize: 14, task: { id: 2, name: "COMPLETED TASK", state: "COMPLETED" } }),
-      blueprintTask3: new Task({ x: 700, y: 700, width: 150, height: 70, textSize: 14, task: { id: 2, name: "ERROR TASK", state: "ERROR" } })
+      blueprintTask1: new Task({
+        x: 700,
+        y: 500,
+        width: 100,
+        height: 70,
+        backgroundColor: "#ffffff",
+        textSize: 14,
+        task: { id: 1, name: "NORMAL TASK" }
+      }),
+      blueprintTask2: new Task({
+        x: 700,
+        y: 600,
+        width: 200,
+        height: 70,
+        backgroundColor: "#ffffff",
+        textSize: 14,
+        task: { id: 2, name: "COMPLETED TASK", state: "COMPLETED" }
+      }),
+      blueprintTask3: new Task({
+        x: 700,
+        y: 700,
+        width: 150,
+        height: 70,
+        backgroundColor: "#ffffff",
+        textSize: 14,
+        task: { id: 2, name: "ERROR TASK", state: "ERROR" }
+      })
     }
 
     this.state = {

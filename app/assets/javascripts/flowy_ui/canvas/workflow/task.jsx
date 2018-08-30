@@ -1,4 +1,4 @@
-class Task extends TextBox {
+class Task extends Button {
   constructor(attributes) {
     super({
       ...attributes,
@@ -40,11 +40,24 @@ class Task extends TextBox {
   //
 
   drawSelectionStroke(ctx) {
-    ctx.save()
-    ctx.strokeStyle = "#00ff00"
-    ctx.lineWidth = 15
-    ctx.strokeRect(this.x, this.y, this.width, this.height)
-    ctx.restore()
+    // new Ellipse({
+    //   strokeColor: "#22aa22",
+    //   lineWidth: 10
+    // }).drawEllipse(ctx, this.x-20, this.y-20, this.width+40, this.height+40)
+
+    new RoundedSquare({
+      width: this.width + 10,
+      height: this.height + 10,
+      strokeColor: "#bbddbb",
+      lineWidth: 10,
+      shadow: 0
+    }).drawSquare(ctx, this.x - 5, this.y - 5)
+
+    // ctx.save()
+    // ctx.strokeStyle = "#005500"
+    // ctx.lineWidth = 15
+    // ctx.strokeRect(this.x, this.y, this.width, this.height)
+    // ctx.restore()
   }
 
   draw(ctx) {
@@ -59,9 +72,9 @@ class Task extends TextBox {
     // }
 
     // Detect mouse over
-    const originalFillColor = this.square.fillColor
+    const originalBackgroundColor = this.square.backgroundColor
     if (this.mouseOver) {
-      this.square.fillColor = shadeBlend(-0.1, this.square.fillColor)
+      this.square.backgroundColor = shadeBlend(-0.1, this.square.backgroundColor)
     }
 
     // Draw a broader stroke if selected
@@ -71,7 +84,7 @@ class Task extends TextBox {
 
     super.draw(ctx)
 
-    this.square.fillColor = originalFillColor
+    this.square.backgroundColor = originalBackgroundColor
 
     // if (isMouseOver && this.sourceCodeCard) {
     //   this.sourceCodeCard.draw(ctx, mouseX + 50, mouseY)

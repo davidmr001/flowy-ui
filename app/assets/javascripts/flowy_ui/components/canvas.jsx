@@ -55,10 +55,12 @@ class Canvas extends React.Component {
       mouseText: new Text({ x: 10, y: 38, textSize: 12, strokeColor: "#000000", center: false }),
       zoomText:  new Text({ x: 10, y: 52, textSize: 12, strokeColor: "#000000", center: false }),
       debugButton: new Button({
-        x: 10, y: 66,
-        width: 50, height: 30,
+        x: 10,
+        y: 66,
+        width: 50,
+        height: 30,
         textSize: 12,
-        fillColor: "#00ddff",
+        backgroundColor: "#55eeff",
         center: false,
         onClick: function() {
           comp.setState({ debug: !comp.state.debug })
