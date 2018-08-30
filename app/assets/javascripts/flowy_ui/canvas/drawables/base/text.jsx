@@ -45,7 +45,7 @@ class Text extends Drawable {
     this.width = this.getTextWidth(ctx)
   }
 
-  draw(ctx,) {
+  draw(ctx) {
     if (this.drawCentered) {
       this.drawTextCentered(ctx)
     } else {

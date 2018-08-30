@@ -4,8 +4,6 @@ class BaseGraph extends Canvas {
 
     this.tasks = []
     this.selectedTaskId = null
-
-    // TODO: Detect canvas click events to select a particular task
   }
 
   onClick(x, y) {

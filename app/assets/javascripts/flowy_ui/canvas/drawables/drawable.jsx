@@ -14,6 +14,8 @@ class Drawable {
   }
 
   isMouseOver() {
+    // TODO: Solve this... zoom cannot be used in isMouseOver if buffer is not pannable (i.e UI)
+
     const { mousePosition, zoom } = this.canvasInformation
     return mousePosition.x / zoom >= this.x &&
            mousePosition.x / zoom <= this.x + this.width &&

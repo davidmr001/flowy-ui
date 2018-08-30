@@ -12,12 +12,12 @@ class Line extends Drawable {
     this.height = this.endY - this.y
   }
 
-  draw(ctx, x, y) {
+  draw(ctx) {
     ctx.save();
     ctx.strokeStyle = this.strokeColor;
     ctx.beginPath();
-    ctx.moveTo(x, y);
-    ctx.lineTo(x + this.offsetX, y + this.offsetY);
+    ctx.moveTo(this.x, this.y);
+    ctx.lineTo(this.x + this.offsetX, this.y + this.offsetY);
     ctx.stroke();
     ctx.restore();
 
