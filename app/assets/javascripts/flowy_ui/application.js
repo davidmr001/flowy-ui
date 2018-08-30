@@ -14,6 +14,7 @@
 //= require activestorage
 //= require react
 //= require react_ujs
+//= require jquery
 
 //= require ./constants
 //= require ./canvas

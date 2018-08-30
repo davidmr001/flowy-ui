@@ -15,3 +15,20 @@
  */
 
 canvas { border: 1px solid grey; }
+
+#payload .title .button {
+  margin-left: 10px;
+}
+
+#payload .subtitle .button {
+  padding-top: 10px;
+}
+
+#payload span {
+ padding-top: 10px;
+ padding-bottom: 10px;
+}
+
+#feedback {
+  display: block;
+}
