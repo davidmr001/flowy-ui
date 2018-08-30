@@ -16,7 +16,7 @@ class InstanceGraph extends BaseGraph {
       new TaskStateLegendPanel({
         x: this.state.width - 115,
         y: this.state.height - 180,
-        open: true,
+        open: false,
         openDirection: "top",
         contentTextSize: 10,
         buttonWidth: 100,

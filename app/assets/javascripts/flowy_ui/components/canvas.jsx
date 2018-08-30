@@ -59,8 +59,9 @@ class Canvas extends React.Component {
         y: 66,
         width: 50,
         height: 30,
+        textColor: "#ffffff",
         textSize: 10,
-        backgroundColor: "#55eeff",
+        backgroundColor: "#F34213",
         center: false,
         onClick: function() {
           comp.setState({ debug: !comp.state.debug })
