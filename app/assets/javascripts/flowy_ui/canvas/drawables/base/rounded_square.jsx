@@ -40,8 +40,8 @@ class RoundedSquare extends Drawable {
   }
 
   draw(ctx) {
-    super.draw(ctx)
-
     this.drawSquare(ctx, this.x, this.y)
+
+    super.draw(ctx)
   }
 }

@@ -45,6 +45,7 @@ class Canvas extends React.Component {
 
     canvas.width = width ? width : canvas.parentNode.clientWidth
     canvas.height = height ? height : canvas.parentNode.clientWidth * .75
+
     this.setState({
       painter:   new Painter(this),
       isSetup:   false,
@@ -63,9 +64,9 @@ class Canvas extends React.Component {
           comp.setState({ debug: !comp.state.debug })
         }
       })
+    }, function() {
+      requestAnimationFrame(comp.tick)
     })
-
-    requestAnimationFrame(this.tick)
   }
 
   onClick(x, y) {
@@ -92,10 +93,9 @@ class Canvas extends React.Component {
     }
   }
 
-  addToBuffer(drawable, options = {}) {
-    const { x, y, bufferName } = options
-    const { painter, mousePosition, panPosition } = this.state
-    painter.addToBuffer(drawable, x, y, bufferName, mousePosition, panPosition)
+  addToBuffer(drawable, bufferName = "base") {
+    console.log("Adding " + drawable.constructor.name + " to buffer " + bufferName)
+    this.state.painter.addToBuffer(drawable, bufferName)
   }
 
   tick() {
@@ -142,43 +142,24 @@ class Canvas extends React.Component {
       this.setupScene() // Implemented by the derived classes
 
       // TODO: Remove
-      painter.addToBuffer(new Button({
-        x: 200,
-        y: 200,
-        width: 100,
-        height: 50,
-        text: "Button1",
-        textSize: 14,
-        fillColor: "#00ff00",
-        onClick: function() {
-          console.log("Clicked")
-        }
-      }))
-
-      painter.addToBuffer(new CollapsiblePanel({
-        x: 400,
-        y: 400,
-        open: true,
-        openDirection: "top",
-        button: {
-          width: 100,
-          height: 50,
-          text: "Button1",
-          textSize: 14,
-          fillColor: "#00ff00"
-        },
-        panel: {
-          width: 200,
-          height: 500,
-          fillColor: "#ffffff"
-        }
-      }))
+      // painter.addToBuffer(new Button({
+      //   x: 200,
+      //   y: 200,
+      //   width: 100,
+      //   height: 50,
+      //   text: "Button1",
+      //   textSize: 14,
+      //   fillColor: "#00ff00",
+      //   onClick: function() {
+      //     console.log("Clicked")
+      //   }
+      // }))
 
       // Draw engine stuff last in the ui buffer
-      painter.addToBuffer(fpsText, "ui")
-      painter.addToBuffer(mouseText, "ui")
-      painter.addToBuffer(zoomText, "ui")
-      painter.addToBuffer(debugButton, "ui")
+      this.addToBuffer(fpsText, "ui")
+      this.addToBuffer(mouseText, "ui")
+      this.addToBuffer(zoomText, "ui")
+      this.addToBuffer(debugButton, "ui")
 
       this.setState({ isSetup: true })
     }

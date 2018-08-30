@@ -15,7 +15,7 @@ class Text extends Drawable {
       ctx.textAlign = "center"
       ctx.textBaseline = "middle"
     }
-    ctx.font = this.textSize + "pt serif"
+    ctx.font = this.textSize + "pt mono"
     const width = ctx.measureText(this.text).width
     ctx.restore()
     return width
@@ -32,7 +32,7 @@ class Text extends Drawable {
   drawText(ctx) {
     ctx.save()
     ctx.fillStyle = this.strokeColor
-    ctx.font = this.textSize + "pt serif"
+    ctx.font = this.textSize + "pt mono"
     ctx.fillText(this.text, this.x, this.y)
     ctx.restore()
   }
@@ -46,12 +46,12 @@ class Text extends Drawable {
   }
 
   draw(ctx,) {
-    super.draw(ctx)
-
     if (this.drawCentered) {
       this.drawTextCentered(ctx)
     } else {
       this.drawText(ctx)
     }
+
+    super.draw(ctx)
   }
 }

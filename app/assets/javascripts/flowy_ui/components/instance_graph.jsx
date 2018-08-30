@@ -7,40 +7,32 @@ class InstanceGraph extends BaseGraph {
 
   setupScene() {
     super.setupScene()
-    this.buildLegend()
+
+    this.setupLegendPanel()
   }
 
-  buildLegend() {
-    states = Object.keys(INSTANCE_TASK_STATES)
-    x = 1180
-    startY = 800 - (states.length * 40)
-    spacingY = 40
-
-    y = startY
-
-    for (var i=0; i < states.length; i++) {
-      this.addToBuffer(
-        new Square({
-          x: x,
-          y: y,
-          width: 20,
-          height: 20,
-          fillColor: INSTANCE_TASK_STATES[states[i]]["fillColor"]
-        }),
-        { bufferName: "ui" }
-      )
-
-      this.addToBuffer(
-        new Text({
-          text: states[i],
-          x: x + 20,
-          y: y + 5,
-          center: false
-        }),
-        { bufferName: "ui" }
-      )
-      y = y + spacingY;
-    }
-
+  setupLegendPanel() {
+    this.addToBuffer(
+      new TaskStateLegendPanel({
+        x: this.state.width - 150,
+        y: this.state.height - 160,
+        open: true,
+        openDirection: "top",
+        contentTextSize: 10,
+        button: {
+          width: 100,
+          height: 30,
+          text: "Legend",
+          textSize: 14,
+          fillColor: "#00ff00"
+        },
+        panel: {
+          width: 200,
+          height: 260,
+          fillColor: "#ffffff"
+        }
+      })
+      , "ui"
+    )
   }
 }

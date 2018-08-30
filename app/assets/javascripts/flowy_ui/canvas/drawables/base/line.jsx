@@ -13,8 +13,6 @@ class Line extends Drawable {
   }
 
   draw(ctx, x, y) {
-    super.draw(ctx)
-
     ctx.save();
     ctx.strokeStyle = this.strokeColor;
     ctx.beginPath();
@@ -22,5 +20,7 @@ class Line extends Drawable {
     ctx.lineTo(x + this.offsetX, y + this.offsetY);
     ctx.stroke();
     ctx.restore();
+
+    super.draw(ctx)
   }
 }

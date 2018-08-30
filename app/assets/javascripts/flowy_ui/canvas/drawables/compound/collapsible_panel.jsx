@@ -11,6 +11,10 @@ class CollapsiblePanel extends Drawable {
 
     this.addChild(this.square)
     this.addChild(this.button)
+    const content = this.setupContent(attributes)
+    if (content) {
+      this.square.addChild(content)
+    }
 
     this.open = attributes.open || false
     this.openDirection = attributes.openDirection
@@ -33,6 +37,11 @@ class CollapsiblePanel extends Drawable {
     )
   }
 
+  setupContent(attributes) {
+    // Extending components should return a drawable here to be included
+    // as a child of square
+  }
+
   // // Compound drawables need to override isMouseOver
   isMouseOver() {
     return this.button.isMouseOver()
@@ -41,8 +50,6 @@ class CollapsiblePanel extends Drawable {
   draw(ctx) {
     if (this.open) {
       this.square.draw(ctx)
-
-      // TODO: Draw contents
     }
     this.button.draw(ctx)
   }

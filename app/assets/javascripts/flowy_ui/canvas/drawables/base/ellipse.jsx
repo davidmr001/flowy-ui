@@ -28,8 +28,8 @@ class Ellipse extends Drawable {
   }
 
   draw(ctx, x, y) {
-    super.draw(ctx)
-
     this.drawEllipse(ctx, x, y, this.width, this.height);
+
+    super.draw(ctx)
   }
 }
