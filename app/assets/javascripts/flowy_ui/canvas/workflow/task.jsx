@@ -69,7 +69,7 @@ class Task extends TextBox {
       this.drawSelectionStroke(ctx)
     }
 
-    super.draw(ctx, x, y)
+    super.draw(ctx)
 
     this.square.fillColor = originalFillColor
 

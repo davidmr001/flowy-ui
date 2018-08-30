@@ -26,7 +26,6 @@ class BaseGraph extends Canvas {
 
   setupScene() {
     const object = this.props.object;
-    const { context, mousePosition } = this.state;
 
     for (var tier in object.tiered_tasks) {
       y = (parseInt(tier) + 1) * 200;
