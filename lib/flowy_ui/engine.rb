@@ -1,6 +1,7 @@
 require 'slim'
 require 'kaminari'
 require 'react-rails'
+require 'jquery-rails'
 require 'active_model_serializers'
 
 #

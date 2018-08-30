@@ -15,3 +15,11 @@
  */
 
 canvas { border: 1px solid grey; }
+
+#payload .title .button {
+  margin-left: 10px;
+}
+
+#payload .subtitle .button {
+  margin-top: 10px;
+}
