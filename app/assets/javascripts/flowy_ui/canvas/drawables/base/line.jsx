@@ -14,7 +14,7 @@ class Line extends Drawable {
 
   draw(ctx) {
     ctx.save()
-    ctx.strokeStyle = this.strokeColor
+    ctx.strokeStyle = this.color
     ctx.lineWidth = this.lineWidth
     ctx.beginPath()
     ctx.moveTo(this.x, this.y)

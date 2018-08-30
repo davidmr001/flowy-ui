@@ -22,11 +22,11 @@ class InstanceGraph extends BaseGraph {
         buttonWidth: 100,
         buttonHeight: 30,
         buttonText: "Legend",
-        buttonTextSize: 14,
-        buttonBackgroundColor: "#00ff00",
+        buttonTextSize: 12,
+        buttonBackgroundColor: THEME.highlightColor,
         panelWidth: 200,
         panelHeight: 260,
-        panelBackgroundColor: "#ffffff"
+        panelBackgroundColor: THEME.panelBackgroundColor
       })
       , "ui"
     )

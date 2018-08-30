@@ -1,26 +1,45 @@
 INSTANCE_TASK_STATES = {
   "COMPLETED": {
-    "strokeColor": "#ffffff",
-    "fillColor": "#00aa00"
+    "color": "#ffffff",
+    "backgroundColor": "#00aa00"
   },
   "WAITING_FOR_INPUT": {
-    "strokeColor": "#000000",
-    "fillColor": "#ffd300"
+    "color": "#000000",
+    "backgroundColor": "#ffd300"
   },
   "ERROR": {
-    "strokeColor": "#000000",
-    "fillColor": "#ee0000"
+    "color": "#000000",
+    "backgroundColor": "#ee0000"
   },
   "READY_TO_PROCESS": {
-    "strokeColor": "#000000",
-    "fillColor": "#8ec0e4"
+    "color": "#000000",
+    "backgroundColor": "#96E8BC"
   },
   "QUEUED": {
-    "strokeColor": "#000000",
-    "fillColor": "#fd8d08"
+    "color": "#000000",
+    "backgroundColor": "#fd8d08"
   },
   "ABORTED": {
-    "strokeColor": "#000000",
-    "fillColor": "#ee0000"
+    "color": "#000000",
+    "backgroundColor": "#ee0000"
   }
+}
+
+THEME = {
+  mainColor: "#00ff00",
+  highlightColor: "#dedede",
+  panelBackgroundColor: "#ffffff",
+
+  textColor: "#434343",
+  textSize: 12,
+
+  strokeWidth: 2,
+  roundRadius: 5,
+
+  shadowSize: 15,
+  shadowOffsetY: 5,
+  shadowOffsetX: 0,
+
+  taskSelectionBorder: 20,
+  taskSelectionBorderLineWidth: 20
 }

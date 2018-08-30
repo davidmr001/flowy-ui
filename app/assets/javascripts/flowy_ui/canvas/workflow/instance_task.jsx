@@ -3,8 +3,8 @@ class InstanceTask extends Task {
     super(attributes)
 
     if (INSTANCE_TASK_STATES[this.task.state]) {
-      this.text.strokeColor = INSTANCE_TASK_STATES[this.task.state]["strokeColor"]
-      this.square.fillColor = INSTANCE_TASK_STATES[this.task.state]["fillColor"]
+      this.label.color = INSTANCE_TASK_STATES[this.task.state]["color"]
+      this.square.backgroundColor = INSTANCE_TASK_STATES[this.task.state]["backgroundColor"]
     }
   }
 }

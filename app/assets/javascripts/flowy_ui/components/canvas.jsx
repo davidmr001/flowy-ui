@@ -51,15 +51,15 @@ class Canvas extends React.Component {
       isSetup:   false,
       width:     canvas.width,
       height:    canvas.height,
-      fpsText:   new Text({ x: 10, y: 24, textSize: 12, strokeColor: "#000000", center: false }),
-      mouseText: new Text({ x: 10, y: 38, textSize: 12, strokeColor: "#000000", center: false }),
-      zoomText:  new Text({ x: 10, y: 52, textSize: 12, strokeColor: "#000000", center: false }),
+      fpsText:   new Text({ x: 10, y: 24, textSize: 10, center: false }),
+      mouseText: new Text({ x: 10, y: 38, textSize: 10, center: false }),
+      zoomText:  new Text({ x: 10, y: 52, textSize: 10, center: false }),
       debugButton: new Button({
         x: 10,
         y: 66,
         width: 50,
         height: 30,
-        textSize: 12,
+        textSize: 10,
         backgroundColor: "#55eeff",
         center: false,
         onClick: function() {
@@ -151,7 +151,7 @@ class Canvas extends React.Component {
       //   height: 50,
       //   text: "Button1",
       //   textSize: 14,
-      //   fillColor: "#00ff00",
+      //   backgroundColor: "#00ff00",
       //   onClick: function() {
       //     console.log("Clicked")
       //   }

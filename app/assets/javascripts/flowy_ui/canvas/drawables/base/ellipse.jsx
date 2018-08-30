@@ -10,7 +10,7 @@ class Ellipse extends Drawable {
     if (this.backgroundColor) {
       ctx.fillStyle = this.backgroundColor
     }
-    ctx.strokeStyle = this.strokeColor
+    ctx.strokeStyle = this.color
     ctx.lineWidth = this.lineWidth
     var kappa = .5522848,
         ox = (w / 2) * kappa, // control point offset horizontal

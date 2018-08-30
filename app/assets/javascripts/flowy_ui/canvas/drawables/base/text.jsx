@@ -3,11 +3,11 @@ class Text extends Drawable {
     super({
       ...attributes,
       width: 100,
-      height: attributes.size || 14
+      height: attributes.size || THEME.textSize
     })
     this.text = attributes.text
-    this.color = attributes.color || "#434343"
-    this.size = attributes.size || 14
+    this.color = attributes.color || THEME.textColor
+    this.size = attributes.size || THEME.textSize
   }
 
   getTextWidth(ctx) {

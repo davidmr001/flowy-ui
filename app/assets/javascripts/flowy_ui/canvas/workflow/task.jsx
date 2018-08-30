@@ -11,8 +11,6 @@ class Task extends Button {
     // this.on = true
     // this.startTime = new Date()
 
-    this.mouseOverColor = this.fillColor
-
     if (this.task.class_source) {
       this.sourceCodeCard = new SourceCodeCard(300, 300, this.task.class_source)
     }
@@ -26,8 +24,8 @@ class Task extends Button {
   //   if (now - this.startTime > this.animationPulse) {
   //     this.startTime = now
   //     if (this.on) {
-  //       this.textColor = "black"
-  //       this.fillColor = "white"
+  //       this.color = "black"
+  //       this.backgorundColor = "white"
   //     } else {
   //       this.setColorsFromState()
   //     }
@@ -40,24 +38,13 @@ class Task extends Button {
   //
 
   drawSelectionStroke(ctx) {
-    // new Ellipse({
-    //   strokeColor: "#22aa22",
-    //   lineWidth: 10
-    // }).drawEllipse(ctx, this.x-20, this.y-20, this.width+40, this.height+40)
-
     new RoundedSquare({
-      width: this.width + 10,
-      height: this.height + 10,
-      strokeColor: "#bbddbb",
-      lineWidth: 10,
+      width: this.width + THEME.taskSelectionBorder,
+      height: this.height + THEME.taskSelectionBorder,
+      color: THEME.highlightColor,
+      lineWidth: THEME.taskSelectionBorderLineWidth,
       shadow: 0
-    }).drawSquare(ctx, this.x - 5, this.y - 5)
-
-    // ctx.save()
-    // ctx.strokeStyle = "#005500"
-    // ctx.lineWidth = 15
-    // ctx.strokeRect(this.x, this.y, this.width, this.height)
-    // ctx.restore()
+    }).drawSquare(ctx, this.x - THEME.taskSelectionBorder / 2, this.y - THEME.taskSelectionBorder / 2)
   }
 
   draw(ctx) {

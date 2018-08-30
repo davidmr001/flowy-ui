@@ -3,8 +3,8 @@ class TestGraph extends Canvas {
     super(props)
     this.state = {
       ...this.state,
-      square:  new Square({ x: 300, y: 300, width: 300, height: 300, strokeColor: "#ff0000" }),
-      square2: new Square({ x: 400, y: 400, width: 300, height: 300, strokeColor: "#ff0000", fillColor: "#00ff00" }),
+      square:  new Square({ x: 300, y: 300, width: 300, height: 300, color: "#ff0000" }),
+      square2: new Square({ x: 400, y: 400, width: 300, height: 300, color: "#ff0000", backgroundColor: "#00ff00" }),
 
       roundedSquare: new RoundedSquare({
         x: 400,
@@ -15,7 +15,7 @@ class TestGraph extends Canvas {
         backgroundColor: "#0000ff"
       }),
 
-      ellipse: new Ellipse({ x: 400, y: 400, width: 250, height: 100, strokeColor: "#000000", backgroundColor: "#ff0000" }),
+      ellipse: new Ellipse({ x: 400, y: 400, width: 250, height: 100, color: "#000000", backgroundColor: "#ff0000" }),
       textBox: new TextBox({
         x: 400,
         y: 400,
