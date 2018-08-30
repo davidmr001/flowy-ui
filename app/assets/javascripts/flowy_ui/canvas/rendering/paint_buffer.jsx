@@ -9,14 +9,22 @@ class PaintBuffer {
     this.drawables.push(drawable)
   }
 
+  remove(drawable) {
+    var index = this.drawables.indexOf(drawable);
+    if (index > -1) {
+      this.drawables.splice(index, 1);
+    }
+  }
+
   clear() {
     // Clear the buffer
     this.drawables = []
   }
 
-  paint(ctx) {
+  paint(ctx, canvasInfo) {
     for (const i in this.drawables) {
       var drawable = this.drawables[i]
+      drawable.setCanvasInformation(canvasInfo)
       drawable.paint(ctx)
     }
   }

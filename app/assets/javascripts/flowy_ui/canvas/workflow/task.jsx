@@ -39,15 +39,15 @@ class Task extends TextBox {
   // Shades a color by a percentage, or mixes two colors
   //
 
-  drawSelectionStroke(ctx, x, y) {
+  drawSelectionStroke(ctx) {
     ctx.save()
     ctx.strokeStyle = "#00ff00"
     ctx.lineWidth = 15
-    ctx.strokeRect(x, y, this.width, this.height)
+    ctx.strokeRect(this.x, this.y, this.width, this.height)
     ctx.restore()
   }
 
-  draw(ctx, x, y) {
+  draw(ctx) {
     // if (this.animating) {
     //   this.swapColorsIfAnimating()
     // }
@@ -66,7 +66,7 @@ class Task extends TextBox {
 
     // Draw a broader stroke if selected
     if (this.selected) {
-      this.drawSelectionStroke(ctx, x, y)
+      this.drawSelectionStroke(ctx)
     }
 
     super.draw(ctx, x, y)

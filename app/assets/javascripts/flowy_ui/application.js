@@ -61,3 +61,12 @@ function shadeBlend(p, c0, c1) {
       return "#"+(0x1000000+(u(((t>>16)-R1)*n)+R1)*0x10000+(u(((t>>8&0x00FF)-G1)*n)+G1)*0x100+(u(((t&0x0000FF)-B1)*n)+B1)).toString(16).slice(1)
   }
 }
+
+// Draw debug text in canvas
+function drawDebugText(ctx, text, x, y) {
+  ctx.save()
+  ctx.fillStyle = "#ff0000"
+  ctx.font = "12pt serif"
+  ctx.fillText(text, x, y)
+  ctx.restore()
+}

@@ -5,8 +5,6 @@ class Painter {
     this.baseBuffer   = new PaintBuffer("base")
     this.uiBuffer     = new PaintBuffer("ui", false),
     this.otherBuffers = {} // Hash of render buffers (name, and buffer)
-
-    this.renderingInformation = {}
   }
 
   getBuffer(bufferName) {
@@ -41,10 +39,6 @@ class Painter {
 
     var buffers = this.getBuffers()
     for (const i in buffers) {
-      // TODO: Remove UI exception for clicks
-      if (buffers[i] === this.uiBuffer) {
-        continue
-      }
       hit = this.checkClickInBuffer(buffers[i])
       if (hit) { drawableClicked = hit }
     }
@@ -80,25 +74,14 @@ class Painter {
   // Adds a drawable to a render buffer
   addToBuffer(drawable, bufferName = "base") {
     const buffer = this.getBuffer(bufferName)
-
-    // Store canvas info in the drawable (like mouse position, zoom, etc)
-    drawable.setCanvasInformation({
-      ...this.canvas.getInformation(),
-      isPanning: buffer.isPannable
-    })
-
     buffer.push(drawable)
   }
 
-  paint(context, mousePosition, panPosition, zoom) {
-    // const canvasInformation = {
-    //   mousePosition: mousePosition,
-    //   panPosition: panPosition,
-    //   zoom: zoom
-    // }
+  paint(context) {
+    const canvasInformation = this.canvas.getInformation()
 
     context.save()
-    context.scale(zoom, zoom)
+    context.scale(canvasInformation.zoom, canvasInformation.zoom)
 
     // Draw all buffers except UI
     const buffers = this.getBuffers()
@@ -106,11 +89,17 @@ class Painter {
       if (buffers[i] === this.uiBuffer) {
         continue
       }
-      buffers[i].paint(context)
+      buffers[i].paint(
+        context,
+        { ...canvasInformation, isPanning: buffers[i].isPannable }
+      )
     }
     context.restore()
 
     // Draw ui outside of scaling
-    this.uiBuffer.paint(context)
+    this.uiBuffer.paint(
+      context,
+      { ...canvasInformation, isPanning: this.uiBuffer.isPannable }
+    )
   }
 }

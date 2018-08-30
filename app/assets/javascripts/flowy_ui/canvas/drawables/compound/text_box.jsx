@@ -3,13 +3,8 @@ class TextBox extends Drawable {
     super(attributes)
     this.text = new Text(attributes)
     this.square = new RoundedSquare(attributes)
-  }
-
-  setCanvasInformation(canvasInformation) {
-    super.setCanvasInformation(canvasInformation)
-
-    this.text.setCanvasInformation(canvasInformation)
-    this.square.setCanvasInformation(canvasInformation)
+    this.addChild(this.square)
+    this.addChild(this.text)
   }
 
   adjust(ctx) {
@@ -22,23 +17,20 @@ class TextBox extends Drawable {
       this.width = textWidth + 20
       this.square.width = this.width
     }
+  }
 
-    // Also update information on our components (panning, etc)
-    this.square.x = this.x
-    this.square.y = this.y
-    this.text.x = this.x + this.square.width / 2
-    this.text.y = this.y + this.square.height / 2
+  setPosition(x, y) {
+    super.setPosition(x, y)
+
+    // Move the text to the center of the square
+    this.text.setPosition(
+      this.text.x + this.square.width / 2,
+      this.text.y + this.square.height / 2
+    )
   }
 
   // // Compound drawables need to override isMouseOver
   isMouseOver() {
     return this.square.isMouseOver()
-  }
-
-  draw(ctx) {
-    super.draw(ctx)
-
-    this.square.draw(ctx)
-    this.text.draw(ctx)
   }
 }

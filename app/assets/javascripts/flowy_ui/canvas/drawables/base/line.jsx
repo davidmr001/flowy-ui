@@ -2,7 +2,7 @@ class Line extends Drawable {
   constructor(attributes) {
     super({
       ...attributes,
-      center: false
+      drawCentered: false
     })
 
     this.offsetX = attributes.endX - attributes.x
@@ -13,6 +13,8 @@ class Line extends Drawable {
   }
 
   draw(ctx, x, y) {
+    super.draw(ctx)
+
     ctx.save();
     ctx.strokeStyle = this.strokeColor;
     ctx.beginPath();

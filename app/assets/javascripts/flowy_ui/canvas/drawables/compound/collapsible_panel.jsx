@@ -6,41 +6,31 @@ class CollapsiblePanel extends Drawable {
       height: attributes.panel.height
     })
 
-    this.square = new RoundedSquare({
-      ...attributes.panel,
-      x: attributes.x,
-      y: attributes.y
-    })
-    this.button = new Button({
-      ...attributes.button,
-      x: attributes.x,
-      y: attributes.y,
-      onClick: this.onClickCallback
-    })
+    this.square = new RoundedSquare(attributes.panel)
+    this.button = new Button(attributes.button)
 
-    // TODO: Fix the callback and position
+    this.addChild(this.square)
+    this.addChild(this.button)
 
-    // this.open = attributes.open || false
     this.open = attributes.open || false
     this.openDirection = attributes.openDirection
   }
 
-  setCanvasInformation(canvasInformation) {
-    super.setCanvasInformation(canvasInformation)
-
-    this.square.setCanvasInformation(canvasInformation)
-    this.button.setCanvasInformation(canvasInformation)
+  onClick() {
+    // Toggle
+    this.open = !this.open
   }
 
-  adjust(ctx) {
+  setPosition(x, y) {
     // Never forget to call super
-    super.adjust(ctx)
+    super.setPosition(x, y)
 
-    // Also update information on our components (panning, etc)
-    this.square.x = this.x
-    this.square.y = this.y
-    // this.button.x = this.x + this.button.width / 2
-    // this.button.y = this.y + this.square.height
+    // Move the button to the bottom of the square
+    // Propagate to children
+    this.button.setPosition(
+      this.button.x + this.button.width / 2,
+      this.button.y + this.square.height
+    )
   }
 
   // // Compound drawables need to override isMouseOver
@@ -48,15 +38,7 @@ class CollapsiblePanel extends Drawable {
     return this.button.isMouseOver()
   }
 
-  onClickCallback() {
-    console.log("open: " + this.open)
-    // Toggle
-    this.open = !this.open
-  }
-
   draw(ctx) {
-    super.draw(ctx)
-
     if (this.open) {
       this.square.draw(ctx)
 

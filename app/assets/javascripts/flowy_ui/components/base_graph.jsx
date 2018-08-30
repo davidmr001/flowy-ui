@@ -11,11 +11,16 @@ class BaseGraph extends Canvas {
   onClick(x, y) {
     const drawableClicked = super.onClick(x, y)
 
+    for (const i in this.tasks) {
+      this.tasks[i].selected = false
+    }
+
     if (drawableClicked &&
         (drawableClicked.constructor.name === "Task" ||
          drawableClicked.constructor.name === "InstanceTask" ||
          drawableClicked.constructor.name === "BlueprintTask")) {
       this.selectedTaskId = drawableClicked.task.id
+      drawableClicked.selected = true
     } else {
       this.selectedTaskId = null
     }

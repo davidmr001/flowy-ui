@@ -46,6 +46,8 @@ class Text extends Drawable {
   }
 
   draw(ctx,) {
+    super.draw(ctx)
+
     if (this.drawCentered) {
       this.drawTextCentered(ctx)
     } else {
