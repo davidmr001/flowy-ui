@@ -24,6 +24,7 @@ class TaskStateLegendPanel extends CollapsiblePanel {
 
     states = Object.keys(INSTANCE_TASK_STATES)
     for (var i=0; i < states.length; i++) {
+      if (states[i] === "NULL") continue
       this.itemsPanel.addChild(
         new TaskStateLegendItem({
           x: this.x,

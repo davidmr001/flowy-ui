@@ -14,9 +14,9 @@ class InstanceGraph extends BaseGraph {
   setupLegendPanel() {
     this.addToBuffer(
       new TaskStateLegendPanel({
-        x: this.state.width - 150,
-        y: this.state.height - 170,
-        open: false,
+        x: this.state.width - 115,
+        y: this.state.height - 180,
+        open: true,
         openDirection: "top",
         contentTextSize: 10,
         buttonWidth: 100,
@@ -26,7 +26,9 @@ class InstanceGraph extends BaseGraph {
         buttonBackgroundColor: THEME.highlightColor,
         panelWidth: 200,
         panelHeight: 260,
-        panelBackgroundColor: THEME.panelBackgroundColor
+        panelBackgroundColor: THEME.panelBackgroundColor,
+        spacing: 5,
+        buttonPlacement: "bottomRight"
       })
       , "ui"
     )

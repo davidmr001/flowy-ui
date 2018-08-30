@@ -1,27 +1,31 @@
 INSTANCE_TASK_STATES = {
+  "NULL": {
+    "color": "#434343",
+    "backgroundColor": "#ffffff"
+  },
   "COMPLETED": {
     "color": "#ffffff",
-    "backgroundColor": "#00aa00"
+    "backgroundColor": "#6DA34D"
   },
   "WAITING_FOR_INPUT": {
-    "color": "#000000",
-    "backgroundColor": "#ffd300"
+    "color": "#434343",
+    "backgroundColor": "#FFA400"
   },
   "ERROR": {
-    "color": "#000000",
-    "backgroundColor": "#ee0000"
+    "color": "#ffffff",
+    "backgroundColor": "#F34213"
   },
   "READY_TO_PROCESS": {
-    "color": "#000000",
-    "backgroundColor": "#96E8BC"
+    "color": "#434343",
+    "backgroundColor": "#30C5FF"
   },
   "QUEUED": {
-    "color": "#000000",
-    "backgroundColor": "#fd8d08"
+    "color": "#ffffff",
+    "backgroundColor": "#2F4858"
   },
   "ABORTED": {
-    "color": "#000000",
-    "backgroundColor": "#ee0000"
+    "color": "#434343",
+    "backgroundColor": "#F34213"
   }
 }
 
@@ -30,7 +34,7 @@ THEME = {
   highlightColor: "#dedede",
   panelBackgroundColor: "#ffffff",
 
-  textColor: "#434343",
+  textColor: "#080708",
   textSize: 12,
 
   strokeWidth: 2,
