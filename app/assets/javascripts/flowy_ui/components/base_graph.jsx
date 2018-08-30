@@ -4,18 +4,21 @@ class BaseGraph extends Canvas {
 
     this.tasks = []
     this.selectedTaskId = null
-
-    // TODO: Detect canvas click events to select a particular task
   }
 
   onClick(x, y) {
     const drawableClicked = super.onClick(x, y)
+
+    for (const i in this.tasks) {
+      this.tasks[i].selected = false
+    }
 
     if (drawableClicked &&
         (drawableClicked.constructor.name === "Task" ||
          drawableClicked.constructor.name === "InstanceTask" ||
          drawableClicked.constructor.name === "BlueprintTask")) {
       this.selectedTaskId = drawableClicked.task.id
+      drawableClicked.selected = true
     } else {
       this.selectedTaskId = null
     }
@@ -23,7 +26,6 @@ class BaseGraph extends Canvas {
 
   setupScene() {
     const object = this.props.object;
-    const { context, mousePosition } = this.state;
 
     for (var tier in object.tiered_tasks) {
       y = (parseInt(tier) + 1) * 200;

@@ -4,7 +4,7 @@ class RoundedSquare extends Drawable {
     this.radius = attributes.radius
   }
 
-  draw(ctx, x, y) {
+  drawSquare(ctx, x, y) {
     ctx.save()
     if (this.fillColor) {
       ctx.fillStyle = this.fillColor
@@ -37,5 +37,11 @@ class RoundedSquare extends Drawable {
     }
     ctx.stroke()
     ctx.restore()
+  }
+
+  draw(ctx) {
+    this.drawSquare(ctx, this.x, this.y)
+
+    super.draw(ctx)
   }
 }

@@ -1,5 +1,7 @@
 class Painter {
-  constructor() {
+  constructor(canvas) {
+    this.canvas = canvas
+
     this.baseBuffer   = new PaintBuffer("base")
     this.uiBuffer     = new PaintBuffer("ui", false),
     this.otherBuffers = {} // Hash of render buffers (name, and buffer)
@@ -28,7 +30,7 @@ class Painter {
     return buffers
   }
 
-  onClick(x, y, context, panPosition, zoom) {
+  onClick(x, y, context) {
     // Go through all drawables in all buffers and notify them if they get the click
     // Only the top most drawable will get the click
     const mousePosition = { x: x, y: y }
@@ -37,7 +39,7 @@ class Painter {
 
     var buffers = this.getBuffers()
     for (const i in buffers) {
-      hit = this.checkClickInBuffer(buffers[i], mousePosition, panPosition, zoom)
+      hit = this.checkClickInBuffer(buffers[i])
       if (hit) { drawableClicked = hit }
     }
 
@@ -49,11 +51,11 @@ class Painter {
     return null
   }
 
-  checkClickInBuffer(buffer, mousePosition, panPosition, zoom) {
+  checkClickInBuffer(buffer) {
     var hit = null
     for (const i in buffer.drawables) {
       const drawable = buffer.drawables[i]
-      if (drawable.isMouseOver(mousePosition, buffer.isPannable, panPosition, zoom)) {
+      if (drawable.isMouseOver()) {
         hit = drawable
       }
     }
@@ -70,19 +72,16 @@ class Painter {
   }
 
   // Adds a drawable to a render buffer
-  addToBuffer(drawable, x, y, bufferName = "base") {
+  addToBuffer(drawable, bufferName = "base") {
     const buffer = this.getBuffer(bufferName)
-
-    // Override the draw position, if the drawable has none predefined
-    drawable.x = x ? x : drawable.x;
-    drawable.y = y ? y : drawable.y;
-
     buffer.push(drawable)
   }
 
-  paint(context, mousePosition, panPosition, zoom) {
+  paint(context) {
+    const canvasInformation = this.canvas.getInformation()
+
     context.save()
-    context.scale(zoom, zoom);
+    context.scale(canvasInformation.zoom, canvasInformation.zoom)
 
     // Draw all buffers except UI
     const buffers = this.getBuffers()
@@ -90,11 +89,17 @@ class Painter {
       if (buffers[i] === this.uiBuffer) {
         continue
       }
-      buffers[i].paint(context, mousePosition, panPosition, zoom);
+      buffers[i].paint(
+        context,
+        { ...canvasInformation, isPanning: buffers[i].isPannable }
+      )
     }
     context.restore()
 
     // Draw ui outside of scaling
-    this.uiBuffer.paint(context, mousePosition);
+    this.uiBuffer.paint(
+      context,
+      { ...canvasInformation, isPanning: this.uiBuffer.isPannable }
+    )
   }
 }

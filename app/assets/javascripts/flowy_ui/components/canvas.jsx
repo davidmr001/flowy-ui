@@ -19,12 +19,11 @@ class Canvas extends React.Component {
     mouseDragStartPosition: { x: 0, y: 0 },
     panPosition: { x: 0, y: 0 },
     zoom: 1,
-    painter: new Painter()
+    debug: false
   }
 
   constructor(props) {
     super(props)
-    this.setupScene = this.setupScene.bind(this)
     this.tick = this.tick.bind(this)
   }
 
@@ -35,6 +34,7 @@ class Canvas extends React.Component {
   }
 
   componentDidMount() {
+    const comp = this
     const { canvasId, width, height } = this.props
 
     const canvas = document.getElementById(canvasId)
@@ -45,22 +45,35 @@ class Canvas extends React.Component {
 
     canvas.width = width ? width : canvas.parentNode.clientWidth
     canvas.height = height ? height : canvas.parentNode.clientWidth * .75
-    this.setState({
-      width: canvas.width,
-      height: canvas.height,
-      fpsText: new Text({ textSize: 14, strokeColor: "#000000", center: false }),
-      mouseText: new Text({ textSize: 14, strokeColor: "#000000", center: false }),
-      zoomText: new Text({ textSize: 14, strokeColor: "#000000", center: false })
-    })
 
-    requestAnimationFrame(this.tick)
+    this.setState({
+      painter:   new Painter(this),
+      isSetup:   false,
+      width:     canvas.width,
+      height:    canvas.height,
+      fpsText:   new Text({ x: 10, y: 24, textSize: 12, strokeColor: "#000000", center: false }),
+      mouseText: new Text({ x: 10, y: 38, textSize: 12, strokeColor: "#000000", center: false }),
+      zoomText:  new Text({ x: 10, y: 52, textSize: 12, strokeColor: "#000000", center: false }),
+      debugButton: new Button({
+        x: 10, y: 66,
+        width: 50, height: 30,
+        textSize: 12,
+        fillColor: "#00ddff",
+        center: false,
+        onClick: function() {
+          comp.setState({ debug: !comp.state.debug })
+        }
+      })
+    }, function() {
+      requestAnimationFrame(comp.tick)
+    })
   }
 
   onClick(x, y) {
-    const { context, panPosition, zoom } = this.state
+    const { context, painter, panPosition, zoom } = this.state
 
     // By default return the drawable caught by the painter
-    return this.state.painter.onClick(x, y, context, panPosition, zoom)
+    return painter.onClick(x, y, context, panPosition, zoom)
   }
 
   onZoom(value) {
@@ -70,10 +83,19 @@ class Canvas extends React.Component {
     this.setState({ zoom: newZoom })
   }
 
-  addToBuffer(drawable, options = {}) {
-    const { x, y, bufferName } = options
-    const { painter, mousePosition, panPosition } = this.state
-    painter.addToBuffer(drawable, x, y, bufferName, mousePosition, panPosition)
+  getInformation() {
+    const { mousePosition, panPosition, zoom, debug } = this.state
+    return {
+      mousePosition: mousePosition,
+      panPosition: panPosition,
+      zoom: zoom,
+      debug: debug
+    }
+  }
+
+  addToBuffer(drawable, bufferName = "base") {
+    console.log("Adding " + drawable.constructor.name + " to buffer " + bufferName)
+    this.state.painter.addToBuffer(drawable, bufferName)
   }
 
   tick() {
@@ -92,7 +114,10 @@ class Canvas extends React.Component {
       panPosition,
       zoom,
       zoomText,
-      painter
+      debug,
+      debugButton,
+      painter,
+      isSetup
     } = this.state
     const { canvasId } = this.props
     const now = new Date()
@@ -111,18 +136,39 @@ class Canvas extends React.Component {
     // Clear
     context.save()
     context.clearRect(0, 0, width, height)
-    painter.clear()
 
     // Render the buffers
-    this.setupScene() // Implemented by the derived classes
+    if (!isSetup) {
+      this.setupScene() // Implemented by the derived classes
 
-    // Draw engine stuff last in the ui buffer
+      // TODO: Remove
+      // painter.addToBuffer(new Button({
+      //   x: 200,
+      //   y: 200,
+      //   width: 100,
+      //   height: 50,
+      //   text: "Button1",
+      //   textSize: 14,
+      //   fillColor: "#00ff00",
+      //   onClick: function() {
+      //     console.log("Clicked")
+      //   }
+      // }))
+
+      // Draw engine stuff last in the ui buffer
+      this.addToBuffer(fpsText, "ui")
+      this.addToBuffer(mouseText, "ui")
+      this.addToBuffer(zoomText, "ui")
+      this.addToBuffer(debugButton, "ui")
+
+      this.setState({ isSetup: true })
+    }
+
+    // Update text
     fpsText.text = "FPS: " + fpsCurrent
-    painter.addToBuffer(fpsText, 10, 24, "ui")
     mouseText.text = "Mouse: " + mousePosition.x + ", " + mousePosition.y + ", dragging: " + mouseDragging
-    painter.addToBuffer(mouseText, 10, 44, "ui")
     zoomText.text = "Zoom: " + Math.round(zoom * 100) + "%"
-    painter.addToBuffer(zoomText, 10, 64, "ui")
+    debugButton.setText("Debug: " + debug)
 
     // Render the scene
     painter.paint(context, mousePosition, panPosition, zoom)

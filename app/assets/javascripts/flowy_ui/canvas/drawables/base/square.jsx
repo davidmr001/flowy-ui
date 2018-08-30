@@ -1,12 +1,14 @@
 class Square extends Drawable {
-  draw(ctx, x, y) {
+  draw(ctx) {
     ctx.save()
     if (this.fillColor) {
       ctx.fillStyle = this.fillColor
-      ctx.fillRect(x, y, this.width, this.height)
+      ctx.fillRect(this.x, this.y, this.width, this.height)
     }
     ctx.strokeStyle = this.color
-    ctx.strokeRect(x, y, this.width, this.height)
+    ctx.strokeRect(this.x, this.y, this.width, this.height)
     ctx.restore()
+
+    super.draw(ctx)
   }
 }
