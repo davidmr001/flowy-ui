@@ -21,5 +21,14 @@ canvas { border: 1px solid grey; }
 }
 
 #payload .subtitle .button {
-  margin-top: 10px;
+  padding-top: 10px;
+}
+
+#payload span {
+ padding-top: 10px;
+ padding-bottom: 10px;
+}
+
+#feedback {
+  display: block;
 }

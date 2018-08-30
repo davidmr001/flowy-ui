@@ -7,4 +7,5 @@ nav.breadcrumb aria-label="breadcrumbs"
 
 h1.title = "#{@instance.key} (#{@instance.id})"
 
-= react_component("InstanceGraph", object: FlowyUi::InstanceSerializer.new(@instance), canvasId: "instance_canvas", height: 800)
+/ = react_component("InstanceGraph", object: FlowyUi::InstanceSerializer.new(@instance), canvasId: "instance_canvas", height: 800)
+= react_component("Payload", task: FlowyUi::InstanceTaskSerializer.new(@instance.tasks.first), submitUrl: "/flowy/instance_tasks/#{@instance.tasks.first.id}")

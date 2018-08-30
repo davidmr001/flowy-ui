@@ -7,15 +7,19 @@ class Payload extends React.Component {
   state = {
     payload: this.props.task.payload,
     edit: false,
-    error: null
+    feedback: {message: null, className: null}
   }
 
   constructor(props) {
     super(props)
   }
 
+  handleEdit(){
+    this.clearFeedback()
+    this.toggleEdit()
+  }
+
   toggleEdit(){
-    this.clearError()
     this.setState({edit: !this.state.edit})
   }
 
@@ -28,12 +32,18 @@ class Payload extends React.Component {
     }
   }
 
-  clearError(){
-    this.setState({error: null})
+  clearFeedback(){
+    this.setState({feedback: {message: null, className: null}})
   }
 
-  setError(error){
-    this.setState({error: error})
+  setFeedback(message, error = true){
+    className = "has-text-success"
+
+    if (error){
+      className = "has-text-danger"
+    }
+
+    this.setState({feedback: {message: message, className: className}})
   }
 
   submit(){
@@ -51,11 +61,16 @@ class Payload extends React.Component {
           }
         },
         success: function(response) {
-          comp.setState({payload: response.payload})
-          comp.toggleEdit()
+          if (response.result == "success"){
+            comp.setFeedback(response.message, false)
+            comp.setState({payload: response.payload})
+            comp.toggleEdit()
+          } else {
+            comp.setFeedback(response.message)
+          }
         },
         error: function(response) {
-          comp.setError(response.responseText)
+          comp.setFeedback(response.responseText)
         }
       })
     }
@@ -63,10 +78,9 @@ class Payload extends React.Component {
 
   updatePayload(){
     try {
-      payload = JSON.parse($("#payload-textarea").val())
-      return payload
+      return JSON.parse($("#payload-textarea").val())
     } catch(error) {
-      this.setState({error: "Invalid JSON payload set"})
+      this.setFeedback("Invalid JSON payload")
       return false
     }
   }
@@ -77,11 +91,33 @@ class Payload extends React.Component {
                id="payload-textarea"
                className="textarea"
                rows="20"
-               defaultValue={JSON.stringify(this.state.payload)}>
+               defaultValue={JSON.stringify(this.state.payload, null, 2)}>
              </textarea>
     } else {
-      return JSON.stringify(this.state.payload, null, 2)
+      return <span><pre>{JSON.stringify(this.state.payload, null, 2)}</pre></span>
     }
+  }
+
+  syntaxHighlight(json) {
+      if (typeof json != 'string') {
+           json = JSON.stringify(json, undefined, 2);
+      }
+      json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+          var cls = 'number';
+          if (/^"/.test(match)) {
+              if (/:$/.test(match)) {
+                  cls = 'key';
+              } else {
+                  cls = 'string';
+              }
+          } else if (/true|false/.test(match)) {
+              cls = 'boolean';
+          } else if (/null/.test(match)) {
+              cls = 'null';
+          }
+          return '<span className="' + cls + '">' + match + '</span>';
+      });
   }
 
   renderSubmitButton(){
@@ -94,19 +130,25 @@ class Payload extends React.Component {
     }
   }
 
+  renderFeedback(){
+    feedback = this.state.feedback
+    return <span className={feedback.className} id="feedback">{feedback.message}</span>
+  }
+
   render(){
     return <section id="payload" className="hero">
       <div className="hero-body">
         <div className="container">
           <h1 className="title">
             <span>Payload</span>
-            <span><a className={this.editButtonClass()} onClick={this.toggleEdit.bind(this)}>Edit</a></span>
+            <span><a className={this.editButtonClass()} onClick={this.handleEdit.bind(this)}>Edit</a></span>
           </h1>
           <h2 className="subtitle">
+            {this.renderFeedback()}
             {this.renderPayload()}
             {this.renderSubmitButton()}
           </h2>
-          <span className="has-text-danger" id="error">{this.state.error}</span>
+
         </div>
       </div>
     </section>
