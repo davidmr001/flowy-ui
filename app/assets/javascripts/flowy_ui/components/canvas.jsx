@@ -19,7 +19,7 @@ class Canvas extends React.Component {
     mouseDragStartPosition: { x: 0, y: 0 },
     panPosition: { x: 0, y: 0 },
     zoom: 1,
-    debug: true
+    debug: false
   }
 
   constructor(props) {
@@ -34,6 +34,7 @@ class Canvas extends React.Component {
   }
 
   componentDidMount() {
+    const comp = this
     const { canvasId, width, height } = this.props
 
     const canvas = document.getElementById(canvasId)
@@ -52,7 +53,16 @@ class Canvas extends React.Component {
       fpsText:   new Text({ x: 10, y: 24, textSize: 12, strokeColor: "#000000", center: false }),
       mouseText: new Text({ x: 10, y: 38, textSize: 12, strokeColor: "#000000", center: false }),
       zoomText:  new Text({ x: 10, y: 52, textSize: 12, strokeColor: "#000000", center: false }),
-      debugText: new Text({ x: 10, y: 66, textSize: 12, strokeColor: "#000000", center: false }),
+      debugButton: new Button({
+        x: 10, y: 66,
+        width: 50, height: 30,
+        textSize: 12,
+        fillColor: "#00ddff",
+        center: false,
+        onClick: function() {
+          comp.setState({ debug: !comp.state.debug })
+        }
+      })
     })
 
     requestAnimationFrame(this.tick)
@@ -105,7 +115,7 @@ class Canvas extends React.Component {
       zoom,
       zoomText,
       debug,
-      debugText,
+      debugButton,
       painter,
       isSetup
     } = this.state
@@ -168,7 +178,7 @@ class Canvas extends React.Component {
       painter.addToBuffer(fpsText, "ui")
       painter.addToBuffer(mouseText, "ui")
       painter.addToBuffer(zoomText, "ui")
-      painter.addToBuffer(debugText, "ui")
+      painter.addToBuffer(debugButton, "ui")
 
       this.setState({ isSetup: true })
     }
@@ -177,7 +187,7 @@ class Canvas extends React.Component {
     fpsText.text = "FPS: " + fpsCurrent
     mouseText.text = "Mouse: " + mousePosition.x + ", " + mousePosition.y + ", dragging: " + mouseDragging
     zoomText.text = "Zoom: " + Math.round(zoom * 100) + "%"
-    debugText.text = "Debug: " + debug
+    debugButton.setText("Debug: " + debug)
 
     // Render the scene
     painter.paint(context, mousePosition, panPosition, zoom)

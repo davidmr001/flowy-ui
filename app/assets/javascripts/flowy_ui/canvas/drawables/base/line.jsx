@@ -2,7 +2,7 @@ class Line extends Drawable {
   constructor(attributes) {
     super({
       ...attributes,
-      drawCentered: false
+      center: false
     })
 
     this.offsetX = attributes.endX - attributes.x

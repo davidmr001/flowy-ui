@@ -1,7 +1,7 @@
 class TextBox extends Drawable {
   constructor(attributes) {
     super(attributes)
-    this.text = new Text(attributes)
+    this.text = new Text({ ...attributes, center: true })
     this.square = new RoundedSquare(attributes)
     this.addChild(this.square)
     this.addChild(this.text)
@@ -17,6 +17,10 @@ class TextBox extends Drawable {
       this.width = textWidth + 20
       this.square.width = this.width
     }
+  }
+
+  setText(text) {
+    this.text.text = text
   }
 
   setPosition(x, y) {
