@@ -8,10 +8,6 @@ class Task extends Button {
     this.parent = parent // Parent graph
     this.task = attributes.task
     this.selected = attributes.selected
-
-    if (this.task.class_source) {
-      this.sourceCodeCard = new SourceCodeCard(300, 300, this.task.class_source)
-    }
   }
 
   onClick() {
@@ -36,12 +32,12 @@ class Task extends Button {
 
     const comp = this
     comp.infoPanel = new TaskDetailPanel({
-      x: comp.originalX,
-      y: comp.originalY,
+      x: comp.originalX + comp.width / 2 + 20,
+      y: comp.originalY - comp.height / 2,
       width: 300,
       height: 500,
       closeable: true,
-      onCloseRequested: comp.closeInfoPanel.bind(this),
+      onCloseRequested: comp.setSelected.bind(this, false),
       task: comp.task,
       center: false
     })
@@ -59,30 +55,18 @@ class Task extends Button {
     new RoundedSquare({
       width: this.width + THEME.taskSelectionBorder,
       height: this.height + THEME.taskSelectionBorder,
-      color: THEME.highlightColor,
+      color: THEME.taskSelectionLineColor,
       lineWidth: THEME.taskSelectionBorderLineWidth,
       shadow: 0
     }).drawSquare(ctx, this.x - THEME.taskSelectionBorder / 2, this.y - THEME.taskSelectionBorder / 2)
   }
 
   draw(ctx) {
-    // Detect mouse over
-    const originalBackgroundColor = this.square.backgroundColor
-    if (this.mouseOver) {
-      this.square.backgroundColor = shadeBlend(-0.1, this.square.backgroundColor)
-    }
-
     // Draw a broader stroke if selected
     if (this.selected) {
       this.drawSelectionStroke(ctx)
     }
 
     super.draw(ctx)
-
-    if (this.infoPanel) {
-      this.infoPanel.draw(ctx)
-    }
-
-    this.square.backgroundColor = originalBackgroundColor
   }
 }

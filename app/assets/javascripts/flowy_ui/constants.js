@@ -46,5 +46,9 @@ THEME = {
   shadowOffsetX: 0,
 
   taskSelectionBorder: 20,
-  taskSelectionBorderLineWidth: 20
+  taskSelectionLineColor: "#dedede",
+  taskSelectionBorderLineWidth: 20,
+
+  linkSelectionLineColor: "#dedede",
+  linkSelectionBorderLineWidth: 20
 }

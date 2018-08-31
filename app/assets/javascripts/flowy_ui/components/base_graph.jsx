@@ -1,31 +1,32 @@
 class BaseGraph extends Canvas {
-  constructor(props) {
-    super(props)
-
-    this.tasks = []
-  }
-
-  selectTask(task) {
+  deselectEverything() {
     for (const i in this.tasks) {
       this.tasks[i].setSelected(false)
     }
+    for (const i in this.links) {
+      this.links[i].setSelected(false)
+    }
+  }
+
+  selectTask(task) {
+    this.deselectEverything()
     task.setSelected(true)
   }
 
-  setupScene() {
-    const object = this.props.object;
+  selectLink(link) {
+    this.deselectEverything()
+    link.setSelected(true)
+  }
 
-    this.addToBuffer(new Button({
-      x: 500,
-      y: 500,
-      width: 100,
-      height: 50,
-      text: "Restart",
-      backgroundColor: "#00ff00",
-      onClick: function() {
-        console.log("Clicked")
-      }
-    }), "ui")
+  setupScene() {
+    // Setup drawables
+    const object = this.props.object;
+    this.tasks = this.setupTaskDrawables(object)
+    this.links = this.setupLinkDrawables(object)
+  }
+
+  setupTaskDrawables(object) {
+    var tasks = []
 
     for (var tier in object.tiered_tasks) {
       y = (parseInt(tier) + 1) * 200;
@@ -33,7 +34,7 @@ class BaseGraph extends Canvas {
       x = base_width
       for(var task_index in object.tiered_tasks[tier]) {
         task = object.tiered_tasks[tier][task_index];
-        this.tasks[task.id] = new this.taskClass(this, {
+        tasks[task.id] = new this.taskClass(this, {
           x: x,
           y: y,
           width: 150,
@@ -47,23 +48,38 @@ class BaseGraph extends Canvas {
       }
     }
 
-    links = {}
-    for (const i in object.links) {
-      const link = object.links[i]
-      links[link.id] = new this.linkClass({
-        startTask: this.tasks[link.source_task_id],
-        endTask: this.tasks[link.target_task_id]
-      })
+    for (const i in tasks) {
+      const task = tasks[i]
+      this.addToBuffer(task, "tasks")
     }
 
-    for (const i in this.tasks) {
-      const task = this.tasks[i]
-      this.addToBuffer(task, "tasks")
+    return tasks
+  }
+
+  setupLinkDrawables(object) {
+    var links = []
+
+    for (const i in object.links) {
+      const link = object.links[i]
+
+      const sourceTaskComponent = this.tasks[link.source_task_id]
+      const targetTaskComponent = this.tasks[link.target_task_id]
+      const attributes = {
+        link: link,
+        x: sourceTaskComponent.x,
+        y: sourceTaskComponent.y + sourceTaskComponent.height / 2,
+        endX: targetTaskComponent.x,
+        endY: targetTaskComponent.y - sourceTaskComponent.height / 2,
+      }
+
+      links[link.id] = new this.linkClass(this, attributes)
     }
 
     for (const i in links) {
       const link = links[i]
       this.addToBuffer(link, "taskLinks")
     }
+
+    return links
   }
 }
