@@ -19,4 +19,4 @@ div class="modal" id="modalEdition"
   button class="modal-close is-large" aria-label="close" onclick="modalEdition.close()"
 
 = react_component("InstanceGraph", object: FlowyUi::InstanceSerializer.new(@instance), canvasId: "instance_canvas", height: 800)
-//= react_component("Payload", task: FlowyUi::InstanceTaskSerializer.new(@instance.tasks.first), submitUrl: "/flowy/instance_tasks/#{@instance.tasks.first.id}")
+//= react_component("Payload", task: FlowyUi::InstanceTaskSerializer.new(@instance.tasks.first), submitUrl: "/flowy/instance_tasks/update_payload/")

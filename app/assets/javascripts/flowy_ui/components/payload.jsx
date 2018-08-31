@@ -55,9 +55,9 @@ class Payload extends React.Component {
         url: this.props.submitUrl,
         method: "patch",
         data: {
+          id: this.props.task.id,
           instance_task: {
             payload: payload,
-            cenas: 'cenas'
           }
         },
         success: function(response) {
