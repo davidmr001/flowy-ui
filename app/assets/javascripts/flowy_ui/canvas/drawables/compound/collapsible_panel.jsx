@@ -6,7 +6,9 @@ class CollapsiblePanel extends Drawable {
       height: attributes.panelHeight
     })
 
-    this.panel = new RoundedSquare({
+    const comp = this
+
+    this.panel = new Panel({
       width:           attributes.panelWidth,
       height:          attributes.panelHeight,
       backgroundColor: attributes.panelBackgroundColor
@@ -17,14 +19,11 @@ class CollapsiblePanel extends Drawable {
       text:            attributes.buttonText,
       textSize:        attributes.buttonTextSize,
       backgroundColor: attributes.buttonBackgroundColor,
+      onClick:         comp.toggle.bind(comp)
     })
 
     this.addChild(this.panel)
     this.addChild(this.button)
-    const content = this.setupContent(attributes)
-    if (content) {
-      this.panel.addChild(content)
-    }
 
     this.open = attributes.open || false
     this.openDirection = attributes.openDirection
@@ -32,7 +31,7 @@ class CollapsiblePanel extends Drawable {
     this.spacing = attributes.spacing || 0
   }
 
-  onClick() {
+  toggle() {
     // Toggle
     this.open = !this.open
   }
@@ -61,11 +60,6 @@ class CollapsiblePanel extends Drawable {
     }
 
     this.button.setPosition(buttonPosition.x, buttonPosition.y)
-  }
-
-  setupContent(attributes) {
-    // Extending components should return a drawable here to be included
-    // as a child of panel
   }
 
   // // Compound drawables need to override isMouseOver

@@ -11,7 +11,7 @@ class TextBox extends Drawable {
     this.square = new RoundedSquare({
       width: attributes.width,
       height: attributes.height,
-      backgroundColor: attributes.backgroundColor
+      backgroundColor: attributes.backgroundColor || "#ffffff"
     })
 
     this.addChild(this.square)

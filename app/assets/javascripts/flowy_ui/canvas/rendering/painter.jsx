@@ -39,27 +39,20 @@ class Painter {
 
     var buffers = this.getBuffers()
     for (const i in buffers) {
-      hit = this.checkClickInBuffer(buffers[i])
-      if (hit) { drawableClicked = hit }
-    }
-
-    if (drawableClicked) {
-      drawableClicked.onClick(context)
-      return drawableClicked
-    }
-
-    return null
-  }
-
-  checkClickInBuffer(buffer) {
-    var hit = null
-    for (const i in buffer.drawables) {
-      const drawable = buffer.drawables[i]
-      if (drawable.isMouseOver()) {
-        hit = drawable
+      const buffer = buffers[i]
+      for (const j in buffer.drawables) {
+        this.triggerOnClickIfApplicable(buffer.drawables[j])
       }
     }
-    return hit
+  }
+
+  triggerOnClickIfApplicable(drawable) {
+    if (drawable.isClickable && drawable.isMouseOver()) {
+      drawable.onClick()
+    }
+    for (const i in drawable.kids) {
+      this.triggerOnClickIfApplicable(drawable.kids[i])
+    }
   }
 
   clear() {

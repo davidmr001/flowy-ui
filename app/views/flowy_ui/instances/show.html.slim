@@ -7,5 +7,16 @@ nav.breadcrumb aria-label="breadcrumbs"
 
 h1.title = "#{@instance.key} (#{@instance.id})"
 
+button class="button is-warning is-pulled-right" onclick="modalEdition.open()"
+  span Edit
+
+div class="modal" id="modalEdition"
+  div class="modal-background"
+  /onclick="modalEdition.close()"
+  div class="modal-content"
+    p class="image is-4by3"
+      img src="https://bulma.io/images/placeholders/1280x960.png" alt=""
+  button class="modal-close is-large" aria-label="close" onclick="modalEdition.close()"
+
 = react_component("InstanceGraph", object: FlowyUi::InstanceSerializer.new(@instance), canvasId: "instance_canvas", height: 800)
 //= react_component("Payload", task: FlowyUi::InstanceTaskSerializer.new(@instance.tasks.first), submitUrl: "/flowy/instance_tasks/#{@instance.tasks.first.id}")

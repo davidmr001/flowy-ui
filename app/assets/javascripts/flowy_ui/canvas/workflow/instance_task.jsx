@@ -1,6 +1,6 @@
 class InstanceTask extends Task {
-  constructor(attributes) {
-    super(attributes)
+  constructor(parent, attributes) {
+    super(parent, attributes)
 
     if (INSTANCE_TASK_STATES[this.task.state]) {
       this.label.color = INSTANCE_TASK_STATES[this.task.state]["color"]

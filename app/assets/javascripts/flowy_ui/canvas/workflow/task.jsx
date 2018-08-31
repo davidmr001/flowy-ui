@@ -1,41 +1,67 @@
 class Task extends Button {
-  constructor(attributes) {
+  constructor(parent, attributes) {
     super({
       ...attributes,
       text: attributes.task.name + " (" + attributes.task.id + ")"
     })
 
+    this.parent = parent // Parent graph
     this.task = attributes.task
     this.selected = attributes.selected
-
-    // this.on = true
-    // this.startTime = new Date()
 
     if (this.task.class_source) {
       this.sourceCodeCard = new SourceCodeCard(300, 300, this.task.class_source)
     }
-
-    // this.animating = this.task.state == "ERROR"
-    // this.animationPulse = 500 // ms
   }
 
-  // swapColorsIfAnimating() {
-  //   const now = new Date()
-  //   if (now - this.startTime > this.animationPulse) {
-  //     this.startTime = now
-  //     if (this.on) {
-  //       this.color = "black"
-  //       this.backgorundColor = "white"
-  //     } else {
-  //       this.setColorsFromState()
-  //     }
-  //     this.on = !this.on
-  //   }
-  // }
+  setCanvasInformation(canvasInformation) {
+    super.setCanvasInformation(canvasInformation)
+    if (this.infoPanel) {
+      this.infoPanel.setCanvasInformation(canvasInformation)
+    }
+  }
 
-  //
-  // Shades a color by a percentage, or mixes two colors
-  //
+  setPosition(x, y) {
+    super.setPosition(x, y)
+    // Move info panel
+    if (this.infoPanel) {
+      this.infoPanel.setPosition(x + this.width + 20, y)
+    }
+  }
+
+  onClick() {
+    this.selected = !this.selected
+    if (this.selected) {
+      this.parent.selectTask(this)
+    }
+  }
+
+  setSelected(selected) {
+    this.selected = selected
+    if (selected) {
+      this.openInfoPanel()
+    } else {
+      this.closeInfoPanel()
+    }
+  }
+
+  openInfoPanel() {
+    if (this.infoPanel) return
+
+    const comp = this
+    comp.infoPanel = new Panel({
+      width: 300,
+      height: 500,
+      closeable: true,
+      onCloseRequested: comp.closeInfoPanel.bind(this)
+    })
+    comp.addChild(comp.infoPanel)
+  }
+
+  closeInfoPanel() {
+    this.removeChild(this.infoPanel)
+    this.infoPanel = null
+  }
 
   drawSelectionStroke(ctx) {
     new RoundedSquare({
@@ -48,16 +74,6 @@ class Task extends Button {
   }
 
   draw(ctx) {
-    // if (this.animating) {
-    //   this.swapColorsIfAnimating()
-    // }
-
-    // Adjust box with if text is bigger
-    // const textWidth = this.text.getTextWidth(ctx)
-    // if (textWidth > this.width) {
-    //   this.width  = textWidth + 20
-    // }
-
     // Detect mouse over
     const originalBackgroundColor = this.square.backgroundColor
     if (this.mouseOver) {
@@ -71,10 +87,10 @@ class Task extends Button {
 
     super.draw(ctx)
 
-    this.square.backgroundColor = originalBackgroundColor
+    if (this.infoPanel) {
+      this.infoPanel.draw(ctx)
+    }
 
-    // if (isMouseOver && this.sourceCodeCard) {
-    //   this.sourceCodeCard.draw(ctx, mouseX + 50, mouseY)
-    // }
+    this.square.backgroundColor = originalBackgroundColor
   }
 }

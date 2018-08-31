@@ -1,6 +1,9 @@
 class Button extends TextBox {
   constructor(attributes) {
-    super(attributes)
+    super({
+      ...attributes,
+      isClickable: true
+    })
     this.onClickCallback = attributes.onClick
   }
 

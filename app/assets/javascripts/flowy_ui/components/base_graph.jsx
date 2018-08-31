@@ -3,29 +3,29 @@ class BaseGraph extends Canvas {
     super(props)
 
     this.tasks = []
-    this.selectedTaskId = null
   }
 
-  onClick(x, y) {
-    const drawableClicked = super.onClick(x, y)
-
+  selectTask(task) {
     for (const i in this.tasks) {
-      this.tasks[i].selected = false
+      this.tasks[i].setSelected(false)
     }
-
-    if (drawableClicked &&
-        (drawableClicked.constructor.name === "Task" ||
-         drawableClicked.constructor.name === "InstanceTask" ||
-         drawableClicked.constructor.name === "BlueprintTask")) {
-      this.selectedTaskId = drawableClicked.task.id
-      drawableClicked.selected = true
-    } else {
-      this.selectedTaskId = null
-    }
+    task.setSelected(true)
   }
 
   setupScene() {
     const object = this.props.object;
+
+    this.addToBuffer(new Button({
+      x: 500,
+      y: 500,
+      width: 100,
+      height: 50,
+      text: "Restart",
+      backgroundColor: "#00ff00",
+      onClick: function() {
+        console.log("Clicked")
+      }
+    }), "ui")
 
     for (var tier in object.tiered_tasks) {
       y = (parseInt(tier) + 1) * 200;
@@ -33,7 +33,7 @@ class BaseGraph extends Canvas {
       x = base_width
       for(var task_index in object.tiered_tasks[tier]) {
         task = object.tiered_tasks[tier][task_index];
-        this.tasks[task.id] = new this.taskClass({
+        this.tasks[task.id] = new this.taskClass(this, {
           x: x,
           y: y,
           width: 150,

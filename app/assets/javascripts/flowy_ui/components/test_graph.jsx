@@ -28,7 +28,7 @@ class TestGraph extends Canvas {
 
       text: new Text({ x: 600, y: 400, width: 150, height: 70, text: "Simple Text", size: 14, color: "#00ff00" }),
 
-      blueprintTask1: new Task({
+      blueprintTask1: new Task(this, {
         x: 700,
         y: 500,
         width: 100,
@@ -37,7 +37,7 @@ class TestGraph extends Canvas {
         textSize: 14,
         task: { id: 1, name: "NORMAL TASK" }
       }),
-      blueprintTask2: new Task({
+      blueprintTask2: new Task(this, {
         x: 700,
         y: 600,
         width: 200,
@@ -46,7 +46,7 @@ class TestGraph extends Canvas {
         textSize: 14,
         task: { id: 2, name: "COMPLETED TASK", state: "COMPLETED" }
       }),
-      blueprintTask3: new Task({
+      blueprintTask3: new Task(this, {
         x: 700,
         y: 700,
         width: 150,

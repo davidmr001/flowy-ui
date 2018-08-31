@@ -1,4 +1,9 @@
 class TaskStateLegendPanel extends CollapsiblePanel {
+  constructor(attributes) {
+    super(attributes)
+    this.setupContent()
+  }
+
   setPosition(x, y) {
     super.setPosition(x, y)
 
@@ -7,25 +12,22 @@ class TaskStateLegendPanel extends CollapsiblePanel {
     var drawY = y
     const spacingY = 40
 
-    for (const i in this.itemsPanel.kids) {
-      const legendItem = this.itemsPanel.kids[i]
+    for (const i in this.panel.kids) {
+      const legendItem = this.panel.kids[i]
+
+      // The close button is also a child, so skip that one
+      if (legendItem === this.panel.closeButton) continue
+
       legendItem.setPosition(drawX + 20, drawY + 20)
       drawY += spacingY;
     }
   }
 
-  setupContent(attributes) {
-    this.itemsPanel = new Panel({
-      x: this.x,
-      y: this.y,
-      width: this.width,
-      height: this.height
-    })
-
+  setupContent() {
     states = Object.keys(INSTANCE_TASK_STATES)
     for (var i=0; i < states.length; i++) {
       if (states[i] === "NULL") continue
-      this.itemsPanel.addChild(
+      this.panel.addChild(
         new TaskStateLegendItem({
           x: this.x,
           y: this.y,
@@ -33,12 +35,10 @@ class TaskStateLegendPanel extends CollapsiblePanel {
           squareHeight: 20,
           squareBackgroundColor: INSTANCE_TASK_STATES[states[i]]["backgroundColor"],
           text: states[i],
-          textSize: attributes.contentTextSize,
+          textSize: 10,
           center: false
         })
       )
     }
-
-    return this.itemsPanel
   }
 }

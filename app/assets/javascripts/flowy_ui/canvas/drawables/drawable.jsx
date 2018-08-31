@@ -9,10 +9,13 @@ class Drawable {
     this.height       = attributes.height
     this.color        = attributes.color || THEME.textColor
     this.drawCentered = attributes.center != undefined ? attributes.center : true
+    this.isClickable  = attributes.isClickable || false
     this.kids         = []
   }
 
   isMouseOver() {
+    if (!this.canvasInformation) return false
+
     const { mousePosition, isPanning, zoom } = this.canvasInformation
     const zoomFactor = isPanning ? zoom : 1
 
@@ -24,6 +27,13 @@ class Drawable {
 
   addChild(drawable) {
     this.kids.push(drawable)
+  }
+
+  removeChild(drawable) {
+    var index = this.kids.indexOf(drawable);
+    if (index > -1) {
+      this.kids.splice(index, 1);
+    }
   }
 
   setCanvasInformation(canvasInformation) {
