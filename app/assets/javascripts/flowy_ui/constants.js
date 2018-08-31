@@ -37,6 +37,7 @@ THEME = {
   textColor: "#080708",
   textSize: 12,
 
+  strokeColor: "#ababab",
   strokeWidth: 2,
   roundRadius: 5,
 

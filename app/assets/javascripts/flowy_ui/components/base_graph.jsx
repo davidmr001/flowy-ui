@@ -58,12 +58,12 @@ class BaseGraph extends Canvas {
 
     for (const i in this.tasks) {
       const task = this.tasks[i]
-      this.addToBuffer(task)
+      this.addToBuffer(task, "tasks")
     }
 
     for (const i in links) {
       const link = links[i]
-      this.addToBuffer(link)
+      this.addToBuffer(link, "taskLinks")
     }
   }
 }

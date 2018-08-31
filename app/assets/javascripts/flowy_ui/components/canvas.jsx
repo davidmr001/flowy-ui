@@ -97,8 +97,11 @@ class Canvas extends React.Component {
   }
 
   addToBuffer(drawable, bufferName = "base") {
-    console.log("Adding " + drawable.constructor.name + " to buffer " + bufferName)
     this.state.painter.addToBuffer(drawable, bufferName)
+  }
+
+  removeFromBuffer(drawable, bufferName = "base") {
+    this.state.painter.removeFromBuffer(drawable, bufferName)
   }
 
   tick() {

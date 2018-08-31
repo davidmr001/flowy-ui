@@ -5,6 +5,9 @@ class Painter {
     this.baseBuffer   = new PaintBuffer("base")
     this.uiBuffer     = new PaintBuffer("ui", false),
     this.otherBuffers = {} // Hash of render buffers (name, and buffer)
+
+    this.drawablesToAdd = {}
+    this.drawablesToRemove = {}
   }
 
   getBuffer(bufferName) {
@@ -66,8 +69,21 @@ class Painter {
 
   // Adds a drawable to a render buffer
   addToBuffer(drawable, bufferName = "base") {
-    const buffer = this.getBuffer(bufferName)
-    buffer.push(drawable)
+    // Delay adding drawables to the next frame to prevent artifacts when adding
+    // in runtime
+    if (!this.drawablesToAdd[bufferName]) {
+      this.drawablesToAdd[bufferName] = []
+    }
+    this.drawablesToAdd[bufferName].push(drawable)
+  }
+
+  removeFromBuffer(drawable, bufferName = "base") {
+    // Delay adding drawables to the next frame to prevent artifacts when adding
+    // in runtime
+    if (!this.drawablesToRemove[bufferName]) {
+      this.drawablesToRemove[bufferName] = []
+    }
+    this.drawablesToRemove[bufferName].push(drawable)
   }
 
   paint(context) {
@@ -94,5 +110,31 @@ class Painter {
       context,
       { ...canvasInformation, isPanning: this.uiBuffer.isPannable }
     )
+
+    this.addOrRemoveDrawables()
+  }
+
+  addOrRemoveDrawables() {
+    const comp = this
+
+    // Add new drawables after each frame
+    Object.keys(comp.drawablesToAdd).forEach(function(bufferName, index) {
+      const buffer = comp.getBuffer(bufferName)
+      const drawables = comp.drawablesToAdd[bufferName]
+      for (const i in drawables) {
+        buffer.add(drawables[i], bufferName);
+      }
+    });
+    comp.drawablesToAdd = {}
+
+    // Remove drawables after each frame
+    Object.keys(comp.drawablesToRemove).forEach(function(bufferName, index) {
+      const buffer = comp.getBuffer(bufferName)
+      const drawables = comp.drawablesToRemove[bufferName]
+      for (const i in drawables) {
+        buffer.remove(drawables[i], bufferName);
+      }
+    });
+    comp.drawablesToRemove = {}
   }
 }

@@ -2,8 +2,9 @@ class RoundedSquare extends Drawable {
   constructor(attributes) {
     super(attributes)
     this.radius = attributes.radius || THEME.roundRadius
+    this.color = attributes.color || THEME.strokeColor
     this.backgroundColor = attributes.backgroundColor
-    this.lineWidth = attributes.lineWidth
+    this.lineWidth = attributes.lineWidth || 1
     this.shadow = attributes.shadow === 0 ? false : (attributes.shadow || THEME.shadowSize)
   }
 
@@ -38,7 +39,6 @@ class RoundedSquare extends Drawable {
     ctx.quadraticCurveTo(x, y + this.height, x, y + this.height - this.radius.bl)
     ctx.lineTo(x, y + this.radius.tl)
     ctx.quadraticCurveTo(x, y, x + this.radius.tl, y)
-    ctx.stroke()
     ctx.closePath()
 
     if (this.shadow) {
@@ -50,6 +50,9 @@ class RoundedSquare extends Drawable {
 
     if (this.backgroundColor) {
       ctx.fill()
+    }
+    if (this.color) {
+      ctx.stroke()
     }
 
     ctx.restore()

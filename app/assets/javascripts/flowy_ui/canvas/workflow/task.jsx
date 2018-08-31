@@ -36,18 +36,22 @@ class Task extends Button {
 
     const comp = this
     comp.infoPanel = new TaskDetailPanel({
+      x: comp.originalX,
+      y: comp.originalY,
       width: 300,
       height: 500,
       closeable: true,
       onCloseRequested: comp.closeInfoPanel.bind(this),
       task: comp.task,
-      offsetX: this.width + 20
+      center: false
     })
-    comp.addChild(comp.infoPanel)
+    this.parent.addToBuffer(comp.infoPanel, "taskDetails")
   }
 
   closeInfoPanel() {
-    this.removeChild(this.infoPanel)
+    if (!this.infoPanel) return
+
+    this.parent.removeFromBuffer(this.infoPanel, "taskDetails")
     this.infoPanel = null
   }
 

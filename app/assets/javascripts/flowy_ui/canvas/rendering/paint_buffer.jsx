@@ -5,11 +5,13 @@ class PaintBuffer {
     this.drawables = []
   }
 
-  push(drawable) {
+  add(drawable) {
+    console.log("Adding " + drawable.constructor.name + " to buffer " + this.name)
     this.drawables.push(drawable)
   }
 
   remove(drawable) {
+    console.log("Removing " + drawable.constructor.name + " to buffer " + this.name)
     var index = this.drawables.indexOf(drawable);
     if (index > -1) {
       this.drawables.splice(index, 1);
