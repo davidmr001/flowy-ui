@@ -46,8 +46,10 @@ class EventListener {
     }, false)
 
     domElement.addEventListener('click', function(evt) {
-      if (comp.state.mouseDragStartPosition.x != evt.clientX ||
-          comp.state.mouseDragStartPosition.y != evt.clientY) {
+      const diffX = Math.abs(comp.state.mouseDragStartPosition.x - evt.clientX)
+      const diffY = Math.abs(comp.state.mouseDragStartPosition.y - evt.clientY)
+
+      if (diffX > 3 || diffY > 3) {
         evt.preventDefault()
         return // Means we dragged, so no clicky
       }
