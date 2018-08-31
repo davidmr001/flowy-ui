@@ -14,25 +14,11 @@ class Task extends Button {
     }
   }
 
-  setCanvasInformation(canvasInformation) {
-    super.setCanvasInformation(canvasInformation)
-    if (this.infoPanel) {
-      this.infoPanel.setCanvasInformation(canvasInformation)
-    }
-  }
-
-  setPosition(x, y) {
-    super.setPosition(x, y)
-    // Move info panel
-    if (this.infoPanel) {
-      this.infoPanel.setPosition(x + this.width + 20, y)
-    }
-  }
-
   onClick() {
-    this.selected = !this.selected
-    if (this.selected) {
+    if (!this.selected) {
       this.parent.selectTask(this)
+    } else {
+      this.setSelected(false)
     }
   }
 
@@ -49,11 +35,13 @@ class Task extends Button {
     if (this.infoPanel) return
 
     const comp = this
-    comp.infoPanel = new Panel({
+    comp.infoPanel = new TaskDetailPanel({
       width: 300,
       height: 500,
       closeable: true,
-      onCloseRequested: comp.closeInfoPanel.bind(this)
+      onCloseRequested: comp.closeInfoPanel.bind(this),
+      task: comp.task,
+      offsetX: this.width + 20
     })
     comp.addChild(comp.infoPanel)
   }

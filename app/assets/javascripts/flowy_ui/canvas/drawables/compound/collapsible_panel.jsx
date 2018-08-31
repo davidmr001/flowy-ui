@@ -6,6 +6,11 @@ class CollapsiblePanel extends Drawable {
       height: attributes.panelHeight
     })
 
+    this.open = attributes.open || false
+    this.openDirection = attributes.openDirection
+    this.buttonPlacement = attributes.buttonPlacement || "topRight"
+    this.spacing = attributes.spacing || 0
+
     const comp = this
 
     this.panel = new Panel({
@@ -13,53 +18,55 @@ class CollapsiblePanel extends Drawable {
       height:          attributes.panelHeight,
       backgroundColor: attributes.panelBackgroundColor
     })
+    const buttonOffset = this.calculateButtonOffset(attributes.buttonWidth, attributes.buttonHeight)
     this.button = new Button({
       width:           attributes.buttonWidth,
       height:          attributes.buttonHeight,
       text:            attributes.buttonText,
       textSize:        attributes.buttonTextSize,
       backgroundColor: attributes.buttonBackgroundColor,
-      onClick:         comp.toggle.bind(comp)
+      onClick:         comp.toggle.bind(comp),
+      offsetX:         buttonOffset.x,
+      offsetY:         buttonOffset.y
     })
 
     this.addChild(this.panel)
     this.addChild(this.button)
+  }
 
-    this.open = attributes.open || false
-    this.openDirection = attributes.openDirection
-    this.buttonPlacement = attributes.buttonPlacement || "topRight"
-    this.spacing = attributes.spacing || 0
+  calculateButtonOffset(buttonWidth, buttonHeight) {
+    switch (this.buttonPlacement) {
+      case "topRight":
+        return {
+          x: this.panel.width - buttonWidth,
+          y: - buttonHeight - this.spacing
+        }
+        break
+      case "bottomLeft":
+        return {
+          x: 0,
+          y: this.panel.height + this.spacing
+        }
+        break
+      case "bottomRight":
+        return {
+          x: this.panel.width - buttonWidth,
+          y: this.panel.height + this.spacing
+        }
+        break
+      default:
+      case "topLeft":
+        return {
+          x: 0,
+          y: - buttonHeight - this.spacing
+        }
+    }
+    return { x: 0, y: 0 }
   }
 
   toggle() {
     // Toggle
     this.open = !this.open
-  }
-
-  setPosition(x, y) {
-    // Never forget to call super
-    super.setPosition(x, y)
-
-    const buttonPosition  = { x: x, y: y }
-
-    switch (this.buttonPlacement) {
-      case "topRight":
-        buttonPosition.x += this.panel.width - this.button.width
-        buttonPosition.y -= this.button.height + this.spacing
-        break
-      case "bottomLeft":
-        buttonPosition.y += this.panel.height + this.spacing
-        break
-      case "bottomRight":
-        buttonPosition.x += this.panel.width - this.button.width
-        buttonPosition.y += this.panel.height + this.spacing
-        break
-      default:
-      case "topLeft":
-        buttonPosition.y -= this.button.height + this.spacing
-    }
-
-    this.button.setPosition(buttonPosition.x, buttonPosition.y)
   }
 
   // // Compound drawables need to override isMouseOver

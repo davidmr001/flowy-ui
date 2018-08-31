@@ -15,16 +15,12 @@ class TaskStateLegendItem extends Drawable {
       text: attributes.text,
       color: attributes.textColor,
       size: attributes.textSize,
-      center: false
+      center: false,
+      offsetX: 30,
+      offsetY: 15
     })
 
     this.addChild(this.square)
     this.addChild(this.text)
-  }
-
-  setPosition(x, y) {
-    super.setPosition(x, y)
-
-    this.text.setPosition(x + 30, y + 15)
   }
 }

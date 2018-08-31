@@ -12,21 +12,10 @@ class Panel extends RoundedSquare {
         width: 30,
         height: 30,
         text: "X",
-        onClick: attributes.onCloseRequested
+        onClick: attributes.onCloseRequested,
+        offsetX: attributes.width - 30
       })
       this.addChild(this.closeButton)
-    }
-  }
-
-  setPosition(x, y) {
-    super.setPosition(x, y)
-
-    // Move close button
-    if (this.closeButton) {
-      this.closeButton.setPosition(
-        x + this.width - this.closeButton.width,
-        y
-      )
     }
   }
 }

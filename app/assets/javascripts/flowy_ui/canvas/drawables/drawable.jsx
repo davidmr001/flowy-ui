@@ -5,6 +5,8 @@ class Drawable {
     this.y            = attributes.y
     this.originalX    = attributes.x
     this.originalY    = attributes.y
+    this.offsetX      = attributes.offsetX || 0,
+    this.offsetY      = attributes.offsetY || 0,
     this.width        = attributes.width
     this.height       = attributes.height
     this.color        = attributes.color || THEME.textColor
@@ -58,10 +60,10 @@ class Drawable {
   }
 
   setPosition(x, y) {
-    this.x = x
-    this.y = y
+    this.x = x + this.offsetX
+    this.y = y + this.offsetY
     for (const i in this.kids) {
-      this.kids[i].setPosition(x, y)
+      this.kids[i].setPosition(this.x, this.y)
     }
   }
 
@@ -69,17 +71,6 @@ class Drawable {
   paint(ctx) {
     this.adjust(ctx)
     this.draw(ctx)
-
-    // Debug info
-    if (this.canvasInformation.debug && this.isMouseOver()) {
-      ctx.save()
-      ctx.strokeStyle = "#ff0000"
-      ctx.strokeRect(this.x-1, this.y-1, this.width+2, this.height+2)
-      ctx.restore()
-
-      drawDebugText(ctx, Math.round(this.x) + "," + Math.round(this.y), this.x, this.y-10)
-      drawDebugText(ctx, Math.round(this.x + this.width) + "," + Math.round(this.y + this.height), (this.x + this.width), (this.y + this.height)-10)
-    }
   }
 
   // Implemented by the shapes themselves

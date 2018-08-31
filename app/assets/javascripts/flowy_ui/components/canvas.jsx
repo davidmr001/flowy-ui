@@ -64,7 +64,6 @@ class Canvas extends React.Component {
         backgroundColor: "#F34213",
         center: false,
         onClick: function() {
-          console.log("debugamos")
           comp.setState({ debug: !comp.state.debug })
         }
       })
