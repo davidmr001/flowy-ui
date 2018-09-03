@@ -1,3 +1,4 @@
+//= require ./components/task_restart
 //= require ./components/canvas
 //= require ./components/base_graph
 //= require ./components/blueprint_graph

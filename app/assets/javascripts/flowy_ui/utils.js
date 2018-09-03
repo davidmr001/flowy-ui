@@ -51,8 +51,8 @@ function drawDebugText(ctx, text, x, y) {
 
 // Modal opening and closing
 var modal = {
-  open:       function()     { $("#modal").addClass('is-active') },
-  close:      function()     { $("#modal").removeClass('is-active') },
-  setTitle:   function(text) { $("#modal").find(".modal-card-title").html(text) },
-  setContent: function(text) { $("#modal").find(".modal-card-body").html(text) }
+  open:  function() { $("#modal").addClass('is-active') },
+  close: function() { $("#modal").removeClass('is-active'); PubSub.publish('TASK_RESTART', 'hide') },
+  setTitle: function(text) { $("#modal .modal-card-title").html(text) },
+  setContent: function(text) { $("#modal .modal-card-body .content").html(text) }
 }

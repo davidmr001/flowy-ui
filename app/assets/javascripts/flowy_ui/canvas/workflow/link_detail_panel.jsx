@@ -23,18 +23,30 @@ class LinkDetailPanel extends Panel {
 
     var contentY = 75
 
-    this.addChild(
-      new Button({
-        text: "View Source",
-        textSize: 10,
-        width: 100,
-        height: 30,
-        center: false,
-        offsetX: 20,
-        offsetY: contentY,
-        onClick: this.onViewSourceClicked.bind(this)
-      })
-    )
+    if (this.link.class_source !== "true") {
+      this.addChild(
+        new Button({
+          text: "View Source",
+          textSize: 10,
+          width: 100,
+          height: 30,
+          center: false,
+          offsetX: 20,
+          offsetY: contentY,
+          onClick: this.onViewSourceClicked.bind(this)
+        })
+      )
+    } else {
+      this.addChild(
+        new Text({
+          text: "Nothing to see here...",
+          size: 12,
+          center: false,
+          offsetX: 20,
+          offsetY: contentY
+        })
+      )
+    }
   }
 
   onViewSourceClicked() {

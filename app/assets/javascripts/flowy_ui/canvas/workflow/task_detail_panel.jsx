@@ -97,7 +97,8 @@ class TaskDetailPanel extends Panel {
 
   onViewRestartTaskClicked() {
     modal.setTitle("Restarting task " + this.task.name)
-    modal.setContent("<p>Are you sure you want to restart this workflow from this task?</p> TODO: Implement button")
+    // The react component inside the modal will show the appropriate information and actions
+    PubSub.publish('TASK_RESTART', 'show');
     modal.open()
   }
 }
