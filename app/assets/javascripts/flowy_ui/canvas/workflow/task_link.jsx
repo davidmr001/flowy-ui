@@ -63,21 +63,38 @@ class TaskLink extends Line {
     }).draw(ctx)
   }
 
+  drawCodeIndication(ctx) {
+    new Text({
+      x: this.x + this.width / 2,
+      y: this.y + this.height / 2,
+      text: "C",
+      color: THEME.strokeColor
+    }).draw(ctx)
+  }
+
   draw(ctx) {
+    const originalBackgroundColor = this.color
+    const originalLineWidth = this.lineWidth
+
     // Draw a broader stroke if selected
     if (this.selected) {
-      this.drawSelectionStroke(ctx)
+      //this.drawSelectionStroke(ctx)
+      this.color = shadeBlend(0.2, this.color)
+      this.lineWidth = 5
     }
 
     // Detect mouse over
-    const originalBackgroundColor = this.color
-    const originalLineWidth = this.lineWidth
     if (this.isMouseOver()) {
-      this.color = shadeBlend(0.75, this.color)
+      this.color = shadeBlend(0.2, this.color)
       this.lineWidth = 5
     }
 
     super.draw(ctx)
+
+    // If the link has code, show some indication
+    if (this.link.class_source !== "true") {
+      this.drawCodeIndication(ctx)
+    }
 
     this.color = originalBackgroundColor
     this.lineWidth = originalLineWidth

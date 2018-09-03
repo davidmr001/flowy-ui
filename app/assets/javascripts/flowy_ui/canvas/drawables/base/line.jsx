@@ -2,6 +2,7 @@ class Line extends Drawable {
   constructor(attributes) {
     super({
       ...attributes,
+      color: attributes.color || THEME.strokeColor,
       center: false
     })
 
@@ -13,6 +14,7 @@ class Line extends Drawable {
       this.selectionCircle = new Ellipse({
         width: 30,
         height: 30,
+        color: this.color,
         backgroundColor: THEME.panelBackgroundColor,
         offsetX: this.width / 2 - 15,
         offsetY: this.height / 2 - 15
