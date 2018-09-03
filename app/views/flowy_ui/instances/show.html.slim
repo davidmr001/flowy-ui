@@ -7,19 +7,7 @@ nav.breadcrumb aria-label="breadcrumbs"
 
 h1.title = "#{@instance.key} (#{@instance.id})"
 
-button class="button is-warning is-pulled-right" onclick="modal.open()"
-  span Edit
-
-div class="modal" id="modal"
-  div class="modal-background"
-  /onclick="modal.close()"
-  div class="modal-card"
-    header class="modal-card-head"
-      p class="modal-card-title" Modal title
-      button class="delete" aria-label="close" onclick="modal.close()"
-    section class="modal-card-body"
-    footer class="modal-card-foot"
-      button class="button is-success" onclick="modal.close()" Close
+= render partial: "modal"
 
 = react_component("InstanceGraph", object: FlowyUi::InstanceSerializer.new(@instance), canvasId: "instance_canvas", height: 800)
 //= react_component("Payload", task: FlowyUi::InstanceTaskSerializer.new(@instance.tasks.first), submitUrl: "/flowy/instance_tasks/update_payload/")

@@ -34,8 +34,8 @@ class TaskLink extends Line {
     comp.infoPanel = new LinkDetailPanel({
       x: comp.originalX + comp.endPointOffsetX / 2,
       y: comp.originalY + comp.endPointOffsetY / 2,
-      width: 300,
-      height: 500,
+      width: 350,
+      height: 150,
       closeable: true,
       onCloseRequested: comp.setSelected.bind(this, false),
       link: comp.link,

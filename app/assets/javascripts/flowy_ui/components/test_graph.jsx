@@ -59,8 +59,8 @@ class TestGraph extends Canvas {
 
     this.state = {
       ...this.state,
-      blueprintTaskLink1: new TaskLink({ startTask: this.state.blueprintTask1, endTask: this.state.blueprintTask2 }),
-      blueprintTaskLink2: new TaskLink({ startTask: this.state.blueprintTask2, endTask: this.state.blueprintTask3 })
+      blueprintTaskLink1: new TaskLink(this, { startTask: this.state.blueprintTask1, endTask: this.state.blueprintTask2 }),
+      blueprintTaskLink2: new TaskLink(this, { startTask: this.state.blueprintTask2, endTask: this.state.blueprintTask3 })
     }
   }
 

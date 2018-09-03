@@ -8,6 +8,7 @@ class Text extends Drawable {
     this.text = attributes.text
     this.color = attributes.color || THEME.textColor
     this.size = attributes.size || THEME.textSize
+    this.bold = attributes.bold || false
   }
 
   getTextWidth(ctx) {
@@ -17,6 +18,9 @@ class Text extends Drawable {
       ctx.textBaseline = "middle"
     }
     ctx.font = this.size + "pt mono"
+    if (this.bold) {
+      ctx.font = "bold " + ctx.font
+    }
     const width = ctx.measureText(this.text).width
     ctx.restore()
     return width
@@ -34,6 +38,9 @@ class Text extends Drawable {
     ctx.save()
     ctx.fillStyle = this.color
     ctx.font = this.size + "pt mono"
+    if (this.bold) {
+      ctx.font = "bold " + ctx.font
+    }
     ctx.fillText(this.text, this.x, this.y)
     ctx.restore()
   }

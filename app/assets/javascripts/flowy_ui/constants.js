@@ -42,6 +42,9 @@ THEME = {
   roundRadius: 5,
 
   buttonStrokeColor: "#434343",
+  buttonSuccessBackground: INSTANCE_TASK_STATES["COMPLETED"]["backgroundColor"],
+  buttonErrorBackground: INSTANCE_TASK_STATES["ERROR"]["backgroundColor"],
+  buttonWarningBackground: INSTANCE_TASK_STATES["WAITING_FOR_INPUT"]["backgroundColor"],
 
   shadowSize: 15,
   shadowOffsetY: 5,

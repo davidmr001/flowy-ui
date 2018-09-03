@@ -30,7 +30,7 @@ class BaseGraph extends Canvas {
 
     for (var tier in object.tiered_tasks) {
       y = (parseInt(tier) + 1) * 200;
-      base_width = 1400 / (object.tiered_tasks[tier].length + 1);
+      base_width = this.state.width / (object.tiered_tasks[tier].length + 1);
       x = base_width
       for(var task_index in object.tiered_tasks[tier]) {
         task = object.tiered_tasks[tier][task_index];
@@ -62,8 +62,8 @@ class BaseGraph extends Canvas {
     for (const i in object.links) {
       const link = object.links[i]
 
-      const sourceTaskComponent = this.tasks[link.source_task_id]
-      const targetTaskComponent = this.tasks[link.target_task_id]
+      const sourceTaskComponent = this.tasks[link.source_task.id]
+      const targetTaskComponent = this.tasks[link.target_task.id]
       const attributes = {
         link: link,
         x: sourceTaskComponent.x,
