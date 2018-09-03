@@ -74,9 +74,17 @@ class Canvas extends React.Component {
 
   onClick(x, y) {
     const { context, painter, panPosition, zoom } = this.state
+    painter.onClick(x, y, context, panPosition, zoom)
+  }
 
-    // By default return the drawable caught by the painter
-    return painter.onClick(x, y, context, panPosition, zoom)
+  onMouseDown(x ,y) {
+    const { context, painter, panPosition, zoom } = this.state
+    painter.onMouseDown(x, y, context, panPosition, zoom)
+  }
+
+  onMouseUp(x, y) {
+    const { context, painter, panPosition, zoom } = this.state
+    painter.onMouseUp(x, y, context, panPosition, zoom)
   }
 
   onZoom(value) {
@@ -146,20 +154,6 @@ class Canvas extends React.Component {
     // Render the buffers
     if (!isSetup) {
       this.setupScene() // Implemented by the derived classes
-
-      // TODO: Remove
-      // painter.addToBuffer(new Button({
-      //   x: 200,
-      //   y: 200,
-      //   width: 100,
-      //   height: 50,
-      //   text: "Button1",
-      //   textSize: 14,
-      //   backgroundColor: "#00ff00",
-      //   onClick: function() {
-      //     console.log("Clicked")
-      //   }
-      // }))
 
       // Draw engine stuff last in the ui buffer
       this.addToBuffer(fpsText, "ui")

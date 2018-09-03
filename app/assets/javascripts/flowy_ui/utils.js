@@ -50,7 +50,9 @@ function drawDebugText(ctx, text, x, y) {
 }
 
 // Modal opening and closing
-var modalEdition = {
-  open:function() { document.getElementById('modalEdition').classList.add('is-active') },
-  close:function() { document.getElementById('modalEdition').classList.remove('is-active') }
+var modal = {
+  open:       function()     { $("#modal").addClass('is-active') },
+  close:      function()     { $("#modal").removeClass('is-active') },
+  setTitle:   function(text) { $("#modal").find(".modal-card-title").html(text) },
+  setContent: function(text) { $("#modal").find(".modal-card-body").html(text) }
 }

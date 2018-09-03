@@ -2,6 +2,7 @@ class Button extends TextBox {
   constructor(attributes) {
     super({
       ...attributes,
+      color: attributes.color || THEME.buttonStrokeColor,
       isClickable: true
     })
     this.onClickCallback = attributes.onClick
@@ -13,10 +14,21 @@ class Button extends TextBox {
     }
   }
 
+  onMouseDown() {
+    this.mousePressed = true
+  }
+
+  onMouseUp() {
+    this.mousePressed = false
+  }
+
   draw(ctx) {
-    // Detect mouse over
     const originalBackgroundColor = this.square.backgroundColor
-    if (this.isMouseOver()) {
+
+    // Detect mouse over
+    if (this.mousePressed) {
+      this.square.backgroundColor = shadeBlend(-0.2, this.square.backgroundColor)
+    } else if (this.isMouseOver()) {
       this.square.backgroundColor = shadeBlend(-0.1, this.square.backgroundColor)
     }
 

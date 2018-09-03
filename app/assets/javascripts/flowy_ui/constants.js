@@ -41,6 +41,8 @@ THEME = {
   strokeWidth: 2,
   roundRadius: 5,
 
+  buttonStrokeColor: "#434343",
+
   shadowSize: 15,
   shadowOffsetY: 5,
   shadowOffsetX: 0,

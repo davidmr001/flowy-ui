@@ -33,28 +33,34 @@ class Painter {
     return buffers
   }
 
-  onClick(x, y, context) {
-    // Go through all drawables in all buffers and notify them if they get the click
-    // Only the top most drawable will get the click
-    const mousePosition = { x: x, y: y }
-    var drawableClicked = null
-    var hit = null
+  onClick(x, y) {
+    this.findAndTriggerEventInDrawables("onClick")
+  }
 
+  onMouseDown(x, y) {
+    this.findAndTriggerEventInDrawables("onMouseDown")
+  }
+
+  onMouseUp(x, y) {
+    this.findAndTriggerEventInDrawables("onMouseUp", true)
+  }
+
+  findAndTriggerEventInDrawables(eventFunction, applyToAll = false) {
     var buffers = this.getBuffers()
     for (const i in buffers) {
       const buffer = buffers[i]
       for (const j in buffer.drawables) {
-        this.triggerOnClickIfApplicable(buffer.drawables[j])
+        this.triggerMouseEventIfApplicable(buffer.drawables[j], eventFunction, applyToAll)
       }
     }
   }
 
-  triggerOnClickIfApplicable(drawable) {
-    if (drawable.isClickable && drawable.isMouseOver()) {
-      drawable.onClick()
+  triggerMouseEventIfApplicable(drawable, eventFunction, applyToAll) {
+    if (applyToAll || drawable.isClickable && drawable.isMouseOver()) {
+      drawable[eventFunction]()
     }
     for (const i in drawable.kids) {
-      this.triggerOnClickIfApplicable(drawable.kids[i])
+      this.triggerMouseEventIfApplicable(drawable.kids[i], eventFunction, applyToAll)
     }
   }
 

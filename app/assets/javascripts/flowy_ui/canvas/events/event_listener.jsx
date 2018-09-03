@@ -26,15 +26,21 @@ class EventListener {
     }, false)
 
     domElement.addEventListener('mousedown', function(evt) {
+      const rect = domElement.getBoundingClientRect()
       comp.setState({
         mouseDragging: true,
         mouseDragPosition: { x: evt.clientX, y: evt.clientY },
         mouseDragStartPosition: { x: evt.clientX, y: evt.clientY }
+      }, function() {
+        comp.onMouseDown(evt.clientX - rect.left, evt.clientY - rect.top)
       })
     }, false)
 
     domElement.addEventListener('mouseup', function(evt) {
-      comp.setState({ mouseDragging: false })
+      const rect = domElement.getBoundingClientRect()
+      comp.setState({ mouseDragging: false }, function() {
+        comp.onMouseUp(evt.clientX - rect.left, evt.clientY - rect.top)
+      })
     }, false)
 
     domElement.addEventListener('mouseenter', function(evt) {

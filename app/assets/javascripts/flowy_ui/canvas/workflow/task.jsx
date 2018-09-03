@@ -2,6 +2,7 @@ class Task extends Button {
   constructor(parent, attributes) {
     super({
       ...attributes,
+      color: THEME.strokeColor,
       text: attributes.task.name + " (" + attributes.task.id + ")"
     })
 

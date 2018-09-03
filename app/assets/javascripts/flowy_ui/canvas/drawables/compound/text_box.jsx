@@ -5,7 +5,9 @@ class TextBox extends Drawable {
     this.square = new RoundedSquare({
       width: attributes.width,
       height: attributes.height,
-      backgroundColor: attributes.backgroundColor || "#ffffff"
+      color: attributes.color,
+      backgroundColor: attributes.backgroundColor || "#ffffff",
+      shadow: attributes.shadow
     })
     this.label = new Text({
       text: attributes.text,

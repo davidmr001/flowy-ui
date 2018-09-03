@@ -82,6 +82,8 @@ class Drawable {
     }
   }
 
-  // knowing when drawable has been clicked upon
-  onClick(ctx) {}
+  // Mouse events
+  onClick() {}
+  onMouseDown() {}
+  onMouseUp() {}
 }
