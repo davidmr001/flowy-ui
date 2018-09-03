@@ -2,6 +2,7 @@ class TaskLink extends Line {
   constructor(parent, attributes) {
     super({
       ...attributes,
+      isSelectable: true,
       isClickable: true
     })
 
@@ -32,8 +33,8 @@ class TaskLink extends Line {
 
     const comp = this
     comp.infoPanel = new LinkDetailPanel({
-      x: comp.originalX + comp.endPointOffsetX / 2,
-      y: comp.originalY + comp.endPointOffsetY / 2,
+      x: comp.originalX + comp.width / 2,
+      y: comp.originalY + comp.height / 2,
       width: 350,
       height: 150,
       closeable: true,
@@ -55,8 +56,8 @@ class TaskLink extends Line {
     new Line({
       x: this.x,
       y: this.y,
-      endX: this.x + this.endPointOffsetX,
-      endY: this.y + this.endPointOffsetY,
+      endX: this.x + this.width,
+      endY: this.y + this.height,
       color: THEME.linkSelectionLineColor,
       lineWidth: THEME.linkSelectionBorderLineWidth,
     }).draw(ctx)

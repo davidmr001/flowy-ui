@@ -19,7 +19,7 @@ class Canvas extends React.Component {
     mouseDragStartPosition: { x: 0, y: 0 },
     panPosition: { x: 0, y: 0 },
     zoom: 1,
-    debug: false
+    debug: true
   }
 
   constructor(props) {
