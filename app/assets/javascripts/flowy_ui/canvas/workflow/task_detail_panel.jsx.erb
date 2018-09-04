@@ -69,24 +69,44 @@ class TaskDetailPanel extends Panel {
       contentY += 60
     }
 
+    var text = ""
+    var func = null
+    if (this.task.sub_instance_id || this.task.sub_blueprint_id) {
+      // Link to sub instance/blueprint
+      text = "Go to sub " + (this.task.sub_instance_id ? "instance" : "blueprint")
+      func = this.onGoToSubClicked.bind(this)
+      width = 150
+    } else {
+      text = "View code"
+      func = this.onViewSourceClicked.bind(this)
+      width = 100
+    }
     this.addChild(
       new Button({
-        text: "View Source",
+        text: text,
         textSize: 10,
-        width: 100,
+        width: width,
         height: 30,
         center: false,
         offsetX: 20,
         offsetY: contentY,
-        onClick: this.onViewSourceClicked.bind(this)
+        onClick: func
       })
-    )
+      )
   }
 
   onViewSourceClicked() {
     modal.setTitle("Source code for task " + this.task.name)
     modal.setContent("<pre>" + this.task.class_source + "</pre>")
     modal.open()
+  }
+
+  onGoToSubClicked() {
+    var url =
+      this.task.sub_blueprint_id ?
+      "<%= Rails.application.routes.url_helpers.flowy_ui_blueprints_path %>/" + this.task.sub_blueprint_id :
+      "<%= Rails.application.routes.url_helpers.flowy_ui_instances_path %>/" + this.task.sub_instance_id
+    window.location = url
   }
 
   onViewPayloadClicked() {

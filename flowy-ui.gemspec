@@ -18,12 +18,12 @@ Gem::Specification.new do |s|
 
   s.add_dependency "active_model_serializers", "0.10.0"
 
+  s.add_dependency "jquery-rails",   "4.3.3"
   s.add_dependency "kaminari",       "1.1.1"
   s.add_dependency "method_source",  "0.9.0"
   s.add_dependency "rails",          "5.2.1"
   s.add_dependency "react-rails",    "2.4.7"
   s.add_dependency "slim",           "3.0.9"
-  s.add_dependency "jquery-rails",   "4.3.3"
 
   s.add_development_dependency "sqlite3"
 end
