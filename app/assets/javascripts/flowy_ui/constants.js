@@ -23,6 +23,10 @@ INSTANCE_TASK_STATES = {
     "color": "#ffffff",
     "backgroundColor": "#2F4858"
   },
+  "PROCESSING": {
+    "color": "#434343",
+    "backgroundColor": "#BFF89F"
+  },
   "ABORTED": {
     "color": "#434343",
     "backgroundColor": "#F34213"
