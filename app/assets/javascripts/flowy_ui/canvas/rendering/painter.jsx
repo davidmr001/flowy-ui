@@ -42,26 +42,56 @@ class Painter {
   }
 
   onMouseUp(x, y) {
-    this.findAndTriggerEventInDrawables("onMouseUp", true)
+    this.findAndTriggerEventInDrawables("onMouseUp")
   }
 
-  findAndTriggerEventInDrawables(eventFunction, applyToAll = false) {
+  findAndTriggerEventInDrawables(eventFunction) {
+    // Collect list of drawables under the mouse, and their buffer order
+    var applicableDrawables = []
     var buffers = this.getBuffers()
     for (const i in buffers) {
       const buffer = buffers[i]
       for (const j in buffer.drawables) {
-        this.triggerMouseEventIfApplicable(buffer.drawables[j], eventFunction, applyToAll)
+        const topMostDrawable = this.findTopMostChildUnderMouse(buffer.drawables[j])
+        if (topMostDrawable) {
+          applicableDrawables.push(topMostDrawable)
+        }
       }
+    }
+
+    // Fire event on top most (last)
+    const [target] = applicableDrawables.slice(-1)
+    if (target) {
+      target[eventFunction]()
     }
   }
 
-  triggerMouseEventIfApplicable(drawable, eventFunction, applyToAll) {
-    if (applyToAll || drawable.isClickable && drawable.isMouseOver()) {
-      drawable[eventFunction]()
+  findTopMostChildUnderMouse(drawable) {
+    // Must be under mouse
+    if (!drawable.isMouseOver()) {
+      return null
     }
+
+    // Check its children for the top most clickable one
+    var kidUnderMouse = null
     for (const i in drawable.kids) {
-      this.triggerMouseEventIfApplicable(drawable.kids[i], eventFunction, applyToAll)
+      const kid = drawable.kids[i]
+      const newUnderMouse = this.findTopMostChildUnderMouse(kid)
+      if (newUnderMouse && newUnderMouse.isClickable) {
+        kidUnderMouse = newUnderMouse
+      }
     }
+
+    // If found, return it
+    if (kidUnderMouse) {
+      return kidUnderMouse
+    }
+
+    // Otherwise return the drawable (parent) if clickable, or null
+    if (drawable.isClickable) {
+      return drawable
+    }
+    return null
   }
 
   clear() {
