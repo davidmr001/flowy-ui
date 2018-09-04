@@ -50,9 +50,25 @@ function drawDebugText(ctx, text, x, y) {
 }
 
 // Modal opening and closing
-var modal = {
-  open:  function() { $("#modal").addClass('is-active') },
-  close: function() { $("#modal").removeClass('is-active'); PubSub.publish('TASK_RESTART', 'hide') },
-  setTitle: function(text) { $("#modal .modal-card-title").html(text) },
-  setContent: function(text) { $("#modal .modal-card-body .content").html(text) }
+var genericModal = {
+  open:  function() { $("#generic-modal").addClass('is-active') },
+  close: function() {
+    $("#generic-modal").removeClass('is-active')
+    modal.clear()
+  },
+  setTitle: function(text) { $("#generic-modal .modal-card-title").html(text) },
+  setContent: function(text) { $("#generic-modal .modal-card-body").html(text) },
+  clear: function() {
+    $("#generic-modal .modal-card-title").html("")
+    $("#generic-modal .modal-card-body").html("")
+  }
+}
+
+var taskModal = {
+  open:  function() { $("#task-modal").addClass('is-active') },
+  close: function() {
+    $("#task-modal").removeClass('is-active')
+    PubSub.publish('TASK_RESTART', 'hide');
+  },
+  setTitle: function(text) { $("#task-modal .modal-card-title").html(text) }
 }

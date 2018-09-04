@@ -7,6 +7,10 @@ nav.breadcrumb aria-label="breadcrumbs"
 
 h1.title = "#{@blueprint.name} - #{@blueprint.description}"
 
-= render partial: "modal"
+= render partial: "generic_modal"
 
-= react_component("BlueprintGraph", object: FlowyUi::BlueprintSerializer.new(@blueprint), canvasId: "blueprint_canvas", height: 800)
+= react_component( \
+  "BlueprintGraph", \
+  object: FlowyUi::BlueprintSerializer.new(@blueprint), \
+  canvasId: "blueprint_canvas", \
+  height: 800)

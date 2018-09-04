@@ -96,9 +96,9 @@ class TaskDetailPanel extends Panel {
   }
 
   onViewSourceClicked() {
-    modal.setTitle("Source code for task " + this.task.name)
-    modal.setContent("<pre>" + this.task.class_source + "</pre>")
-    modal.open()
+    genericModal.setTitle("Source code for task " + this.task.name)
+    genericModal.setContent("<pre>" + this.task.class_source + "</pre>")
+    genericModal.open()
   }
 
   onGoToSubClicked() {
@@ -110,15 +110,15 @@ class TaskDetailPanel extends Panel {
   }
 
   onViewPayloadClicked() {
-    modal.setTitle("Payload for task " + this.task.name)
-    modal.setContent("<pre>" + JSON.stringify(this.task.payload, null, 2) + "</pre>")
-    modal.open()
+    genericModal.setTitle("Payload for task " + this.task.name)
+    genericModal.setContent("<pre>" + JSON.stringify(this.task.payload, null, 2) + "</pre>")
+    genericModal.open()
   }
 
   onViewRestartTaskClicked() {
-    modal.setTitle("Restarting task " + this.task.name)
+    taskModal.setTitle("Restarting task " + this.task.name)
     // The react component inside the modal will show the appropriate information and actions
-    PubSub.publish('TASK_RESTART', 'show');
-    modal.open()
+    PubSub.publish('TASK_RESTART', { action: 'show', taskId: this.task.id });
+    taskModal.open()
   }
 }

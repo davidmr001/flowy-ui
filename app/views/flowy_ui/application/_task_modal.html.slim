@@ -1,0 +1,11 @@
+div class="modal" id="task-modal"
+  div class="modal-background"
+  /onclick="taskModal.close()"
+  div class="modal-card"
+    header class="modal-card-head"
+      p class="modal-card-title" Modal title
+      button class="delete" aria-label="close" onclick="taskModal.close()"
+    section class="modal-card-body"
+      = react_component("TaskRestart")
+    footer class="modal-card-foot"
+      button class="button is-success" onclick="taskModal.close()" Close

@@ -2,6 +2,7 @@ class TaskRestart extends React.Component {
   static propTypes = {}
 
   state = {
+    taskId: null,
     hidden: true,
     confirm: false,
     confirmMessage: null,
@@ -11,37 +12,93 @@ class TaskRestart extends React.Component {
   componentDidMount() {
     const comp = this
     PubSub.subscribe('TASK_RESTART', function(message, data) {
-      if (data === "show") {
-        comp.setState({ hidden: false })
+      if (data.action === "show") {
+        comp.setState({
+          hidden: false,
+          taskId: data.taskId
+        })
       } else {
-        cancelRestart()
+        comp.cancelRestart()
         comp.setState({ hidden: true })
       }
     })
   }
-
-  // TODO: Fix this
 
   confirmRestart(message, restartFunction) {
     this.setState({ confirm: true, confirmMessage: message, restartFunction: restartFunction })
   }
 
   cancelRestart() {
-    this.setState({ confirm: false, confirmMessage: null, restartFunction: null })
+    this.setState({
+      confirm: false,
+      confirmMessage: null,
+      restartFunction: null,
+      error: false,
+      errorMessage: null
+    })
+  }
+
+  restart(continueInstance = false) {
+    const comp = this
+    $.ajax({
+      url: "<%= Rails.application.routes.url_helpers.restart_flowy_instance_tasks_path %>",
+      type: "POST",
+      data: {
+        id: comp.state.taskId,
+        continue: continueInstance
+      },
+      headers: {
+        token: "abc"
+        // TODO: Change this
+      },
+      dataType: "json",
+      success: function(data) {
+        if (data.result === "error") {
+          comp.setState({
+            error: true,
+            errorMessage: data.message
+          })
+        } else {
+          location.reload()
+        }
+      },
+      error: function(data) {
+        if (data.status === 500) {
+          comp.setState({
+            error: true,
+            errorMessage: data.statusText
+          })
+        } else {
+          comp.setState({
+            error: true,
+            errorMessage: data.responseJSON.message
+          })
+        }
+      }
+    })
   }
 
   restartTaskOnly() {
+    const comp = this
     this.confirmRestart("Are you sure you want to restart this task only?", function() {
       // Called if the user confirms restarting this task only
-      console.log("Restart task only")
+      comp.restart()
     })
   }
 
   restartInstanceFromHere() {
+    const comp = this
     this.confirmRestart("Are you sure you want to restart the whole instance, starting from this task?", function() {
       // Called if the user confirms restarting the whole instance
-      console.log("Restart instance")
+      comp.restart(true)
     })
+  }
+
+  renderError() {
+    if (this.state.error) {
+      return (<div className="notification is-danger">Error: {this.state.errorMessage}</div>)
+    }
+    return null
   }
 
   render() {
@@ -56,6 +113,8 @@ class TaskRestart extends React.Component {
           <button onClick={this.state.restartFunction.bind(this)}>Yes</button>
           &nbsp;or&nbsp;
           <button onClick={this.cancelRestart.bind(this)}>Cancel</button>
+          <br /><br />
+          {this.renderError()}
         </div>
       )
     }
