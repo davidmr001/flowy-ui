@@ -1,43 +1,62 @@
-class TaskRestart extends React.Component {
+class TaskResume extends React.Component {
   static propTypes = {}
 
   state = {
     task: null,
     confirm: false,
-    confirmMessage: null,
-    restartFunction: null
+    error: false,
+    errorMessage: null
   }
 
   componentDidMount() {
     const comp = this
-    PubSub.subscribe('TASK_RESTART', function(message, data) {
+    PubSub.subscribe('TASK_RESUME', function(message, data) {
       comp.setup(data.task)
     })
   }
 
-  confirmRestart(message, restartFunction) {
-    this.setState({ confirm: true, confirmMessage: message, restartFunction: restartFunction })
+  confirmResume() {
+    this.setState({ confirm: true })
   }
 
-  setup(task = this.state.task) {
+  setup(task) {
     this.setState({
       task: task,
       confirm: false,
-      confirmMessage: null,
-      restartFunction: null,
       error: false,
       errorMessage: null
     })
   }
 
-  restart(continueInstance = false) {
+  setupPayload() {
+    if(this.state.resumeData) {
+      try {
+        return JSON.parse(this.state.resumeData);
+      } catch(e) {
+      }
+    }
+    this.setState({
+      error: true,
+      errorMessage: "Response to send to the task must be a valid hash/json"
+    })
+    return null
+  }
+
+  resume() {
     const comp = this
+
+    // Setup payload
+    var payload = comp.setupPayload()
+    if (!payload) {
+      return
+    }
+
     $.ajax({
-      url: "<%= Rails.application.routes.url_helpers.restart_flowy_instance_tasks_path %>",
+      url: "<%= Rails.application.routes.url_helpers.resume_flowy_instance_tasks_path %>",
       type: "POST",
       data: {
         id: comp.state.task.id,
-        continue: continueInstance
+        response: payload
       },
       headers: {
         token: "abc"
@@ -71,20 +90,8 @@ class TaskRestart extends React.Component {
     })
   }
 
-  restartTaskOnly() {
-    const comp = this
-    this.confirmRestart("Are you sure you want to restart this task only?", function() {
-      // Called if the user confirms restarting this task only
-      comp.restart()
-    })
-  }
-
-  restartInstanceFromHere() {
-    const comp = this
-    this.confirmRestart("Are you sure you want to restart the whole instance, starting from this task?", function() {
-      // Called if the user confirms restarting the whole instance
-      comp.restart(true)
-    })
+  handleChange(event) {
+    this.setState({ resumeData: event.target.value });
   }
 
   renderError() {
@@ -97,8 +104,18 @@ class TaskRestart extends React.Component {
   renderConfirmation() {
     return (
       <div>
-        <p className="content">{this.state.confirmMessage}</p>
-        <button onClick={this.state.restartFunction.bind(this)}>Yes</button>
+        <p className="content">Are you sure you want to resume this task?</p>
+        <p className="content">Type in the response data (needs to be json) that will be passed to the task.</p>
+
+        <textarea id="resume-data"
+                  name="textarea"
+                  className="textarea"
+                  placeholder='e.g. { "foo": "bar" }'
+                  value={this.state.resumeData}
+                  onChange={this.handleChange.bind(this)}>
+        </textarea>
+
+        <button onClick={this.resume.bind(this)}>Yes</button>
         &nbsp;or&nbsp;
         <button onClick={this.setup.bind(this, this.state.task)}>Cancel</button>
         <br /><br />
@@ -108,23 +125,17 @@ class TaskRestart extends React.Component {
   }
 
   render() {
-    if (this.state.hidden) {
-      return (<div />)
-    }
-
     if (this.state.confirm) {
       return this.renderConfirmation()
     }
 
     return (
       <div>
-        <p className="content">There are two ways to restart this task:</p>
+        <p className="content">Resuming this task means we will simulate the task receiving input from an external source.</p>
         <p className="content">
-          <button onClick={this.restartTaskOnly.bind(this)}>Restart this task only</button>
-          &nbsp;or&nbsp;
-          <button onClick={this.restartInstanceFromHere.bind(this)}>Restart the whole instance from here</button>
+          <button onClick={this.confirmResume.bind(this)}>Let's resume this task</button>
         </p>
-        <p className="content">Press the appropriate button to continue, or cancel by closing this window.</p>
+        <p className="content">Press resume task to input the data, or cancel by closing this window.</p>
       </div>
     )
   }

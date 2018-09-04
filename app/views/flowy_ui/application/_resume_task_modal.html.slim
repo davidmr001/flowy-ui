@@ -1,0 +1,11 @@
+div class="modal" id="resume-task-modal"
+  div class="modal-background"
+  /onclick="resumeTaskModal.close()"
+  div class="modal-card"
+    header class="modal-card-head"
+      p class="modal-card-title" Modal title
+      button class="delete" aria-label="close" onclick="resumeTaskModal.close()"
+    section class="modal-card-body"
+      = react_component("TaskResume")
+    footer class="modal-card-foot"
+      button class="button is-success" onclick="resumeTaskModal.close()" Close

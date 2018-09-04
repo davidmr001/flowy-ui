@@ -8,7 +8,8 @@ nav.breadcrumb aria-label="breadcrumbs"
 h1.title = "#{@instance.key} (#{@instance.id})"
 
 = render partial: "generic_modal"
-= render partial: "task_modal"
+= render partial: "restart_task_modal"
+= render partial: "resume_task_modal"
 
 = react_component( \
 "InstanceGraph", \

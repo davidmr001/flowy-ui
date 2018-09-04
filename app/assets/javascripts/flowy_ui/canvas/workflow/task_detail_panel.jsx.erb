@@ -67,21 +67,39 @@ class TaskDetailPanel extends Panel {
       }
 
       if (this.task.state && this.task.state !== "ABORTED") {
-        this.addChild(
-          new Button({
-            text: "Restart",
-            textColor: THEME.panelBackgroundColor,
-            textSize: 10,
-            width: 100,
-            height: 30,
-            backgroundColor: THEME.buttonErrorBackground,
-            center: false,
-            offsetX: 20,
-            offsetY: contentY,
-            onClick: this.onViewRestartTaskClicked.bind(this)
-          })
-        )
-        contentY += 60
+        if (this.task.state === "WAITING_FOR_INPUT") {
+          this.addChild(
+            new Button({
+              text: "Resume",
+              textColor: THEME.textColor,
+              textSize: 10,
+              width: 100,
+              height: 30,
+              backgroundColor: INSTANCE_TASK_STATES["WAITING_FOR_INPUT"]["backgroundColor"],
+              center: false,
+              offsetX: 20,
+              offsetY: contentY,
+              onClick: this.onResumeTaskClicked.bind(this)
+            })
+          )
+          contentY += 60
+        } else {
+          this.addChild(
+            new Button({
+              text: "Restart",
+              textColor: THEME.panelBackgroundColor,
+              textSize: 10,
+              width: 100,
+              height: 30,
+              backgroundColor: THEME.buttonErrorBackground,
+              center: false,
+              offsetX: 20,
+              offsetY: contentY,
+              onClick: this.onRestartTaskClicked.bind(this)
+            })
+          )
+          contentY += 60
+        }
       }
     }
 
@@ -131,10 +149,17 @@ class TaskDetailPanel extends Panel {
     genericModal.open()
   }
 
-  onViewRestartTaskClicked() {
-    taskModal.setTitle("Restarting task " + this.task.name)
+  onRestartTaskClicked() {
+    restartTaskModal.setTitle("Restart task " + this.task.name)
     // The react component inside the modal will show the appropriate information and actions
-    PubSub.publish('TASK_RESTART', { action: 'show', taskId: this.task.id });
-    taskModal.open()
+    PubSub.publish('TASK_RESTART', { task: this.task });
+    restartTaskModal.open()
+  }
+
+  onResumeTaskClicked() {
+    resumeTaskModal.setTitle("Resume task " + this.task.name)
+    // The react component inside the modal will show the appropriate information and actions
+    PubSub.publish('TASK_RESUME', { task: this.task });
+    resumeTaskModal.open()
   }
 }

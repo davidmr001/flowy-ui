@@ -64,11 +64,14 @@ var genericModal = {
   }
 }
 
-var taskModal = {
-  open:  function() { $("#task-modal").addClass('is-active') },
-  close: function() {
-    $("#task-modal").removeClass('is-active')
-    PubSub.publish('TASK_RESTART', 'hide');
-  },
-  setTitle: function(text) { $("#task-modal .modal-card-title").html(text) }
+var restartTaskModal = {
+  open:  function() { $("#restart-task-modal").addClass('is-active') },
+  close: function() { $("#restart-task-modal").removeClass('is-active') },
+  setTitle: function(text) { $("#restart-task-modal .modal-card-title").html(text) }
+}
+
+var resumeTaskModal = {
+  open:  function() { $("#resume-task-modal").addClass('is-active') },
+  close: function() { $("#resume-task-modal").removeClass('is-active') },
+  setTitle: function(text) { $("#resume-task-modal .modal-card-title").html(text) }
 }
