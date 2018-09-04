@@ -4,8 +4,6 @@ class LinkDetailPanel extends Panel {
 
     this.link = attributes.link
 
-    console.log(this.link)
-
     this.setupContent()
   }
 
