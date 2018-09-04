@@ -36,7 +36,7 @@ class Task extends Button {
       x: comp.originalX + comp.width / 2 + 20,
       y: comp.originalY - comp.height / 2,
       width: 300,
-      height: 270,
+      height: 300,
       closeable: true,
       onCloseRequested: comp.setSelected.bind(this, false),
       task: comp.task,

@@ -30,43 +30,59 @@ class TaskDetailPanel extends Panel {
         color: stateColor,
         center: false,
         offsetX: 20,
-        offsetY: 60
+        offsetY: 75
       })
     )
-    contentY += 15
+    contentY += 25
+
+    this.addChild(
+      new Text({
+        text: "All previous tasks required? " + this.task.all_previous_tasks_required,
+        size: 12,
+        color: THEME.textColor,
+        center: false,
+        offsetX: 20,
+        offsetY: contentY
+      })
+    )
+    contentY += 25
 
     if (this.task.type === "InstanceTask") {
-      this.addChild(
-        new Button({
-          text: "View Payload",
-          textColor: THEME.panelBackgroundColor,
-          textSize: 10,
-          width: 100,
-          height: 30,
-          backgroundColor: THEME.buttonSuccessBackground,
-          center: false,
-          offsetX: 20,
-          offsetY: contentY,
-          onClick: this.onViewPayloadClicked.bind(this)
-        })
-      )
-      contentY += 60
+      if (this.task.state) {
+        this.addChild(
+          new Button({
+            text: "View Payload",
+            textColor: THEME.panelBackgroundColor,
+            textSize: 10,
+            width: 100,
+            height: 30,
+            backgroundColor: THEME.buttonSuccessBackground,
+            center: false,
+            offsetX: 20,
+            offsetY: contentY,
+            onClick: this.onViewPayloadClicked.bind(this)
+          })
+        )
+        contentY += 60
+      }
 
-      this.addChild(
-        new Button({
-          text: "Restart",
-          textColor: THEME.panelBackgroundColor,
-          textSize: 10,
-          width: 100,
-          height: 30,
-          backgroundColor: THEME.buttonErrorBackground,
-          center: false,
-          offsetX: 20,
-          offsetY: contentY,
-          onClick: this.onViewRestartTaskClicked.bind(this)
-        })
-      )
-      contentY += 60
+      if (this.task.state && this.task.state !== "ABORTED") {
+        this.addChild(
+          new Button({
+            text: "Restart",
+            textColor: THEME.panelBackgroundColor,
+            textSize: 10,
+            width: 100,
+            height: 30,
+            backgroundColor: THEME.buttonErrorBackground,
+            center: false,
+            offsetX: 20,
+            offsetY: contentY,
+            onClick: this.onViewRestartTaskClicked.bind(this)
+          })
+        )
+        contentY += 60
+      }
     }
 
     var text = ""
