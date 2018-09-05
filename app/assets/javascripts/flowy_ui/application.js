@@ -15,6 +15,7 @@
 //= require react
 //= require react_ujs
 //= require jquery
+//= require ./cable
 
 //= require ./utils
 //= require ./constants

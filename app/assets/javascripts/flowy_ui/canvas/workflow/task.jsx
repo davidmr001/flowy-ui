@@ -9,6 +9,13 @@ class Task extends Button {
     this.parent = parent // Parent graph
     this.task = attributes.task
     this.selected = attributes.selected
+
+    const comp = this
+    PubSub.subscribe('TASK_PANEL_CLOSE', function(message) {
+      restartTaskModal.close()
+      resumeTaskModal.close()
+      comp.closeInfoPanel()
+    })
   }
 
   onClick() {

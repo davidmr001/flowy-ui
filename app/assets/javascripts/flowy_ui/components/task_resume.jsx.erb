@@ -70,7 +70,7 @@ class TaskResume extends React.Component {
             errorMessage: data.message
           })
         } else {
-          location.reload()
+          PubSub.publish("TASK_PANEL_CLOSE")
         }
       },
       error: function(data) {
