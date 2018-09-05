@@ -150,27 +150,26 @@ class Painter {
     this.addOrRemoveDrawables()
   }
 
+  manipulateBufferContents(drawablesList, func) {
+    const comp = this
+    Object.keys(drawablesList).forEach(function(bufferName, index) {
+      const buffer = comp.getBuffer(bufferName)
+      const drawables = drawablesList[bufferName]
+      for (const i in drawables) {
+        buffer[func](drawables[i], bufferName);
+      }
+    });
+  }
+
   addOrRemoveDrawables() {
     const comp = this
 
     // Add new drawables after each frame
-    Object.keys(comp.drawablesToAdd).forEach(function(bufferName, index) {
-      const buffer = comp.getBuffer(bufferName)
-      const drawables = comp.drawablesToAdd[bufferName]
-      for (const i in drawables) {
-        buffer.add(drawables[i], bufferName);
-      }
-    });
+    comp.manipulateBufferContents(comp.drawablesToAdd, "add")
     comp.drawablesToAdd = {}
 
     // Remove drawables after each frame
-    Object.keys(comp.drawablesToRemove).forEach(function(bufferName, index) {
-      const buffer = comp.getBuffer(bufferName)
-      const drawables = comp.drawablesToRemove[bufferName]
-      for (const i in drawables) {
-        buffer.remove(drawables[i], bufferName);
-      }
-    });
+    comp.manipulateBufferContents(comp.drawablesToRemove, "remove")
     comp.drawablesToRemove = {}
   }
 }
