@@ -54,7 +54,7 @@ var genericModal = {
   open:  function() { $("#generic-modal").addClass('is-active') },
   close: function() {
     $("#generic-modal").removeClass('is-active')
-    modal.clear()
+    genericModal.clear()
   },
   setTitle: function(text) { $("#generic-modal .modal-card-title").html(text) },
   setContent: function(text) { $("#generic-modal .modal-card-body").html(text) },

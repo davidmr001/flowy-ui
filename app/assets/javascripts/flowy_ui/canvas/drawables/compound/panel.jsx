@@ -2,6 +2,7 @@ class Panel extends RoundedSquare {
   constructor(attributes) {
     super({
       ...attributes,
+      isClickable: true,
       backgroundColor: attributes.backgroundColor || "#ffffff"
     })
     this.closeable = attributes.closeable || false

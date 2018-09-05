@@ -1,3 +1,6 @@
+#
+# Tiered tasks structure for easy handling in the ui
+#
 class FlowyUi::Aux::TieredTasks
   def initialize(object, task_serializer)
     @tiered_tasks = Hash.new { |h, k| h[k] = [] }
