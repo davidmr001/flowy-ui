@@ -112,40 +112,49 @@ class Canvas extends React.Component {
     this.state.painter.removeFromBuffer(drawable, bufferName)
   }
 
-  tick() {
-    const {
-      context,
-      width,
-      height,
-      frameTime,
-      fpsCounter,
-      fpsCurrent,
-      fpsStartTime,
-      fpsText,
-      mouseText,
-      mousePosition,
-      mouseDragging,
-      panPosition,
-      zoom,
-      zoomText,
-      debug,
-      debugButton,
-      painter,
-      isSetup
-    } = this.state
-    const { canvasId } = this.props
-    const now = new Date()
+  calculateFps(time) {
+    const { fpsStartTime, fpsCounter } = this.state
 
-    if (now - fpsStartTime > 1000) {
+    if (time - fpsStartTime > 1000) {
       this.setState({
         fpsCurrent: fpsCounter+1,
         fpsCounter: 0,
-        fpsStartTime: now,
+        fpsStartTime: time,
         //panPosition: { x: panPosition.x + 5, y: panPosition.y }
       })
     } else {
       this.setState({ fpsCounter: fpsCounter+1 })
     }
+  }
+
+  addDebugElementsToScene() {
+    const { fpsText, mouseText, zoomText, debugButton } = this.state
+
+    // Draw engine stuff last in the ui buffer
+    this.addToBuffer(fpsText, "ui")
+    this.addToBuffer(mouseText, "ui")
+    this.addToBuffer(zoomText, "ui")
+    this.addToBuffer(debugButton, "ui")
+  }
+
+  updateDebugInfo() {
+    const {
+      fpsText, mouseText, zoomText, debugButton, fpsCurrent,
+      mousePosition, mouseDragging, zoom, debug
+    } = this.state
+
+    fpsText.text = "FPS: " + fpsCurrent
+    mouseText.text = "Mouse: " + mousePosition.x + ", " + mousePosition.y + ", dragging: " + mouseDragging
+    zoomText.text = "Zoom: " + Math.round(zoom * 100) + "%"
+    debugButton.setText("Debug: " + debug)
+  }
+
+  tick() {
+    const { context, width, height, painter, isSetup, mousePosition, panPosition, zoom } = this.state
+    const { canvasId } = this.props
+    const now = new Date()
+
+    this.calculateFps(now)
 
     // Clear
     context.save()
@@ -154,21 +163,12 @@ class Canvas extends React.Component {
     // Render the buffers
     if (!isSetup) {
       this.setupScene() // Implemented by the derived classes
-
-      // Draw engine stuff last in the ui buffer
-      this.addToBuffer(fpsText, "ui")
-      this.addToBuffer(mouseText, "ui")
-      this.addToBuffer(zoomText, "ui")
-      this.addToBuffer(debugButton, "ui")
-
+      this.addDebugElementsToScene()
       this.setState({ isSetup: true })
     }
 
     // Update text
-    fpsText.text = "FPS: " + fpsCurrent
-    mouseText.text = "Mouse: " + mousePosition.x + ", " + mousePosition.y + ", dragging: " + mouseDragging
-    zoomText.text = "Zoom: " + Math.round(zoom * 100) + "%"
-    debugButton.setText("Debug: " + debug)
+    this.updateDebugInfo()
 
     // Render the scene
     painter.paint(context, mousePosition, panPosition, zoom)
