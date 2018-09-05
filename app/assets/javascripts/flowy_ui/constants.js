@@ -59,6 +59,6 @@ THEME = {
   taskSelectionBorderLineWidth: 20,
 
   linkSelectionLineColor: "#dedede",
-  linkSelectionBorderLineWidth: 20,
+  linkSelectionBorderLineWidth: 10,
   linkOverLineColor: "#ababab"
 }

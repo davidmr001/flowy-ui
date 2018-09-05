@@ -3,7 +3,8 @@ class TaskLink extends Line {
     super({
       ...attributes,
       isSelectable: true,
-      isClickable: true
+      isClickable: true,
+      arrow: true
     })
 
     this.selected = attributes.selected
@@ -52,17 +53,6 @@ class TaskLink extends Line {
     this.infoPanel = null
   }
 
-  drawSelectionStroke(ctx) {
-    new Line({
-      x: this.x,
-      y: this.y,
-      endX: this.x + this.width,
-      endY: this.y + this.height,
-      color: THEME.linkSelectionLineColor,
-      lineWidth: THEME.linkSelectionBorderLineWidth,
-    }).draw(ctx)
-  }
-
   drawCodeIndication(ctx) {
     new Text({
       x: this.x + this.width / 2,
@@ -78,15 +68,14 @@ class TaskLink extends Line {
 
     // Draw a broader stroke if selected
     if (this.selected) {
-      //this.drawSelectionStroke(ctx)
       this.color = shadeBlend(0.2, this.color)
-      this.lineWidth = 5
+      this.lineWidth = THEME.linkSelectionBorderLineWidth
     }
 
     // Detect mouse over
     if (this.isMouseOver()) {
       this.color = shadeBlend(0.2, this.color)
-      this.lineWidth = 5
+      this.lineWidth = THEME.linkSelectionBorderLineWidth
     }
 
     super.draw(ctx)

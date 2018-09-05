@@ -40,6 +40,18 @@ function shadeBlend(p, c0, c1) {
   }
 }
 
+function calculateVectorSize(x, y) {
+  return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2))
+}
+
+function normalizeVector(vec) {
+  const size = calculateVectorSize(vec.x, vec.y)
+  return {
+    x: vec.x / size,
+    y: vec.y / size
+  }
+}
+
 // Draw debug text in canvas
 function drawDebugText(ctx, text, x, y) {
   ctx.save()

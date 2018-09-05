@@ -21,6 +21,10 @@ class BaseGraph extends Canvas {
   setupScene() {
     // Setup drawables
     const object = this.props.object;
+
+    // Make sure the links buffer is added before the tasks (so links appear under tasks)
+    this.createBuffer("taskLinks")
+
     this.tasks = this.setupTaskDrawables(object)
     this.links = this.setupLinkDrawables(object)
   }

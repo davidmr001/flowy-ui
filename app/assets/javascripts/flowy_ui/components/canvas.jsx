@@ -104,6 +104,11 @@ class Canvas extends React.Component {
     }
   }
 
+  createBuffer(bufferName) {
+    // Calling get will create a buffer, if it doesnt exist
+    this.state.painter.getBuffer(bufferName)
+  }
+
   addToBuffer(drawable, bufferName = "base") {
     this.state.painter.addToBuffer(drawable, bufferName)
   }
