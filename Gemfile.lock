@@ -2,6 +2,8 @@ PATH
   remote: ../flowy
   specs:
     flowy (0.1.0)
+      active_model_serializers (= 0.10.0)
+      apipie-rails (= 0.5.10)
       awesome_print (= 1.8.0)
       bunny (= 2.11.0)
       rails (= 5.2.1)
@@ -67,6 +69,8 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     amq-protocol (2.3.0)
+    apipie-rails (0.5.10)
+      rails (>= 4.1)
     arel (9.0.0)
     awesome_print (1.8.0)
     babel-source (5.8.35)

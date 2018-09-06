@@ -87,3 +87,9 @@ var resumeTaskModal = {
   close: function() { $("#resume-task-modal").removeClass('is-active') },
   setTitle: function(text) { $("#resume-task-modal .modal-card-title").html(text) }
 }
+
+var payloadModal = {
+  open:  function() { $("#payload-modal").addClass('is-active') },
+  close: function() { $("#payload-modal").removeClass('is-active') },
+  setTitle: function(text) { $("#payload-modal .modal-card-title").html(text) }
+}

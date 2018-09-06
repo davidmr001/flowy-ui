@@ -1,0 +1,11 @@
+div class="modal" id="payload-modal"
+  div class="modal-background"
+  /onclick="payloadModal.close()"
+  div class="modal-card"
+    header class="modal-card-head"
+      p class="modal-card-title" Modal title
+      button class="delete" aria-label="close" onclick="payloadModal.close()"
+    section class="modal-card-body"
+      = react_component("Payload")
+    footer class="modal-card-foot"
+      button class="button is-success" onclick="payloadModal.close()" Close

@@ -14,7 +14,7 @@ class Task extends Button {
     PubSub.subscribe('TASK_PANEL_CLOSE', function(message) {
       restartTaskModal.close()
       resumeTaskModal.close()
-      comp.closeInfoPanel()
+      comp.setSelected(false)
     })
   }
 

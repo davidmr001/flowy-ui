@@ -117,7 +117,7 @@ class TaskRestart extends React.Component {
     }
 
     return (
-      <div>
+      <section className="section">
         <p className="content">There are two ways to restart this task:</p>
         <p className="content">
           <button onClick={this.restartTaskOnly.bind(this)}>Restart this task only</button>
@@ -125,7 +125,7 @@ class TaskRestart extends React.Component {
           <button onClick={this.restartInstanceFromHere.bind(this)}>Restart the whole instance from here</button>
         </p>
         <p className="content">Press the appropriate button to continue, or cancel by closing this window.</p>
-      </div>
+      </section>
     )
   }
 }

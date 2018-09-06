@@ -48,8 +48,8 @@ class LinkDetailPanel extends Panel {
   }
 
   onViewSourceClicked() {
-    modal.setTitle("Source code between " + this.link.source_task.name + " and " + this.link.target_task.name)
-    modal.setContent("<pre>" + this.link.class_source + "</pre>")
-    modal.open()
+    genericModal.setTitle("Source code between " + this.link.source_task.name + " and " + this.link.target_task.name)
+    genericModal.setContent("<pre>" + this.link.class_source + "</pre>")
+    genericModal.open()
   }
 }

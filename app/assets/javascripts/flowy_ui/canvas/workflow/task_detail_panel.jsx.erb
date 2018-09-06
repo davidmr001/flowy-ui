@@ -51,16 +51,16 @@ class TaskDetailPanel extends Panel {
       if (this.task.state) {
         this.addChild(
           new Button({
-            text: "View Payload",
+            text: "View/Edit Payload",
             textColor: THEME.panelBackgroundColor,
             textSize: 10,
-            width: 100,
+            width: 120,
             height: 30,
             backgroundColor: THEME.buttonSuccessBackground,
             center: false,
             offsetX: 20,
             offsetY: contentY,
-            onClick: this.onViewPayloadClicked.bind(this)
+            onClick: this.onViewEditPayloadClicked.bind(this)
           })
         )
         contentY += 60
@@ -143,23 +143,23 @@ class TaskDetailPanel extends Panel {
     window.location = url
   }
 
-  onViewPayloadClicked() {
-    genericModal.setTitle("Payload for task " + this.task.name)
-    genericModal.setContent("<pre>" + JSON.stringify(this.task.payload, null, 2) + "</pre>")
-    genericModal.open()
+  onViewEditPayloadClicked() {
+    payloadModal.setTitle("Payload for task " + this.task.name)
+    PubSub.publish('TASK_EDIT_PAYLOAD', { taskId: this.task.id, payload: this.task.payload })
+    payloadModal.open()
   }
 
   onRestartTaskClicked() {
     restartTaskModal.setTitle("Restart task " + this.task.name)
     // The react component inside the modal will show the appropriate information and actions
-    PubSub.publish('TASK_RESTART', { task: this.task });
+    PubSub.publish('TASK_RESTART', { task: this.task })
     restartTaskModal.open()
   }
 
   onResumeTaskClicked() {
     resumeTaskModal.setTitle("Resume task " + this.task.name)
     // The react component inside the modal will show the appropriate information and actions
-    PubSub.publish('TASK_RESUME', { task: this.task });
+    PubSub.publish('TASK_RESUME', { task: this.task })
     resumeTaskModal.open()
   }
 }

@@ -130,13 +130,13 @@ class TaskResume extends React.Component {
     }
 
     return (
-      <div>
+      <section className="section">
         <p className="content">Resuming this task means we will simulate the task receiving input from an external source.</p>
         <p className="content">
           <button onClick={this.confirmResume.bind(this)}>Let's resume this task</button>
         </p>
         <p className="content">Press resume task to input the data, or cancel by closing this window.</p>
-      </div>
+      </section>
     )
   }
 }
