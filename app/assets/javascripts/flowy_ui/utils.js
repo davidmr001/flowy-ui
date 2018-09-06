@@ -61,9 +61,18 @@ function drawDebugText(ctx, text, x, y) {
   ctx.restore()
 }
 
+function highlightCode() {
+  $('pre code').each(function(i, block) {
+    hljs.highlightBlock(block)
+  })
+}
+
 // Modal opening and closing
 var genericModal = {
-  open:  function() { $("#generic-modal").addClass('is-active') },
+  open:  function() {
+    $("#generic-modal").addClass('is-active')
+    highlightCode() // Call highlight on any code there might be in the content
+  },
   close: function() {
     $("#generic-modal").removeClass('is-active')
     genericModal.clear()

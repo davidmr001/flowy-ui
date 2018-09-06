@@ -32,3 +32,7 @@ canvas { border: 1px solid #eeeeee; }
 #feedback {
   display: block;
 }
+
+pre {
+  background-color: #f8f8f8;
+}

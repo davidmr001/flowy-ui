@@ -131,7 +131,8 @@ class TaskDetailPanel extends Panel {
 
   onViewSourceClicked() {
     genericModal.setTitle("Source code for task " + this.task.name)
-    genericModal.setContent("<pre>" + this.task.class_source + "</pre>")
+    const content = "<pre id=\"task-code\"><code className=\"ruby\">" + this.task.class_source + "</code></pre>"
+    genericModal.setContent(content)
     genericModal.open()
   }
 

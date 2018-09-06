@@ -16,7 +16,9 @@ class Payload extends React.Component {
     const comp = this
     PubSub.subscribe('TASK_EDIT_PAYLOAD', function(message, data) {
       comp.clearFeedback()
-      comp.setState({ taskId: data.taskId, payload: data.payload, edit: false })
+      comp.setState({ taskId: data.taskId, payload: data.payload, edit: false }, function() {
+        highlightCode()
+      })
     })
   }
 
@@ -72,7 +74,7 @@ class Payload extends React.Component {
           if (response.result == "success") {
             comp.setFeedback(response.message, false)
             comp.setState({ payload: response.payload } )
-            comp.toggleEdit()
+            comp.reset()
             PubSub.publish("TASK_PANEL_CLOSE")
           } else {
             comp.setFeedback(response.message)
@@ -83,6 +85,12 @@ class Payload extends React.Component {
         }
       })
     }
+  }
+
+  reset() {
+    this.setState({ edit: false }, function() {
+      highlightCode()
+    })
   }
 
   updatePayload() {
@@ -106,7 +114,7 @@ class Payload extends React.Component {
       )
     }
     return (
-      <pre>{JSON.stringify(this.state.payload, null, 2)}</pre>
+      <pre><code className="json">{JSON.stringify(this.state.payload, null, 2)}</code></pre>
     )
   }
 
@@ -132,24 +140,34 @@ class Payload extends React.Component {
     })
   }
 
-  renderSubmitButton() {
-    if (this.state.edit) {
-      return (
+  renderActionButtons() {
+    if (!this.state.edit) {
+      return null
+    }
+    return (
+      <div>
+        <br />
         <span>
           <a className="button" onClick={this.submit.bind(this)}>Save Changes</a>
         </span>
-      )
-    }
-    return <span/>
+        &nbsp; or &nbsp;
+        <span>
+          <a className="button" onClick={this.reset.bind(this)}>Cancel</a>
+        </span>
+      </div>
+    )
   }
 
   renderFeedback() {
     feedback = this.state.feedback
-    if (!feedback) {
+    if (!feedback.className) {
       return null
     }
     return (
-      <span className={"notification " + feedback.className} id="feedback">{feedback.message}</span>
+      <div>
+        <br />
+        <span className={"notification " + feedback.className} id="feedback">{feedback.message}</span>
+      </div>
     )
   }
 
@@ -160,11 +178,9 @@ class Payload extends React.Component {
           <span>Payload </span>
           <span><a className={this.editButtonClass()} onClick={this.handleEdit.bind(this)}>Edit</a></span>
         </h1>
-        <h2 className="subtitle">
-          {this.renderPayload()}
-          {this.renderFeedback()}
-          {this.renderSubmitButton()}
-        </h2>
+        {this.renderPayload()}
+        {this.renderFeedback()}
+        {this.renderActionButtons()}
       </section>
     )
   }
