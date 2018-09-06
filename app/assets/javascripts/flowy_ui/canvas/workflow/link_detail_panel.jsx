@@ -49,7 +49,8 @@ class LinkDetailPanel extends Panel {
 
   onViewSourceClicked() {
     genericModal.setTitle("Source code between " + this.link.source_task.name + " and " + this.link.target_task.name)
-    genericModal.setContent("<pre>" + this.link.class_source + "</pre>")
+    const content = "<pre><code className=\"ruby\">" + this.link.class_source + "</code></pre>"
+    genericModal.setContent(content)
     genericModal.open()
   }
 }
