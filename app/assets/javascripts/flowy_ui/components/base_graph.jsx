@@ -33,7 +33,7 @@ class BaseGraph extends Canvas {
     var tasks = []
 
     for (var tier in object.tiered_tasks) {
-      y = (parseInt(tier) + 1) * 200;
+      y = (parseInt(tier) + 1) * 170;
       base_width = this.state.width / (object.tiered_tasks[tier].length + 1);
       x = base_width
       for(var task_index in object.tiered_tasks[tier]) {
@@ -41,10 +41,10 @@ class BaseGraph extends Canvas {
         tasks[task.id] = new this.taskClass(this, {
           x: x,
           y: y,
-          width: 150,
-          height: 70,
+          width: 100,
+          height: 60,
           task: task,
-          textSize: 14,
+          textSize: 12,
           selected: this.selectedTaskId === task.id,
           backgroundColor: "#ffffff"
         });

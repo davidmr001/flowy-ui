@@ -10,8 +10,8 @@ class LinkDetailPanel extends Panel {
   setupContent() {
     this.addChild(
       new Text({
-        text: this.link.source_task.name + " -> " + this.link.target_task.name,
-        size: 16,
+        text: "From: " + this.link.source_task.name,
+        size: 14,
         bold: true,
         center: false,
         offsetX: 20,
@@ -19,7 +19,18 @@ class LinkDetailPanel extends Panel {
       })
     )
 
-    var contentY = 75
+    this.addChild(
+      new Text({
+        text: "To: " + this.link.target_task.name,
+        size: 14,
+        bold: true,
+        center: false,
+        offsetX: 20,
+        offsetY: 75
+      })
+    )
+
+    var contentY = 110
 
     if (this.link.class_source !== "true") {
       this.addChild(
